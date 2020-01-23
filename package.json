@@ -1,0 +1,9 @@
+{
+  "name": "BachelorproefTeam15",
+  "version": "1.0.0",
+  "description": "Bachelorproef team 15",
+  "main": "index.js",
+  "repository": "https://github.com/Baertie/NEXT.git",
+  "author": "Jannes De Greve <jannes.de.greve@student.howest.be>",
+  "license": "MIT"
+}
