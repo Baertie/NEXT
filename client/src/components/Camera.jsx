@@ -4,6 +4,9 @@ import Postercarousel from "../components/Postercarousel";
 import { inject, PropTypes, observer } from "mobx-react";
 
 class Camera extends Component {
+  // prevents memory leak error, since we're using setState in an async function
+  _isMounted = false;
+
   constructor(props) {
     super(props);
     this.videoTag = React.createRef();
@@ -17,54 +20,59 @@ class Camera extends Component {
   }
 
   componentDidMount() {
-    console.log(faceapi.nets);
+    this._isMounted = true;
 
     // getting access to webcam
     navigator.mediaDevices
       .getUserMedia({ video: true })
       .then(stream => (this.videoTag.current.srcObject = stream), this.detect())
-      .catch(console.log);
+      .catch(console.log("failed to get user media"));
+  }
 
-    // console.log("mount comp");
+  componentWillUnmount() {
+    // Make sure async functions don't crash when switching components
+    this._isMounted = false;
+    clearInterval(this.timerID);
   }
 
   detect = async () => {
+    // Videotag
     const videoTag = this.videoTag.current;
-    const canvas = this.canvasTag.current;
 
+    // Detect whether a face is on the screen
     await faceapi.nets.ssdMobilenetv1.loadFromUri("./models");
     const displaySize = { width: videoTag.width, height: videoTag.height };
     console.log("displaySize", displaySize);
-    //faceapi.matchDimensions(canvas, displaySize);
 
-    setInterval(async () => {
+    // Check every 400ms whether the face is still on the webcam
+    this.timerID = setInterval(async () => {
       if (this.state.detected === false) {
         const detections = await faceapi.detectAllFaces(videoTag);
-        console.log(detections.length);
-        if (detections.length > 0) {
-          //console.log("tijd sinds detectie", this.state.timeSinceDetectedFace);
 
-          if (this.state.timeSinceDetectedFace >= 2000) {
-            console.log("1 seconde lang een gezicht");
-            this.state.detected = true;
+        console.log(detections.length);
+        if (this._isMounted) {
+          if (detections.length > 0) {
+            // If a face has been on the screen for x seconds, move to the onboarding
+            if (this.state.timeSinceDetectedFace >= 3000) {
+              console.log("3 seconden lang een gezicht");
+              this.state.detected = true;
+            }
+            this.setState({
+              timeSinceDetectedFace: this.state.timeSinceDetectedFace + 200
+            });
+          } else {
+            // Reset the time since detection
+            this.setState({ timeSinceDetectedFace: 0 });
           }
-          this.setState({
-            timeSinceDetectedFace: this.state.timeSinceDetectedFace + 200
-          });
-        } else {
-          this.setState({ timeSinceDetectedFace: 0 });
         }
       }
-      //   const resizedDetections = faceapi.resizeResults(detections, displaySize);
-      //   canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
-      //   faceapi.draw.drawDetections(canvas, resizedDetections);
-    }, 200);
+    }, 400);
   };
 
   render() {
     const { store } = this.props;
     if (this.state.detected === true) {
-      store.setDetected(true);
+      store.setDetected();
     }
 
     return (
@@ -87,13 +95,6 @@ class Camera extends Component {
                 autoPlay
                 muted
               ></video>
-              {/* <canvas
-              style={{ position: "absolute", top: "0", left: "0" }}
-              id="myCanvas"
-              ref={this.canvasTag}
-              height={500}
-              width={500}
-            ></canvas> */}
             </div>
           </div>
         </>

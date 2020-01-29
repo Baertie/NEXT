@@ -3,23 +3,28 @@ import { decorate, observable, configure, action } from "mobx";
 configure({ enforceActions: `observed` });
 
 class Store {
-  detected = false;
+  flowStatus = "onboardingEnded";
   //   constructor() {}
 
-  setDetected = value => {
-    console.log("dikke test");
-    this.detected = value;
+  setDetected = () => {
+    this.flowStatus = "detectedTrue";
+  };
+
+  startGame = () => {
+    this.flowStatus = "onboardingEnded";
   };
 
   resetEverything = () => {
-    this.detected = false;
+    this.flowStatus = "detectedFalse";
   };
 }
 
 decorate(Store, {
   detected: observable,
   setDetected: action,
-  resetEverything: action
+  resetEverything: action,
+  flowStatus: observable,
+  startGame: action
 });
 
 const store = new Store();

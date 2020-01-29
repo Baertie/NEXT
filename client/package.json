@@ -7,13 +7,15 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "curve-matcher": "^1.1.1",
     "face-api.js": "^0.22.0",
     "mobx": "^5.15.3",
     "mobx-react": "^6.1.4",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-scripts": "3.3.0",
-    "react-webcam": "^4.1.1"
+    "react-webcam": "^4.1.1",
+    "socket.io-client": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",

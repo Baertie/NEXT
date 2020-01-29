@@ -35,7 +35,11 @@ class Postercarousel extends Component {
 
   render() {
     return (
-      <img src={this.state.posterArray[this.state.posterIndex]} alt=""></img>
+      <img
+        src={this.state.posterArray[this.state.posterIndex]}
+        alt=""
+        style={{ width: "100%", height: "auto" }}
+      ></img>
     );
   }
 }
