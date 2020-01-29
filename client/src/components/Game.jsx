@@ -3,6 +3,7 @@ import * as faceapi from "face-api.js";
 
 import { inject, observer } from "mobx-react";
 import io from "socket.io-client";
+import Loader from "./Loader";
 
 // https://github.com/chanind/curve-matcher
 import { shapeSimilarity } from "curve-matcher";
@@ -68,7 +69,8 @@ class Game extends Component {
       similarity: null,
       currentRound: 1,
       maxRounds: 3,
-      referenceImageArray: []
+      referenceImageArray: [],
+      _isLoaded: false
     };
   }
 
@@ -141,6 +143,8 @@ class Game extends Component {
         this.addPointsToState(landMarkPoints, type);
 
         faceapi.draw.drawFaceLandmarks(canvasTag, detectionsWithLandmarks);
+        this.setState({ _isLoaded: true });
+        //console.log("alles geladen");
       };
 
       //referenceImage.crossOrigin = "anonymous";
@@ -499,70 +503,25 @@ class Game extends Component {
 
     return (
       <>
-        <div>
-          <button
-            onClick={generateLandmarks}
-            // style={{
-            //   position: "absolute",
-            //   bottom: "0",
-            //   left: "0"
-            // }}
-          >
-            Play
-          </button>
-          <p>
-            similarity: {this.state.similarity ? this.state.similarity : `0`}
-          </p>
-          <p>current round: {this.state.currentRound}</p>
-        </div>
-        <div>
-          <video
-            style={{
+        {!this.state._isLoaded ? <Loader /> : null}
+        <div style={{ display: !this.state._isLoaded ? "none" : "block" }}>
+          <div>
+            <button
+              onClick={generateLandmarks}
+              // style={{
               //   position: "absolute",
-              top: "0",
-              left: "0",
-              transform: "scaleX(-1)"
-            }}
-            id="videoTag"
-            ref={this.videoTag}
-            width={this.state.constraints.video.width}
-            height={this.state.constraints.video.height}
-            autoPlay
-            muted
-          ></video>
-          <canvas
-            style={{
-              //   position: "absolute",
-              //   top: "0",
-              //   left: "0",
-              transform: "scaleX(-1)"
-            }}
-            id="myCanvas"
-            ref={this.canvasTag}
-            width={this.state.constraints.video.width}
-            height={this.state.constraints.video.height}
-          ></canvas>
-          <canvas
-            style={{
-              transform: "scaleX(-1)",
-              display: "none"
-            }}
-            id="greyCanvas"
-            ref={this.greyCanvasTag}
-            width={this.state.constraints.video.width}
-            height={this.state.constraints.video.height}
-          ></canvas>
-          <canvas
-            style={{
-              transform: "scaleX(-1)",
-              display: "none"
-            }}
-            id="blurCanvas"
-            ref={this.blurCanvasTag}
-            width={this.state.constraints.video.width}
-            height={this.state.constraints.video.height}
-          ></canvas>
-          <div style={{ position: "relative" }}>
+              //   bottom: "0",
+              //   left: "0"
+              // }}
+            >
+              Play
+            </button>
+            <p>
+              similarity: {this.state.similarity ? this.state.similarity : `0`}
+            </p>
+            <p>current round: {this.state.currentRound}</p>
+          </div>
+          <div>
             {/* <img
               crossorigin="anonymous"
               ref={this.referenceImage}
@@ -573,6 +532,54 @@ class Game extends Component {
               width={480}
               height={720}
             ></canvas>
+            <video
+              style={{
+                //   position: "absolute",
+                top: "0",
+                left: "0",
+                transform: "scaleX(-1)"
+              }}
+              id="videoTag"
+              ref={this.videoTag}
+              width={this.state.constraints.video.width}
+              height={this.state.constraints.video.height}
+              autoPlay
+              muted
+            ></video>
+            <canvas
+              style={{
+                //   position: "absolute",
+                //   top: "0",
+                //   left: "0",
+                transform: "scaleX(-1)"
+              }}
+              id="myCanvas"
+              ref={this.canvasTag}
+              width={this.state.constraints.video.width}
+              height={this.state.constraints.video.height}
+            ></canvas>
+            <div>
+              <canvas
+                style={{
+                  transform: "scaleX(-1)",
+                  display: "none"
+                }}
+                id="greyCanvas"
+                ref={this.greyCanvasTag}
+                width={this.state.constraints.video.width}
+                height={this.state.constraints.video.height}
+              ></canvas>
+              <canvas
+                style={{
+                  transform: "scaleX(-1)",
+                  display: "none"
+                }}
+                id="blurCanvas"
+                ref={this.blurCanvasTag}
+                width={this.state.constraints.video.width}
+                height={this.state.constraints.video.height}
+              ></canvas>
+            </div>
           </div>
         </div>
 
