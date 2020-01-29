@@ -15,8 +15,8 @@ const Wrapper = ({ store }) => {
       return <Onboarding />;
     case "onboardingEnded":
       return <Game />;
-    // case "gameEnded":
-    //   return <Leaderboard />;
+    case "gameEnded":
+      return <Onboarding />;
     default:
       return <Camera />;
   }

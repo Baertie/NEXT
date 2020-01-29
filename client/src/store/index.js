@@ -17,6 +17,9 @@ class Store {
   resetEverything = () => {
     this.flowStatus = "detectedFalse";
   };
+  setGameEnded = () => {
+    this.flowStatus = "gameEnded";
+  };
 }
 
 decorate(Store, {
@@ -24,7 +27,8 @@ decorate(Store, {
   setDetected: action,
   resetEverything: action,
   flowStatus: observable,
-  startGame: action
+  startGame: action,
+  setGameEnded: action
 });
 
 const store = new Store();
