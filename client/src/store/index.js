@@ -3,7 +3,7 @@ import { decorate, observable, configure, action } from "mobx";
 configure({ enforceActions: `observed` });
 
 class Store {
-  flowStatus = "onboardingEnded";
+  flowStatus = "Socket";
   //   constructor() {}
 
   setDetected = () => {

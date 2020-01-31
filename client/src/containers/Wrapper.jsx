@@ -4,6 +4,7 @@ import { inject, PropTypes, observer } from "mobx-react";
 import Camera from "../components/Camera";
 import Onboarding from "../components/Onboarding";
 import Game from "../components/Game";
+import Socket from "../components/Socket";
 
 const Wrapper = ({ store }) => {
   const { flowStatus } = store;
@@ -17,6 +18,8 @@ const Wrapper = ({ store }) => {
       return <Game />;
     case "gameEnded":
       return <Onboarding />;
+    case "Socket":
+      return <Socket />;
     default:
       return <Camera />;
   }

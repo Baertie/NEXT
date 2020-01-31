@@ -53,7 +53,7 @@ class Camera extends Component {
         if (this._isMounted) {
           if (detections.length > 0) {
             // If a face has been on the screen for x seconds, move to the onboarding
-            if (this.state.timeSinceDetectedFace >= 3000) {
+            if (this.state.timeSinceDetectedFace >= 2000) {
               console.log("3 seconden lang een gezicht");
               this.state.detected = true;
             }

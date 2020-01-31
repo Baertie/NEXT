@@ -19,6 +19,9 @@ import topBlueLighten from "../assets/effects/bm/topBlue-lighten.png";
 import botMagSoft from "../assets/effects/bm/botMag-softLight.png";
 import botBlueSoft from "../assets/effects/bm/botBlue-softLight.png";
 
+import blackOverlay from "../assets/effects/overlay/blackOverlay.png";
+import whiteOverlay from "../assets/effects/overlay/whiteOverlay.png";
+
 // import happyMan from "../assets/referenceImages/happyMan.jpg";
 import reference1 from "../assets/referenceImages/reference_1.jpg";
 import reference2 from "../assets/referenceImages/reference_2.jpg";
@@ -82,7 +85,8 @@ class Game extends Component {
     //   socket = io(":4000");
     //   //   socket.connect("/");
     // }
-
+    console.log(this.state.constraints);
+    console.log(navigator.mediaDevices);
     navigator.mediaDevices
       .getUserMedia(this.state.constraints)
       .then(
@@ -127,7 +131,7 @@ class Game extends Component {
       const referenceImage = new Image(480, 720);
 
       referenceImage.onload = async () => {
-        //faceapi.matchDimensions(canvasTag, referenceImage);
+        faceapi.matchDimensions(canvasTag, referenceImage);
 
         ctx.drawImage(referenceImage, 0, 0, canvasTag.width, canvasTag.height);
 
@@ -188,10 +192,10 @@ class Game extends Component {
       const type = "player";
       this.addPointsToState(landMarkPoints, type);
 
-      const resizedDetections = faceapi.resizeResults(
-        detectionsWithLandmarks,
-        displaySize
-      );
+      // const resizedDetections = faceapi.resizeResults(
+      //   detectionsWithLandmarks,
+      //   displaySize
+      // );
 
       // Draw landmarks on canvas
       //faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
@@ -270,6 +274,8 @@ class Game extends Component {
     let topBlueLightenImg = new Image();
     let topMagLightenImg = new Image();
 
+    let whiteOverlayImg = new Image();
+
     botBlueSoftImg.onload = () => {
       ctx.globalCompositeOperation = "soft-light";
       ctx.drawImage(botBlueSoftImg, 0, 0, canvas.width, canvas.height);
@@ -290,10 +296,19 @@ class Game extends Component {
       ctx.drawImage(botBlueSoftImg, 0, 0, canvas.width, canvas.height);
     };
 
+    whiteOverlayImg.onload = () => {
+      ctx.globalCompositeOperation = "source-over";
+      ctx.drawImage(whiteOverlayImg, 0, 0, canvas.width, canvas.height);
+    };
+
     botBlueSoftImg.src = botBlueSoft;
     botMagSoftImg.src = botMagSoft;
     topBlueLightenImg.src = topBlueLighten;
     topMagLightenImg.src = topMagLighten;
+    whiteOverlayImg.src = whiteOverlay;
+
+    console.log(topMagLightenImg);
+    console.log(whiteOverlayImg);
   };
 
   addPointsToState = (points, type) => {

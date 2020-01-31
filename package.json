@@ -5,5 +5,13 @@
   "main": "index.js",
   "repository": "https://github.com/Baertie/NEXT.git",
   "author": "Jannes De Greve <jannes.de.greve@student.howest.be>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "start": "cd server/ && yarn && yarn start",
+    "build": "cd client/ && yarn && yarn build"
+  },
+  "cacheDirectories": [
+    "client/node_modules",
+    "server/node_modules"
+  ]
 }
