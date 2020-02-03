@@ -1,20 +1,19 @@
 import React, { Component } from "react";
 import * as faceapi from "face-api.js";
-import Postercarousel from "../components/Postercarousel";
+import Postercarousel from "./Postercarousel";
 import { inject, PropTypes, observer } from "mobx-react";
 
-class Camera extends Component {
+class Carousel extends Component {
   // prevents memory leak error, since we're using setState in an async function
   _isMounted = false;
 
   constructor(props) {
     super(props);
     this.videoTag = React.createRef();
-    this.canvasTag = React.createRef();
     this.state = {
       video: null,
-      timeSinceDetectedFace: 0,
-      detected: false
+      detected: false,
+      timeSinceDetectedFace: 0
     };
     this.detect = this.detect.bind(this);
   }
@@ -44,21 +43,19 @@ class Camera extends Component {
     const displaySize = { width: videoTag.width, height: videoTag.height };
     console.log("displaySize", displaySize);
 
-    // Check every 400ms whether the face is still on the webcam
+    // Check every 0.5s if there is a face on the webcam
     this.timerID = setInterval(async () => {
       if (this.state.detected === false) {
         const detections = await faceapi.detectAllFaces(videoTag);
-
-        console.log(detections.length);
         if (this._isMounted) {
           if (detections.length > 0) {
-            // If a face has been on the screen for x seconds, move to the onboarding
+            console.log("eerste detectie");
             if (this.state.timeSinceDetectedFace >= 2000) {
-              console.log("3 seconden lang een gezicht");
+              console.log("2 seconden lang eeen gezicht");
               this.state.detected = true;
             }
             this.setState({
-              timeSinceDetectedFace: this.state.timeSinceDetectedFace + 200
+              timeSinceDetectedFace: this.state.timeSinceDetectedFace + 500
             });
           } else {
             // Reset the time since detection
@@ -66,7 +63,7 @@ class Camera extends Component {
           }
         }
       }
-    }, 400);
+    }, 500);
   };
 
   render() {
@@ -74,7 +71,6 @@ class Camera extends Component {
     if (this.state.detected === true) {
       store.setDetected();
     }
-
     return (
       <div style={{ position: "relative" }}>
         <>
@@ -102,4 +98,4 @@ class Camera extends Component {
     );
   }
 }
-export default inject(`store`)(observer(Camera));
+export default inject(`store`)(observer(Carousel));

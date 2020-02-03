@@ -10,7 +10,7 @@ app.get("/", function(req, res) {
 const users = {};
 
 io.on("connection", socket => {
-  console.log("a user connected");
+  console.log("a user connected: ", socket.id);
 
   // keeping track of all users
   users[socket.id] = {
@@ -21,7 +21,13 @@ io.on("connection", socket => {
 
   // New connection - will be called by beamer
   // -- Broadcast = sending to all clients except sender
-  socket.broadcast.emit("peerConnection", socket.id);
+
+  // Updated
+  // When a user sends a peerconnection 1/2
+  // the server sends a new peerconnection to all users 2/2
+  socket.on("peerConnection", () => {
+    socket.broadcast.emit("newPeerConnection", socket.id);
+  });
 
   // Sending all users, so beamer can call them (projector project)
   // -- sending to individual socketid(private message)

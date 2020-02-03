@@ -10,13 +10,27 @@ class Socket extends Component {
 
     this.state = {
       video: null,
-      constraints: { audio: false, video: { width: 480, height: 720 } }
+      constraints: { audio: false, video: { width: 480, height: 720 } },
+      callMessage: ""
     };
   }
 
   componentDidMount() {
-    // const { endpoint } = this.state;
-    //const socket = socketIOClient(":8080");
+    const { endpoint } = this.state;
+    this.clientSocket = socketIOClient(":8080");
+    this.clientSocket.on("connect", () => {
+      // Gettin the users clientSocket id
+      console.log("clientSocket id", this.clientSocket.id);
+    });
+
+    // When another user is calling you
+    this.clientSocket.on("newPeerConnection", () => {
+      this.setState({
+        callMessage: "Ring ring"
+      });
+      // ADD
+      // Go to 'being called' screen
+    });
 
     navigator.mediaDevices
       .getUserMedia(this.state.constraints)
@@ -25,13 +39,20 @@ class Socket extends Component {
   }
 
   componentWillUnmount() {
-    // let stream = this.ownVideoFeed.current.srcObject;
-    // let tracks = stream.getTracks();
-    // tracks.forEach(function(track) {
-    //   track.stop();
-    // });
-    // this.ownVideoFeed.current.srcObject = null;
+    let stream = this.ownVideoFeed.current.srcObject;
+    let tracks = stream.getTracks();
+    tracks.forEach(function(track) {
+      track.stop();
+    });
+    this.ownVideoFeed.current.srcObject = null;
   }
+
+  callOtherPlayers = () => {
+    this.clientSocket.emit("peerConnection", this.clientSocket.id);
+    this.setState({ callMessage: "" });
+    // ADD
+    // Go to timer and connection screen
+  };
 
   render() {
     return (
@@ -45,6 +66,8 @@ class Socket extends Component {
           autoPlay
           muted
         ></video>
+        <button onClick={this.callOtherPlayers}>Call other users</button>
+        <p>{this.state.callMessage}</p>
       </>
     );
   }

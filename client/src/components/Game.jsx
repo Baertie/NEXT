@@ -81,10 +81,10 @@ class Game extends Component {
     this._isMounted = true;
 
     // UNCOMMENT TO USE SOCKET
-    // if (!socket) {
-    //   socket = io(":4000");
-    //   //   socket.connect("/");
-    // }
+    if (!socket) {
+      socket = io(":4000");
+      //   socket.connect("/");
+    }
     console.log(this.state.constraints);
     console.log(navigator.mediaDevices);
     navigator.mediaDevices
@@ -102,13 +102,13 @@ class Game extends Component {
     });
 
     // INIT SOCKET
-    //this.initSocket();
+    this.initSocket();
   }
 
   initSocket = () => {
-    // socket = io.connect(`/`);
-    // socket.on(`connect`, () => console.log(socket.id));
-    //console.log(`direct test zo`);
+    socket = io.connect(`/`);
+    socket.on(`connect`, () => console.log(socket.id));
+    console.log(`direct test zo`);
   };
 
   componentWillUnmount() {

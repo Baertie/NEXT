@@ -1,7 +1,8 @@
 import React from "react";
 import { inject, PropTypes, observer } from "mobx-react";
 
-import Camera from "../components/Camera";
+import Carousel from "../components/Carousel";
+import Screensaver from "../components/Screensaver";
 import Onboarding from "../components/Onboarding";
 import Game from "../components/Game";
 import Socket from "../components/Socket";
@@ -11,8 +12,10 @@ const Wrapper = ({ store }) => {
 
   switch (flowStatus) {
     case "detectedFalse":
-      return <Camera />;
-    case "detectedTrue":
+      return <Carousel />;
+    case "startScreensaver":
+      return <Screensaver />;
+    case "onboardingStarted":
       return <Onboarding />;
     case "onboardingEnded":
       return <Game />;
@@ -21,7 +24,7 @@ const Wrapper = ({ store }) => {
     case "Socket":
       return <Socket />;
     default:
-      return <Camera />;
+      return <Carousel />;
   }
 
   //   if (detected === false) {

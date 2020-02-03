@@ -3,11 +3,16 @@ import { decorate, observable, configure, action } from "mobx";
 configure({ enforceActions: `observed` });
 
 class Store {
-  flowStatus = "Socket";
+  flowStatus = "";
+  // flowStatus = "Socket";
   //   constructor() {}
 
+  setStartOnboarding = () => {
+    this.flowStatus = "startOnboarding";
+  };
+
   setDetected = () => {
-    this.flowStatus = "detectedTrue";
+    this.flowStatus = "startScreensaver";
   };
 
   startGame = () => {
@@ -26,6 +31,7 @@ decorate(Store, {
   detected: observable,
   setDetected: action,
   resetEverything: action,
+  setStartOnboarding: action,
   flowStatus: observable,
   startGame: action,
   setGameEnded: action
