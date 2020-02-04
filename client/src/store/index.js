@@ -8,17 +8,17 @@ class Store {
   //   constructor() {}
 
   setStartOnboarding = () => {
-    this.flowStatus = "startOnboarding";
+    this.flowStatus = "onboardingStarted";
   };
-
   setDetected = () => {
     this.flowStatus = "startScreensaver";
   };
-
   startGame = () => {
     this.flowStatus = "onboardingEnded";
   };
-
+  getCalled = () => {
+    this.flowStatus = "calledUser";
+  };
   resetEverything = () => {
     this.flowStatus = "detectedFalse";
   };
@@ -28,13 +28,15 @@ class Store {
 }
 
 decorate(Store, {
-  detected: observable,
-  setDetected: action,
-  resetEverything: action,
   setStartOnboarding: action,
-  flowStatus: observable,
+  setDetected: action,
   startGame: action,
-  setGameEnded: action
+  getCalled: action,
+  resetEverything: action,
+  setGameEnded: action,
+
+  detected: observable,
+  flowStatus: observable
 });
 
 const store = new Store();

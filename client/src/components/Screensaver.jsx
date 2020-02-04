@@ -46,8 +46,7 @@ class Screensaver extends Component {
   }
 
   handleStartButton = () => {
-    const store = this.props;
-    store.setStartOnboarding();
+    this.props.store.setStartOnboarding();
   };
 
   detect = async () => {
@@ -90,7 +89,7 @@ class Screensaver extends Component {
     return (
       <>
         <p>Screensaver</p>
-        <button onClick={this.handleStartButton}>Start game bro</button>
+        <button onClick={this.handleStartButton}>Start onboarding</button>
         <div
           style={{
             position: "relative",

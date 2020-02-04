@@ -10,27 +10,22 @@ class Socket extends Component {
 
     this.state = {
       video: null,
-      constraints: { audio: false, video: { width: 480, height: 720 } },
-      callMessage: ""
+      constraints: { audio: false, video: { width: 480, height: 720 } }
     };
   }
 
   componentDidMount() {
     const { endpoint } = this.state;
     this.clientSocket = socketIOClient(":8080");
+
+    console.log("clientsocket", this.clientSocket);
     this.clientSocket.on("connect", () => {
       // Gettin the users clientSocket id
       console.log("clientSocket id", this.clientSocket.id);
     });
 
-    // When another user is calling you
-    this.clientSocket.on("newPeerConnection", () => {
-      this.setState({
-        callMessage: "Ring ring"
-      });
-      // ADD
-      // Go to 'being called' screen
-    });
+    // All other users will get called by this
+    this.clientSocket.emit("peerConnection", this.clientSocket.id);
 
     navigator.mediaDevices
       .getUserMedia(this.state.constraints)
@@ -47,27 +42,35 @@ class Socket extends Component {
     this.ownVideoFeed.current.srcObject = null;
   }
 
-  callOtherPlayers = () => {
-    this.clientSocket.emit("peerConnection", this.clientSocket.id);
-    this.setState({ callMessage: "" });
-    // ADD
-    // Go to timer and connection screen
-  };
+  // If we want the player to press a buton to call others
+  // callOtherPlayers = () => {
+  //   this.clientSocket.emit("peerConnection", this.clientSocket.id);
+  // };
 
   render() {
     return (
       <>
         <p>Socket test</p>
         <video
+          style={{
+            position: "absolute",
+            top: "100px",
+            left: "50px",
+            height: "720",
+            width: "480",
+            objectFit: "cover"
+          }}
           id="ownVideoFeed"
           ref={this.ownVideoFeed}
-          width={200}
-          height={200}
+          width={480}
+          height={720}
           autoPlay
           muted
         ></video>
-        <button onClick={this.callOtherPlayers}>Call other users</button>
-        <p>{this.state.callMessage}</p>
+        {/*
+          If we want the player to press a buton to call others
+          <button onClick={this.callOtherPlayers}>Call other users</button>
+        */}
       </>
     );
   }

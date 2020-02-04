@@ -17,6 +17,8 @@ io.on("connection", socket => {
     peers: {}
   };
   console.log(users);
+  // io.sockets.clients() toont meer info over alle verbonden sockets
+  console.log("alle clients", io.sockets.clients());
   io.to(socket.id).emit("connectionUrl", connectionUrl);
 
   // New connection - will be called by beamer

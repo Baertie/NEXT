@@ -2,6 +2,7 @@ import React from "react";
 import { inject, PropTypes, observer } from "mobx-react";
 
 import Carousel from "../components/Carousel";
+import Called from "../components/Called";
 import Screensaver from "../components/Screensaver";
 import Onboarding from "../components/Onboarding";
 import Game from "../components/Game";
@@ -18,7 +19,11 @@ const Wrapper = ({ store }) => {
     case "onboardingStarted":
       return <Onboarding />;
     case "onboardingEnded":
+      return <Socket />;
+    case "gameStarted":
       return <Game />;
+    case "calledUser":
+      return <Called />;
     case "gameEnded":
       return <Onboarding />;
     case "Socket":

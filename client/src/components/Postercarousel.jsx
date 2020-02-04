@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { inject, PropTypes, observer } from "mobx-react";
+import socketIOClient from "socket.io-client";
 
 class Postercarousel extends Component {
   constructor(props) {
@@ -13,15 +15,38 @@ class Postercarousel extends Component {
         "http://jannesdegreve.be/next/posters/affiche_6",
         "http://jannesdegreve.be/next/posters/affiche_7"
       ],
-      posterIndex: 0
+      posterIndex: 0,
+      isBeingCalled: false
     };
+    // this._isMounted = true;
   }
 
   componentDidMount() {
+    // this._isMounted = true;
     this.timerID = setInterval(() => this.tick(), this.props.timeOut);
+
+    this.clientSocket = socketIOClient(":8080");
+
+    this.clientSocket.on("connect", () => {
+      // Gettin the users clientSocket id
+      console.log("clientSocket id", this.clientSocket.id);
+    });
+
+    // When a call comes in
+    this.clientSocket.on("newPeerConnection", () => {
+      this.state.isBeingCalled = true;
+    });
+  }
+
+  componentDidUpdate() {
+    // This check is needed because this will now only happen on this screen.
+    if (this.state.isBeingCalled === true) {
+      this.props.store.getCalled();
+    }
   }
 
   componentWillUnmount() {
+    // this._isMounted = false;
     clearInterval(this.timerID);
   }
 
@@ -44,4 +69,4 @@ class Postercarousel extends Component {
   }
 }
 
-export default Postercarousel;
+export default inject(`store`)(observer(Postercarousel));
