@@ -60,6 +60,9 @@ class Screensaver extends Component {
 
     // Check every 1s if there is a face on the webcam
     // after 5s no face -> back to carousel
+
+    return;
+    // Face will never go away
     this.timerID = setInterval(async () => {
       if (this.state.faceGone === false) {
         const detections = await faceapi.detectAllFaces(videoTag);
@@ -68,6 +71,14 @@ class Screensaver extends Component {
             if (this.state.timeSinceDetectedFace >= 2000) {
               console.log("3 seconden lang geen gezicht");
               this.state.faceGone = true;
+            }
+            this.setState({
+              timeSinceDetectedFace: this.state.timeSinceDetectedFace + 200
+            });
+          } else if (detections.length > 0) {
+            if (this.state.timeSinceDetectedFace >= 2000) {
+              console.log("3 seconden lang een gezicht");
+              this.props.store.setStartOnboarding();
             }
             this.setState({
               timeSinceDetectedFace: this.state.timeSinceDetectedFace + 200
@@ -88,13 +99,16 @@ class Screensaver extends Component {
     }
     return (
       <>
-        <p>Screensaver</p>
-        <button onClick={this.handleStartButton}>Start onboarding</button>
+        {/* <p>Screensaver</p>
+        <button onClick={this.handleStartButton}>Start onboarding</button> */}
         <div
           style={{
             position: "relative",
-            width: "100%",
-            height: "100%"
+            width: "100vw",
+            height: "100vh",
+            maxWidth: "1080px",
+            maxHeight: "1920px",
+            overflow: "hidden"
           }}
         >
           <video
@@ -102,15 +116,17 @@ class Screensaver extends Component {
               position: "absolute",
               top: 0,
               left: 0,
-              width: "100%",
-              height: "auto",
-              zIndex: 1,
-              objectFit: "fill"
+              width: "100vw",
+              height: "100vh",
+              objectFit: "cover",
+              maxWidth: "1080px",
+              maxHeight: "1920px",
+              zIndex: 1
             }}
             id="ownVideoFeed"
             ref={this.ownVideoFeed}
-            height={"100%"}
-            width={"100%"}
+            height={"100vh"}
+            width={"100vw"}
             autoPlay
             muted
           ></video>
@@ -122,8 +138,11 @@ class Screensaver extends Component {
               position: "absolute",
               top: 0,
               left: 0,
-              width: "100%",
-              height: "auto"
+              width: "100vw",
+              height: "100vh",
+              objectFit: "cover",
+              maxWidth: "1080px",
+              maxHeight: "1920px"
             }}
           />
           <img
@@ -134,8 +153,11 @@ class Screensaver extends Component {
               position: "absolute",
               top: 0,
               left: 0,
-              width: "100%",
-              height: "auto"
+              width: "100vw",
+              height: "100vh",
+              objectFit: "cover",
+              maxWidth: "1080px",
+              maxHeight: "1920px"
             }}
           />
           <img
@@ -146,8 +168,11 @@ class Screensaver extends Component {
               position: "absolute",
               top: 0,
               left: 0,
-              width: "100%",
-              height: "auto"
+              width: "100vw",
+              height: "100vh",
+              objectFit: "cover",
+              maxWidth: "1080px",
+              maxHeight: "1920px"
             }}
           />
           <img
@@ -158,8 +183,11 @@ class Screensaver extends Component {
               position: "absolute",
               top: 0,
               left: 0,
-              width: "100%",
-              height: "auto"
+              width: "100vw",
+              height: "100vh",
+              objectFit: "cover",
+              maxWidth: "1080px",
+              maxHeight: "1920px"
             }}
           />
           <img
@@ -170,8 +198,11 @@ class Screensaver extends Component {
               position: "absolute",
               top: 0,
               left: 0,
-              width: "100%",
-              height: "auto"
+              width: "100vw",
+              height: "100vh",
+              objectFit: "cover",
+              maxWidth: "1080px",
+              maxHeight: "1920px"
             }}
           />
         </div>

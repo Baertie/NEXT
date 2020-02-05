@@ -6,7 +6,7 @@ import Debugnavigation from "./components/Debugnavigation";
 function App() {
   return (
     <div className="App">
-      <Debugnavigation />
+      {/* <Debugnavigation />  */}
       <Wrapper />
     </div>
   );

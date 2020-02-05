@@ -1,0 +1,182 @@
+.red_background {
+  position: absolute;
+  width: 110vw;
+  height: 45%;
+  left: -5%;
+  top: -10%;
+  background: var(--background-red);
+  transform: rotate(-5deg);
+  z-index: 1;
+}
+
+.logo_next_white {
+  background-image: url("../assets/img/logo-next-white.svg");
+  position: absolute;
+  z-index: 5;
+  position: absolute;
+  width: 17.874rem;
+  height: 6.4rem;
+  left: 3.6rem;
+  top: 3.6rem;
+  background-size: contain;
+}
+
+.white_content_background {
+  margin-top: 20rem;
+  position: relative;
+  width: calc(100% - 6.4rem - 6.4rem);
+  height: 50%;
+  min-height: 103.8rem;
+  left: 6.4rem;
+  top: 10%;
+  display: block;
+  background: #ffffff;
+  box-shadow: 0 0 1.6rem var(--light-gray);
+  border-radius: 2rem;
+  z-index: 5;
+}
+
+.front_content {
+  z-index: 10;
+}
+
+.page_steps_wrapper {
+  z-index: 100;
+  display: grid;
+  position: absolute;
+  grid-template-columns: repeat(3, min-content);
+  grid-gap: 2.5rem;
+  bottom: 5rem;
+  left: calc(50% - 10rem);
+  right: 50%;
+  margin: 0 auto;
+}
+.page_number {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  width: 5rem;
+  height: 2.5rem;
+}
+
+.page_number_active {
+  width: 5rem;
+  height: 2.5rem;
+  background: var(--primary-color);
+  border-radius: 0.5rem;
+}
+
+.map_img {
+  background-image: url("../assets/img/onboarding/onboarding-map.svg");
+  width: 54rem;
+  height: 71rem;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  margin: auto;
+  display: block;
+  margin-top: 10rem;
+}
+
+.score_wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 13rem;
+  margin-top: 8.4rem;
+}
+
+.score_affiche {
+  background-image: url("../assets/img/onboarding/next-affiche-small.png");
+  width: 33rem;
+  height: 59rem;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+.score_eigen_beeld {
+  background-image: url("../assets/img/onboarding/eigen-beeld.png");
+  width: 33rem;
+  height: 59rem;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+.score_added {
+  margin: 3.5rem auto 0 auto;
+  max-width: 20rem;
+  background: var(--primary-color);
+  border-radius: 15px;
+  padding: 2rem 4rem 1rem 4rem;
+  font-family: "Heavitas";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 4.8rem;
+  text-align: center;
+  color: var(--white);
+}
+
+.onboarding_title {
+  font-family: "Heavitas";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 5.5rem;
+  text-align: center;
+  padding-top: 6.5rem;
+  color: var(--primary-color);
+}
+
+.onboarding_subtitle {
+  font-family: "Heavitas";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 4.8rem;
+  text-align: center;
+  letter-spacing: 0.126rem;
+  color: var(--black);
+  margin-top: 15rem;
+  line-height: 135%;
+}
+
+.onboarding_extra_info {
+  line-height: 130%;
+  margin-top: 6.4rem;
+  font-family: "Alte";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 3.5rem;
+  text-align: center;
+  letter-spacing: 0.126rem;
+  color: var(--black);
+}
+
+.scoreboard_list {
+  margin-top: 10rem;
+  padding: 0 6.4rem;
+  text-align: left;
+}
+.scoreboard_list_item {
+  padding: 5rem 0 4rem 0;
+  display: flex;
+  flex-direction: row;
+}
+.scoreboard_list_item:not(:last-child) {
+  border-bottom: 0.3rem solid var(--light-gray);
+}
+.scoreboard_standing,
+.scoreboard_points {
+  font-family: "Heavitas";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 4.8rem;
+  color: var(--black);
+  display: block;
+}
+.scoreboard_points {
+  margin-left: auto;
+  display: block;
+}
+.scoreboard_location {
+  font-family: "Alte-bold";
+  font-size: 4.8rem;
+  color: var(--black);
+  margin-left: 10rem;
+}

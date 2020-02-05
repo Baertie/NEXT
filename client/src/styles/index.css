@@ -1,0 +1,37 @@
+@import "./reset.css";
+@import "./colors.module.css";
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;
+}
+
+/* stylelint-disable */
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+@font-face {
+  font-family: "Heavitas";
+  src: url("../assets/fonts/Heavitas.woff") format("woff"),
+    url("../assets/fonts/Heavitas.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Alte-bold";
+  src: url("../assets/fonts/AlteHaasGroteskBold.woff") format("woff"),
+    url("../assets/fonts/AlteHaasGroteskBold.woff2") format("woff2");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Alte";
+  src: url("../assets/fonts/AlteHaasGroteskRegular.woff") format("woff"),
+    url("../assets/fonts/AlteHaasGroteskRegular.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}

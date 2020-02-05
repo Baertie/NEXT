@@ -1,0 +1,203 @@
+.red_background {
+  position: absolute;
+  width: 110vw;
+  height: 45%;
+  left: -5%;
+  top: -10%;
+  background: var(--background-red);
+  transform: rotate(-5deg);
+  z-index: 1;
+}
+
+.logo_next_white {
+  background-image: url("../assets/img/logo-next-white.svg");
+  position: absolute;
+  z-index: 5;
+  position: absolute;
+  width: 17.874rem;
+  height: 6.4rem;
+  left: 3.6rem;
+  top: 3.6rem;
+  background-size: contain;
+}
+
+.white_content_background_small,
+.white_content_background_big {
+  position: relative;
+  width: calc(100% - 6.4rem - 6.4rem);
+  margin: 0 6.4rem;
+  display: block;
+  background: #ffffff;
+  box-shadow: 0 0 1.6rem var(--light-gray);
+  border-radius: 2rem;
+  z-index: 5;
+}
+
+.white_content_background_big {
+  margin-top: 6.4rem;
+  height: 50%;
+  min-height: 133.6rem;
+}
+
+.white_content_background_small {
+  height: 20rem;
+  margin-top: 20rem;
+}
+
+.front_content {
+  z-index: 10;
+}
+
+.title_top,
+.title_bot {
+  font-family: "Heavitas";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 4.8rem;
+  color: var(--black);
+}
+
+.title_top {
+  padding: 3rem 0;
+  text-align: center;
+  line-height: 150%;
+}
+
+.title_bot {
+  padding: 6.4rem;
+  text-align: left;
+}
+
+.red_color {
+  color: var(--primary-color);
+}
+
+.game_info {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 11rem;
+}
+
+.game_info_left {
+  width: 45rem;
+  margin-left: 8rem;
+}
+
+.game_subtitle {
+  font-family: "Heavitas";
+  font-size: 3.6rem;
+  color: var(--black);
+  text-align: left;
+  margin-bottom: 3.2rem;
+}
+
+.game_info_text {
+  font-family: "Alte";
+  font-size: 3.6rem;
+  line-height: 5.5rem;
+  color: var(--black);
+  text-align: left;
+}
+
+.game_bold {
+  font-family: "Alte-bold";
+}
+
+.game_info_1 {
+  background-image: url("../assets/img/connect/game_info_1.png");
+  width: 26rem;
+  height: 31rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-left: auto;
+  margin-right: 7.5rem;
+}
+.game_info_2 {
+  background-image: url("../assets/img/connect/game_info_2.png");
+  width: 31.5rem;
+  height: 27rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: right;
+  margin-left: auto;
+  margin-right: 4rem;
+}
+
+.game_win_location {
+  font-family: "Alte-bold";
+  font-size: 4.8rem;
+  color: var(--black);
+}
+
+.game_info_3 {
+  width: 20rem;
+  height: 20rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-right: 11rem;
+  margin-left: auto;
+  margin-top: 6rem;
+}
+
+.score_added {
+  margin: 3.5rem auto 0 auto;
+  max-width: 20rem;
+  background: var(--primary-color);
+  border-radius: 15px;
+  padding: 2rem 4rem 1rem 4rem;
+  font-family: "Heavitas";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 4.8rem;
+  text-align: center;
+  color: var(--white);
+}
+
+.search_timer {
+  position: absolute;
+  right: 6.4rem;
+  top: 5rem;
+  width: 10rem;
+  height: 10rem;
+  z-index: 100;
+}
+
+.timer_svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 10rem;
+  height: 10rem;
+  transform: rotateY(-180deg) rotateZ(-90deg);
+}
+
+.timer_circle {
+  stroke-dasharray: 250px;
+  stroke-dashoffset: 0px;
+  stroke-linecap: round;
+  stroke-width: 0.8rem;
+  stroke: var(--white);
+  fill: none;
+  animation: countdown 45s linear forwards;
+}
+
+.search_timer_text {
+  margin: auto;
+  font-family: "Alte-bold";
+  color: var(--white);
+  font-size: 3.6rem;
+  line-height: 100px;
+}
+
+@keyframes countdown {
+  from {
+    stroke-dashoffset: 0px;
+  }
+  to {
+    stroke-dashoffset: 250px;
+  }
+}
