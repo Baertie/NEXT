@@ -3,7 +3,7 @@ import { decorate, observable, configure, action } from "mobx";
 configure({ enforceActions: `observed` });
 
 class Store {
-  flowStatus = "calledUser";
+  flowStatus = "startGame";
   // flowStatus = "Socket";
   //   constructor() {}
 
@@ -13,8 +13,11 @@ class Store {
   setDetected = () => {
     this.flowStatus = "startScreensaver";
   };
-  startGame = () => {
+  startConnecting = () => {
     this.flowStatus = "onboardingEnded";
+  };
+  startGame = () => {
+    this.flowStatus = "startGame";
   };
   getCalled = () => {
     this.flowStatus = "calledUser";
@@ -30,6 +33,7 @@ class Store {
 decorate(Store, {
   setStartOnboarding: action,
   setDetected: action,
+  startConnecting: action,
   startGame: action,
   getCalled: action,
   resetEverything: action,

@@ -42,6 +42,8 @@ Landmark point structure
 
 */
 
+import styles from "../styles/Game.module.css";
+
 let socket;
 
 class Game extends Component {
@@ -50,6 +52,10 @@ class Game extends Component {
   constructor(props) {
     super(props);
     this.videoTag = React.createRef();
+    // Extra video's voor css
+    this.videoTag2 = React.createRef();
+    this.videoTag3 = React.createRef();
+    this.videoTag4 = React.createRef();
     this.canvasTag = React.createRef();
     this.referenceImageTag = React.createRef();
     this.referenceCanvasTag = React.createRef();
@@ -73,7 +79,11 @@ class Game extends Component {
       currentRound: 1,
       maxRounds: 3,
       referenceImageArray: [],
-      _isLoaded: false
+      _isLoaded: false,
+      hideCanvas: true,
+      showScore: false,
+      gameTimer: 5,
+      roundEnded: false
     };
   }
 
@@ -81,10 +91,10 @@ class Game extends Component {
     this._isMounted = true;
 
     // UNCOMMENT TO USE SOCKET
-    if (!socket) {
-      socket = io(":4000");
-      //   socket.connect("/");
-    }
+    // if (!socket) {
+    //   socket = io(":4000");
+    //   //   socket.connect("/");
+    // }
     console.log(this.state.constraints);
     console.log(navigator.mediaDevices);
     navigator.mediaDevices
@@ -93,6 +103,10 @@ class Game extends Component {
         stream => (this.videoTag.current.srcObject = stream),
         this.loadModels()
       )
+      // Extra video's voor css
+      .then(stream => (this.videoTag2.current.srcObject = stream))
+      .then(stream => (this.videoTag3.current.srcObject = stream))
+      .then(stream => (this.videoTag4.current.srcObject = stream))
       .catch(console.log);
 
     this.setState(state => {
@@ -102,7 +116,7 @@ class Game extends Component {
     });
 
     // INIT SOCKET
-    this.initSocket();
+    // this.initSocket();
   }
 
   initSocket = () => {
@@ -149,6 +163,20 @@ class Game extends Component {
         faceapi.draw.drawFaceLandmarks(canvasTag, detectionsWithLandmarks);
         this.setState({ _isLoaded: true });
         //console.log("alles geladen");
+        // this.startGameTimer();
+        this.startGameTimer = setInterval(() => {
+          if (!this.state.roundEnded) {
+            if (this.state.gameTimer > 0) {
+              this.setState({ gameTimer: this.state.gameTimer - 1 });
+            } else {
+              // TIMER IS 0 GEWORDEN!
+              this.screenShot();
+              this.setState({ roundEnded: true });
+            }
+          } else {
+            clearInterval(this.startGameTimer);
+          }
+        }, 1000);
       };
 
       //referenceImage.crossOrigin = "anonymous";
@@ -162,6 +190,8 @@ class Game extends Component {
   screenShot = async () => {
     if (this._isMounted) {
     }
+
+    this.setState({ hideCanvas: false });
     // Get the video and canvas element through refs
     const videoTag = this.videoTag.current;
     const canvas = this.canvasTag.current;
@@ -204,7 +234,18 @@ class Game extends Component {
     this.addSharpenEffect(videoTag, canvas, ctx);
     this.addVisualEffects(canvas, ctx);
     this.calculateDistance();
-    this.goToNextRound();
+    setTimeout(() => {
+      this.setState({ showScore: true });
+    }, 2000);
+    setTimeout(() => {
+      this.clearCreatedCanvas();
+      this.goToNextRound();
+      this.setState({ roundEnded: false, gameTimer: 5 });
+    }, 5000);
+  };
+
+  clearCreatedCanvas = () => {
+    this.setState({ hideCanvas: true, showScore: false });
   };
 
   addSharpenEffect = (image, canvas, ctx) => {
@@ -507,60 +548,178 @@ class Game extends Component {
   render() {
     const { store } = this.props;
     if (this.state.currentRound > 3) {
-      store.setGameEnded();
+      // store.setGameEnded();
+      // Eerst nog score die je krijgt tonen, daarna (na x seconden) scorebord
     }
-
-    const generateLandmarks = () => {
-      // maps video frame to canvas and detects landmarks
-      console.log("generate");
-      this.screenShot();
-    };
 
     return (
       <>
         {!this.state._isLoaded ? <Loader /> : null}
-        <div style={{ display: !this.state._isLoaded ? "none" : "block" }}>
-          <div>
-            <button
-              onClick={generateLandmarks}
-              // style={{
-              //   position: "absolute",
-              //   bottom: "0",
-              //   left: "0"
-              // }}
-            >
-              Play
-            </button>
-            <p>
-              similarity: {this.state.similarity ? this.state.similarity : `0`}
-            </p>
-            <p>current round: {this.state.currentRound}</p>
+        <div
+          style={{ display: !this.state._isLoaded ? "none" : "" }}
+          className={styles.full_game_wrapper}
+        >
+          <div className={styles.red_background}></div>
+          <div className={styles.logo_next_white}></div>
+          <div className={styles.game_top_view}>
+            <div className={styles.search_timer}>
+              <div className={styles.search_timer_text}>
+                {this.state.gameTimer}
+              </div>
+              <svg className={styles.timer_svg}>
+                <circle
+                  className={styles.timer_circle}
+                  r="40"
+                  cx="50"
+                  cy="50"
+                ></circle>
+              </svg>
+            </div>
+            <div className={styles.game_round}>
+              <p className={styles.game_round_top}>Ronde</p>
+              <p className={styles.game_round_bot}>
+                {this.state.currentRound}/3
+              </p>
+            </div>
           </div>
-          <div>
+          <div className={styles.game_wrapper}>
             {/* <img
               crossorigin="anonymous"
               ref={this.referenceImage}
               src="https://image.freepik.com/free-photo/happy-man-shouting-screaming_23-2148221721.jpg"
             /> */}
-            <canvas
-              ref={this.referenceCanvasTag}
-              width={480}
-              height={720}
-            ></canvas>
-            <video
-              style={{
-                //   position: "absolute",
-                top: "0",
-                left: "0",
-                transform: "scaleX(-1)"
-              }}
-              id="videoTag"
-              ref={this.videoTag}
-              width={this.state.constraints.video.width}
-              height={this.state.constraints.video.height}
-              autoPlay
-              muted
-            ></video>
+            <div className={styles.game_top}>
+              <div>
+                <div className={styles.poster_top}>
+                  <p className={styles.poster_text}>Uit te beelden</p>
+                </div>
+                <canvas
+                  ref={this.referenceCanvasTag}
+                  width={480}
+                  height={720}
+                ></canvas>
+              </div>
+              <div>
+                <div className={styles.player_top}>
+                  <p className={styles.own_name}>{/*INSERT NAAM*/}Wout (jij)</p>
+                  <div className={styles.player_score}>{/*INSERT SCORE*/}0</div>
+                </div>
+                <div className={styles.own_video_wrapper}>
+                  <video
+                    className={styles.own_video_feed}
+                    style={{ transform: "scaleX(-1)" }}
+                    id="videoTag"
+                    ref={this.videoTag}
+                    width={this.state.constraints.video.width}
+                    height={this.state.constraints.video.height}
+                    autoPlay
+                    muted
+                  ></video>
+                  <div
+                    className={
+                      this.state.showScore
+                        ? styles.score_added_wrapper
+                        : styles.score_added_wrapper_hide
+                    }
+                  >
+                    <p className={styles.round_score}>
+                      {/* CHECK ALS GEEN OUTLINES, BASISSCORE? */}+{" "}
+                      {Math.round(this.state.similarity)}
+                    </p>
+                  </div>
+                  <p
+                    className={
+                      `${styles.location_tag} ${styles.location_tag_1}` /*INSERT LOCATIE TAG VOOR KLEUR*/
+                    }
+                  >
+                    Kortrijk{/*INSERT LOCATIE*/}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className={styles.game_bottom}>
+              <div className={styles.oponent_wrapper}>
+                <div className={styles.player_top}>
+                  <p className={styles.oponent_name}>
+                    {/*INSERT NAAM*/} Tegenstander lange naam bro
+                  </p>
+                  <div className={styles.player_score}>{/*INSERT SCORE*/}0</div>
+                </div>
+                <div className={styles.player_video_wrapper}>
+                  <video
+                    style={{ transform: "scaleX(-1)" }}
+                    className={styles.oponent_video_feed}
+                    id="videoTag2"
+                    ref={this.videoTag2}
+                    width={this.state.constraints.video.width}
+                    height={this.state.constraints.video.height}
+                    autoPlay
+                    muted
+                  ></video>
+                  <p
+                    className={
+                      `${styles.location_tag} ${styles.location_tag_2}` /*INSERT LOCATIE TAG VOOR KLEUR*/
+                    }
+                  >
+                    Kortrijk{/*INSERT LOCATIE*/}
+                  </p>
+                </div>
+              </div>
+              <div className={styles.oponent_wrapper}>
+                <div className={styles.player_top}>
+                  <p className={styles.oponent_name}>
+                    {/*INSERT NAAM*/} Tegenstander
+                  </p>
+                  <div className={styles.player_score}>{/*INSERT SCORE*/}0</div>
+                </div>
+                <div className={styles.player_video_wrapper}>
+                  <video
+                    style={{ transform: "scaleX(-1)" }}
+                    className={styles.oponent_video_feed}
+                    id="videoTag3"
+                    ref={this.videoTag3}
+                    width={this.state.constraints.video.width}
+                    height={this.state.constraints.video.height}
+                    autoPlay
+                    muted
+                  ></video>
+                  <p
+                    className={
+                      `${styles.location_tag} ${styles.location_tag_3}` /*INSERT LOCATIE TAG VOOR KLEUR*/
+                    }
+                  >
+                    Kortrijk{/*INSERT LOCATIE*/}
+                  </p>
+                </div>
+              </div>
+              <div className={styles.oponent_wrapper}>
+                <div className={styles.player_top}>
+                  <p className={styles.oponent_name}>
+                    {/*INSERT NAAM*/} Tegenstander
+                  </p>
+                  <div className={styles.player_score}>{/*INSERT SCORE*/}0</div>
+                </div>
+                <div className={styles.player_video_wrapper}>
+                  <video
+                    style={{ transform: "scaleX(-1)" }}
+                    className={styles.oponent_video_feed}
+                    id="videoTag4"
+                    ref={this.videoTag4}
+                    width={this.state.constraints.video.width}
+                    height={this.state.constraints.video.height}
+                    autoPlay
+                    muted
+                  ></video>
+                  <p
+                    className={
+                      `${styles.location_tag} ${styles.location_tag_4}` /*INSERT LOCATIE TAG VOOR KLEUR*/
+                    }
+                  >
+                    Kortrijk{/*INSERT LOCATIE*/}
+                  </p>
+                </div>
+              </div>
+            </div>
             <canvas
               style={{
                 //   position: "absolute",
@@ -568,12 +727,17 @@ class Game extends Component {
                 //   left: "0",
                 transform: "scaleX(-1)"
               }}
+              className={
+                !this.state.hideCanvas
+                  ? styles.own_poster
+                  : styles.hide_own_poster
+              }
               id="myCanvas"
               ref={this.canvasTag}
               width={this.state.constraints.video.width}
               height={this.state.constraints.video.height}
             ></canvas>
-            <div>
+            <div style={{ display: "none" }}>
               <canvas
                 style={{
                   transform: "scaleX(-1)",

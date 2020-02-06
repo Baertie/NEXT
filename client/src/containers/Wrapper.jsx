@@ -20,7 +20,7 @@ const Wrapper = ({ store }) => {
       return <Onboarding />;
     case "onboardingEnded":
       return <Socket />;
-    case "gameStarted":
+    case "startGame":
       return <Game />;
     case "calledUser":
       return <Called />;

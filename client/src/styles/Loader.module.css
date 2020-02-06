@@ -1,0 +1,37 @@
+.red_background {
+  position: absolute;
+  width: 110vw;
+  height: 22.5%;
+  left: -5%;
+  top: -10%;
+  background: var(--background-red);
+  transform: rotate(-5deg);
+  z-index: 1;
+}
+
+.logo_next_white {
+  background-image: url("../assets/img/logo-next-white.svg");
+  position: absolute;
+  z-index: 5;
+  position: absolute;
+  width: 17.874rem;
+  height: 6.4rem;
+  left: 3.6rem;
+  top: 3.6rem;
+  background-size: contain;
+}
+
+.game_round {
+  position: absolute;
+  top: 5rem;
+  width: 50rem;
+  left: calc(50% - 25rem);
+  z-index: 5;
+}
+
+.game_round_bot {
+  font-family: "Heavitas";
+  font-size: 4.8rem;
+  line-height: 150%;
+  color: var(--white);
+}
