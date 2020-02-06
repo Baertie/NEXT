@@ -30,7 +30,8 @@ class Onboarding extends Component {
 
   handleStartClick = () => {
     console.log("start verbinden man");
-    this.props.store.startConnecting();
+    // this.props.store.startConnecting();
+    this.props.store.startSocket();
   };
 
   render() {

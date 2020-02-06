@@ -2,19 +2,15 @@ import React, { Component } from "react";
 import { inject, PropTypes, observer } from "mobx-react";
 import socketIOClient from "socket.io-client";
 
+import carousel1 from "../assets/img/carousel/carousel1.jpg";
+import carousel2 from "../assets/img/carousel/carousel2.jpg";
+import carousel3 from "../assets/img/carousel/carousel3.jpg";
+
 class Postercarousel extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      posterArray: [
-        "http://jannesdegreve.be/next/posters/affiche_1",
-        "http://jannesdegreve.be/next/posters/affiche_2",
-        "http://jannesdegreve.be/next/posters/affiche_3",
-        "http://jannesdegreve.be/next/posters/affiche_4",
-        "http://jannesdegreve.be/next/posters/affiche_5",
-        "http://jannesdegreve.be/next/posters/affiche_6",
-        "http://jannesdegreve.be/next/posters/affiche_7"
-      ],
+      posterArray: [carousel1, carousel2, carousel3],
       posterIndex: 0,
       isBeingCalled: false
     };
@@ -27,9 +23,12 @@ class Postercarousel extends Component {
 
     this.clientSocket = socketIOClient(":8080");
 
-    this.clientSocket.on("connect", () => {
+    this.clientSocket.on("stopCarousel", message => {
+      console.log("socket message: ", message);
+      this.props.store.getCalled();
+
       // Gettin the users clientSocket id
-      console.log("clientSocket id", this.clientSocket.id);
+      // console.log("clientSocket id", this.clientSocket.id);
     });
 
     // When a call comes in

@@ -1,3 +1,18 @@
+// var express = require("express");
+
+// var app = express();
+// var server = app.listen(3000);
+
+// app.use(express.static("public"));
+
+// var socket = require("socket.io");
+
+// var io = socket(server);
+
+// io.sockets.on("connection", socket => {
+//   console.log("socket: ", socket);
+// });
+
 var app = require("express")();
 var http = require("http").createServer(app);
 var io = require("socket.io")(http);
@@ -10,15 +25,44 @@ app.get("/", function(req, res) {
 const users = {};
 
 io.on("connection", socket => {
-  console.log("a user connected: ", socket.id);
+  console.log("new connection - socket id:", socket.id);
+
+  socket.on("stopCarousel", message => {
+    console.log("stop carousel: ", message);
+    socket.broadcast.emit("stopCarousel", message);
+  });
+  socket.on("searchTimer", time => {
+    console.log("time: ", time);
+    socket.broadcast.emit("globalTime", time);
+  });
+});
+
+// http.listen(4000, function() {
+//   console.log("listening on *:4000");
+// });
+
+http.listen(port, () => {
+  require("./get-ip-addresses")().then(ipAddresses => {
+    if (ipAddresses.en0) {
+      connectionUrl = `https://${ipAddresses.en0[0]}:${port}`;
+    } else {
+      connectionUrl = `http://localhost:${port}`;
+    }
+    console.log(`Server running: ${connectionUrl}`);
+  });
+});
+
+/* 
+io.on("connection", socket => {
+  // console.log("a user connected: ", socket.id);
 
   // keeping track of all users
   users[socket.id] = {
     peers: {}
   };
-  console.log(users);
+  // console.log(users);
   // io.sockets.clients() toont meer info over alle verbonden sockets
-  console.log("alle clients", io.sockets.clients());
+  // console.log("alle clients", io.sockets.clients());
   io.to(socket.id).emit("connectionUrl", connectionUrl);
 
   // New connection - will be called by beamer
@@ -122,3 +166,6 @@ http.listen(port, () => {
     console.log(`Server running: ${connectionUrl}`);
   });
 });
+
+
+*/

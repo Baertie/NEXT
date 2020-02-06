@@ -61,8 +61,8 @@ class Screensaver extends Component {
     // Check every 1s if there is a face on the webcam
     // after 5s no face -> back to carousel
 
-    return;
     // Face will never go away
+    // return;
     this.timerID = setInterval(async () => {
       if (this.state.faceGone === false) {
         const detections = await faceapi.detectAllFaces(videoTag);
