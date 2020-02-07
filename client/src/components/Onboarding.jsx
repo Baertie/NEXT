@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { inject, PropTypes, observer } from "mobx-react";
+// import { inject, PropTypes, observer } from "mobx-react";
 
 import styles from "../styles/Onboarding.module.css";
 class Onboarding extends Component {
@@ -31,7 +31,8 @@ class Onboarding extends Component {
   handleStartClick = () => {
     console.log("start verbinden man");
     // this.props.store.startConnecting();
-    this.props.store.startSocket();
+    // this.props.store.startSocket();
+    this.props.history.push("/startConnecting");
   };
 
   render() {
@@ -165,4 +166,5 @@ class Onboarding extends Component {
   }
 }
 
-export default inject(`store`)(observer(Onboarding));
+// export default inject(`store`)(observer(Onboarding));
+export default Onboarding;

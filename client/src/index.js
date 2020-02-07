@@ -8,9 +8,13 @@ import store from "./store";
 
 import "./styles/index.css";
 
+import { BrowserRouter as Router } from "react-router-dom";
+
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <Router>
+      <App />
+    </Router>
   </Provider>,
   document.getElementById("root")
 );

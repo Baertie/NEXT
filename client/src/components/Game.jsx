@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import * as faceapi from "face-api.js";
 
-import { inject, observer } from "mobx-react";
+// import { inject, observer } from "mobx-react";
 import io from "socket.io-client";
 import Loader from "./Loader";
 
@@ -777,4 +777,5 @@ class Game extends Component {
   }
 }
 
-export default inject(`store`)(observer(Game));
+// export default inject(`store`)(observer(Game));
+export default Game;
