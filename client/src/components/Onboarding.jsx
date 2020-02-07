@@ -62,7 +62,9 @@ class Onboarding extends Component {
             <button className={styles.test} onClick={this.handlePrevClick}>
               Previous step
             </button>
-            <button onClick={this.handleNextClick}>Next step</button>
+            <button className={styles.test2} onClick={this.handleNextClick}>
+              Next step
+            </button>
           </>
         );
       case 1:
@@ -101,7 +103,9 @@ class Onboarding extends Component {
             <button className={styles.test} onClick={this.handlePrevClick}>
               Previous step
             </button>
-            <button onClick={this.handleNextClick}>Next step</button>
+            <button className={styles.test2} onClick={this.handleNextClick}>
+              Next step
+            </button>
           </>
         );
       case 2:
@@ -152,32 +156,12 @@ class Onboarding extends Component {
             <button className={styles.test} onClick={this.handlePrevClick}>
               Previous step
             </button>
-            <button onClick={this.handleStartClick}>Start game</button>
+            <button className={styles.test2} onClick={this.handleStartClick}>
+              Start game
+            </button>
           </>
         );
     }
-    // return (
-    //   <>
-    //     <p>Onboarding welkom</p>
-
-    //     <p>
-    //       Test:{" "}
-    //       {() => {
-    //         switch (this.state.screen) {
-    //           case 0:
-    //             return <p>Scherm 0</p>;
-    //           case 1:
-    //             return <p>Scherm 1</p>;
-    //           case 2:
-    //             return <p>Scherm 2</p>;
-    //           default:
-    //             return <p>Help</p>;
-    //         }
-    //       }}
-    //     </p>
-    //     <button onClick={this.handleResetClick}>Reset</button>
-    //   </>
-    // );
   }
 }
 
