@@ -1,22 +1,28 @@
 {
   "files": {
-    "main.css": "/static/css/main.d1b05096.chunk.css",
-    "main.js": "/static/js/main.6a9c4b94.chunk.js",
-    "main.js.map": "/static/js/main.6a9c4b94.chunk.js.map",
+    "main.css": "/static/css/main.59c84df3.chunk.css",
+    "main.js": "/static/js/main.1963e218.chunk.js",
+    "main.js.map": "/static/js/main.1963e218.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.88d4f3f8.js",
     "runtime-main.js.map": "/static/js/runtime-main.88d4f3f8.js.map",
-    "static/js/2.fb47b572.chunk.js": "/static/js/2.fb47b572.chunk.js",
-    "static/js/2.fb47b572.chunk.js.map": "/static/js/2.fb47b572.chunk.js.map",
+    "static/js/2.e6eb507e.chunk.js": "/static/js/2.e6eb507e.chunk.js",
+    "static/js/2.e6eb507e.chunk.js.map": "/static/js/2.e6eb507e.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.695203bb5ddd5c6d131c954712ccca8f.js": "/precache-manifest.695203bb5ddd5c6d131c954712ccca8f.js",
+    "precache-manifest.9487ae38216ecd633cbaee500cd419f7.js": "/precache-manifest.9487ae38216ecd633cbaee500cd419f7.js",
     "service-worker.js": "/service-worker.js",
-    "static/css/main.d1b05096.chunk.css.map": "/static/css/main.d1b05096.chunk.css.map",
-    "static/js/2.fb47b572.chunk.js.LICENSE": "/static/js/2.fb47b572.chunk.js.LICENSE",
+    "static/css/main.59c84df3.chunk.css.map": "/static/css/main.59c84df3.chunk.css.map",
+    "static/js/2.e6eb507e.chunk.js.LICENSE": "/static/js/2.e6eb507e.chunk.js.LICENSE",
+    "static/media/index.css": "/static/media/Heavitas.ed57348c.woff2",
     "static/media/blackOverlay.png": "/static/media/blackOverlay.54ec1d9f.png",
     "static/media/botBlack-softLight.png": "/static/media/botBlack-softLight.ff23e384.png",
     "static/media/botBlue-softLight.png": "/static/media/botBlue-softLight.db9be1e2.png",
     "static/media/botMag-softLight.png": "/static/media/botMag-softLight.45f1a164.png",
     "static/media/botRed-softLight.png": "/static/media/botRed-softLight.bb02e9f5.png",
+    "static/media/carousel1.jpg": "/static/media/carousel1.e9ba478b.jpg",
+    "static/media/carousel2.jpg": "/static/media/carousel2.fccca04e.jpg",
+    "static/media/carousel3.jpg": "/static/media/carousel3.6b9ac7c1.jpg",
+    "static/media/Onboarding.module.css": "/static/media/onboarding-map.73953777.svg",
+    "static/media/Called.module.css": "/static/media/logo-next-white.31da1dab.svg",
     "static/media/reference_1.jpg": "/static/media/reference_1.ad681ba9.jpg",
     "static/media/reference_2.jpg": "/static/media/reference_2.9526096b.jpg",
     "static/media/reference_3.jpg": "/static/media/reference_3.0891363a.jpg",
@@ -28,8 +34,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.88d4f3f8.js",
-    "static/js/2.fb47b572.chunk.js",
-    "static/css/main.d1b05096.chunk.css",
-    "static/js/main.6a9c4b94.chunk.js"
+    "static/js/2.e6eb507e.chunk.js",
+    "static/css/main.59c84df3.chunk.css",
+    "static/js/main.1963e218.chunk.js"
   ]
 }
