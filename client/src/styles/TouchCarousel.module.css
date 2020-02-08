@@ -1,0 +1,26 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.background {
+  background: #e83842;
+  transform: rotate(-5deg);
+  position: absolute;
+  width: 123.286rem;
+  height: 55.314rem;
+  left: -9.8rem;
+  top: 12.3rem;
+  z-index: 1;
+}
+
+.logo {
+  width: 55.856rem;
+  height: 20rem;
+  z-index: 10;
+}

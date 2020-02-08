@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { inject, PropTypes, observer } from "mobx-react";
+// import { inject, PropTypes, observer } from "mobx-react";
+import { socket } from "../App.js";
 
 import styles from "../styles/Onboarding.module.css";
 class Onboarding extends Component {
@@ -9,6 +10,18 @@ class Onboarding extends Component {
       screen: 0
     };
   }
+  componentDidMount() {
+    socket.emit("onboarding");
+
+    socket.on("prevOnboardingPage", () => {
+      this.handlePrevClick();
+    });
+
+    socket.on("nextOnboardingPage", () => {
+      this.handleNextClick();
+    });
+  }
+
   handleResetClick = e => {
     console.log("reset");
     this.props.store.resetEverything();
@@ -31,7 +44,8 @@ class Onboarding extends Component {
   handleStartClick = () => {
     console.log("start verbinden man");
     // this.props.store.startConnecting();
-    this.props.store.startSocket();
+    // this.props.store.startSocket();
+    this.props.history.push("/startConnecting");
   };
 
   render() {
@@ -165,4 +179,5 @@ class Onboarding extends Component {
   }
 }
 
-export default inject(`store`)(observer(Onboarding));
+// export default inject(`store`)(observer(Onboarding));
+export default Onboarding;

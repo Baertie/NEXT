@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import * as faceapi from "face-api.js";
 import Postercarousel from "./Postercarousel";
-import { inject, PropTypes, observer } from "mobx-react";
+// import { inject, PropTypes, observer } from "mobx-react";
 
 class Carousel extends Component {
   // prevents memory leak error, since we're using setState in an async function
@@ -10,6 +10,7 @@ class Carousel extends Component {
   constructor(props) {
     super(props);
     this.videoTag = React.createRef();
+    this.onCall = this.onCall.bind(this);
     this.state = {
       video: null,
       detected: false,
@@ -66,15 +67,22 @@ class Carousel extends Component {
     }, 500);
   };
 
+  onCall = () => {
+    console.log("on call postercarousel");
+    this.props.history.push("/called");
+  };
+
   render() {
-    const { store } = this.props;
+    // const { store } = this.props;
     if (this.state.detected === true) {
-      store.setDetected();
+      console.log("verander van pagina");
+      this.props.history.push("/screensaver");
+      // store.setDetected();
     }
     return (
       <div style={{ position: "relative" }}>
         <>
-          <Postercarousel timeOut={3000} />
+          <Postercarousel onCall={this.onCall} timeOut={3000} />
           <div>
             <div>
               <video
@@ -98,4 +106,5 @@ class Carousel extends Component {
     );
   }
 }
-export default inject(`store`)(observer(Carousel));
+// export default inject(`store`)(observer(Carousel));
+export default Carousel;

@@ -1,18 +1,3 @@
-// var express = require("express");
-
-// var app = express();
-// var server = app.listen(3000);
-
-// app.use(express.static("public"));
-
-// var socket = require("socket.io");
-
-// var io = socket(server);
-
-// io.sockets.on("connection", socket => {
-//   console.log("socket: ", socket);
-// });
-
 var app = require("express")();
 var http = require("http").createServer(app);
 var io = require("socket.io")(http);
@@ -25,20 +10,73 @@ app.get("/", function(req, res) {
 const users = {};
 
 io.on("connection", socket => {
+  users[socket.id] = {
+    peers: {}
+  };
+
+  // console.log("users socket.id: ", users[socket.id]);
   console.log("new connection - socket id:", socket.id);
 
-  socket.on("stopCarousel", message => {
-    console.log("stop carousel: ", message);
-    socket.broadcast.emit("stopCarousel", message);
+  socket.on("joinLocationRoom", room => {
+    socket.join(room);
+    console.log("joined the room in: ", room);
+    console.log("room count: ", io.sockets.adapter.rooms[room].length);
+
+    socket.on("onboarding", () => {
+      io.to(room).emit("onboarding");
+      console.log("onboarding matjes");
+    });
+
+    socket.on("nextOnboardingPage", () => {
+      io.to(room).emit("nextOnboardingPage");
+      console.log("next page");
+    });
+
+    socket.on("prevOnboardingPage", () => {
+      io.to(room).emit("prevOnboardingPage");
+      console.log("previous page");
+    });
   });
+
+  socket.on("stopCarousel", () => {
+    socket.to("BAPNEXT").emit("newPeerConnection");
+  });
+
+  // TIMER WERKT
   socket.on("searchTimer", time => {
-    console.log("time: ", time);
-    socket.broadcast.emit("globalTime", time);
+    socket.broadcast.emit("searchTimer", time);
+  });
+
+  socket.on("sendCall", test => {
+    console.log("test: ", test);
+    socket.broadcast.emit("peerWantsACall");
+  });
+
+  // ENKEL PEER TO PEER
+  const room = "BAPNEXT";
+  const join = room => {
+    // Count clients in room
+    const clientCount =
+      typeof io.sockets.adapter.rooms[room] !== "undefined"
+        ? io.sockets.adapter.rooms[room].length
+        : 0;
+    // Check if client can join to the room
+    if (clientCount < 5) {
+      socket.join(room);
+      socket.emit("join", { clientCount: clientCount + 1 });
+      console.log("Joined to room!");
+    } else {
+      console.log("Room is full!");
+    }
+  };
+  join(room);
+  socket.on("signaling", message => {
+    socket.to(room).emit("signaling", message);
   });
 });
 
-// http.listen(4000, function() {
-//   console.log("listening on *:4000");
+// http.listen(3001, function() {
+//   console.log("listening on *:3000");
 // });
 
 http.listen(port, () => {

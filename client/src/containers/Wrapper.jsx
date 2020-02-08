@@ -7,6 +7,7 @@ import Screensaver from "../components/Screensaver";
 import Onboarding from "../components/Onboarding";
 import Game from "../components/Game";
 import Socket from "../components/Socket";
+import SocketTest from "../components/SocketTest";
 
 const Wrapper = ({ store }) => {
   const { flowStatus } = store;
@@ -26,8 +27,12 @@ const Wrapper = ({ store }) => {
       return <Called />;
     case "gameEnded":
       return <Onboarding />;
+    case "SocketTest":
+      return <SocketTest />;
     case "Socket":
       return <Socket />;
+    // case "SocketTest":
+    //   return <SocketTest />;
     default:
       return <Carousel />;
   }

@@ -4,6 +4,7 @@ configure({ enforceActions: `observed` });
 
 class Store {
   flowStatus = "";
+  currentLocation = "";
   // flowStatus = "Socket";
   //   constructor() {}
 
@@ -31,6 +32,10 @@ class Store {
   startSocket = () => {
     this.flowStatus = "Socket";
   };
+  setLocation = location => {
+    console.log(location);
+    this.currentLocation = location;
+  };
 }
 
 decorate(Store, {
@@ -42,8 +47,8 @@ decorate(Store, {
   resetEverything: action,
   setGameEnded: action,
   startSocket: action,
+  setLocation: action,
 
-  detected: observable,
   flowStatus: observable
 });
 

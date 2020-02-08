@@ -46,7 +46,8 @@ class Screensaver extends Component {
   }
 
   handleStartButton = () => {
-    this.props.store.setStartOnboarding();
+    // this.props.store.setStartOnboarding();
+    this.props.history.push("/onboarding");
   };
 
   detect = async () => {
@@ -78,7 +79,8 @@ class Screensaver extends Component {
           } else if (detections.length > 0) {
             if (this.state.timeSinceDetectedFace >= 2000) {
               console.log("3 seconden lang een gezicht");
-              this.props.store.setStartOnboarding();
+              // this.props.store.setStartOnboarding();
+              this.props.history.push("/onboarding");
             }
             this.setState({
               timeSinceDetectedFace: this.state.timeSinceDetectedFace + 200
@@ -95,7 +97,8 @@ class Screensaver extends Component {
   render() {
     const { store } = this.props;
     if (this.state.faceGone === true) {
-      store.resetEverything();
+      // store.resetEverything();
+      this.props.history.push("/");
     }
     return (
       <>
