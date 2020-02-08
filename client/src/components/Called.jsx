@@ -121,8 +121,8 @@ class Called extends Component {
   }
 
   joinGame = () => {
-    console.log("ik wil meedoen");
-    // this.props.history.push('/joinGame');
+    console.log("called.jsx ik wil meedoen");
+    this.props.history.push("/joinGame");
   };
 
   render() {
@@ -140,7 +140,13 @@ class Called extends Component {
     return (
       <>
         <button
-          style={{ position: "absolute", left: 100, top: 100 }}
+          style={{
+            position: "absolute",
+            left: 100,
+            top: 100,
+            zIndex: 100,
+            fontSize: 25
+          }}
           onClick={this.joinGame}
         >
           Start game bro

@@ -7,7 +7,7 @@ import NeatRTC from "neat-rtc";
 import styles from "../styles/Socket.module.css";
 
 // import { socket } from "../api/Api";
-class Socket extends Component {
+class SocketJoin extends Component {
   constructor(props) {
     super(props);
     this.ownVideoFeed = React.createRef();
@@ -17,10 +17,9 @@ class Socket extends Component {
         audio: false,
         video: { width: 480, height: 720 }
       },
-      searchTimer: 45,
-      playerJoined: false,
-      videoSharing: false,
-      videoSend: false
+      searchTimer: null,
+      callerAnswered: false,
+      videoSharing: false
     };
     // Setup NeatRTC
     const {
@@ -64,42 +63,44 @@ class Socket extends Component {
     });
     // Socket.IO signaling messages from server
     signaling(message => {
-      console.log("signaling message in socket startconnect: ", message);
+      console.log("signaling message in socket join: ", message);
       this.rtc.handleSignaling(message);
     });
   }
 
   connected = () => {
     // Not needed
-    console.log("START-CONNECTING connected");
+    console.log("JOIN connected");
   };
   mediaStreamConnected = () => {
     // Not needed
-    console.log("START-CONNECTING mediaStreamConnected");
+    console.log("JOIN mediaStreamConnected");
+    // HIER DOEN
+    // this.rtc.media("start");
   };
   mediaStreamRemoved = () => {
     // Not needed
-    console.log("START-CONNECTING mediaStreamRemoved");
+    console.log("JOIN mediaStreamRemoved");
   };
   mediaStreamRemoteRemoved = () => {
     // Not needed
-    console.log("START-CONNECTING mediaStreamRemoteRemoved");
+    console.log("JOIN mediaStreamRemoteRemoved");
   };
   datachannelOpen = channel => {
     // Not needed
-    console.log("START-CONNECTING datachannelOpen");
+    console.log("JOIN datachannelOpen");
   };
   datachannelMessage = (channel, message) => {
     // Not needed
-    console.log("START-CONNECTING datachannelMessage");
+    console.log("JOIN datachannelMessage");
   };
   datachannelError = channel => {
     // Not needed
-    console.log("START-CONNECTING datachannelError");
+    console.log("JOIN datachannelError");
   };
   datachannelClose = channel => {
     // Not needed
-    console.log("START-CONNECTING datachannelClose");
+    console.log("JOIN datachannelClose");
   };
   stopCamera = () => {
     // this.rtc.media("stop");
@@ -115,50 +116,48 @@ class Socket extends Component {
   };
 
   sendSignalingMessage = message => {
-    console.log("send signal start connect");
+    console.log("send signal socket join");
     send("signaling", message);
   };
 
   startCamera = () => {
+    // This sends your video
+    // start this when other player joins
     this.rtc.media("start");
   };
+
   componentDidMount() {
     // connect to socket
-    console.log("did mount socket.jsx");
     this.clientSocket = socketIOClient(":8080");
-    this.clientSocket.emit("stopCarousel", "einde carousel");
-    this.clientSocket.emit("searchTimer", this.state.searchTimer);
-
-    this.clientSocket.on("newPeerJoined", () => {
-      // console.log("new peer joined on:", new Date().getTime() / 1000);
-      console.log("ik ben hier na 2s, de new peerjoined");
-      // this.setState({ playerJoined: true });
+    // this.clientSocket.emit("newPeerJoined");
+    // this.startCamera();
+    console.log("set timeout binnen 2s socket newpeerjoined");
+    setTimeout(() => {
+      this.clientSocket.emit("newPeerJoined");
+    }, 2000);
+    this.clientSocket.on("peerAnswered", () => {
+      // console.log("anwser new peer joined on: ", new Date().getTime() / 1000);
+      console.log("jo ik ben ier na 3s, de answer");
+      // this.setState({ callerAnswered: true });
       this.startCamera();
-      setTimeout(() => {
-        this.clientSocket.emit("peerAnswered");
-      }, 3000);
     });
+    this.clientSocket.on("searchTimer", time => {
+      this.setState({
+        searchTimer: time
+      });
+      if (this.state.searchTimer === 0) {
+        // GO TO GAME
+        // this.props.history.push("/");
+      }
+    });
+
     navigator.mediaDevices
       .getUserMedia(this.state.constraints)
       .then(stream => (this.ownVideoFeed.current.srcObject = stream))
-      .then(this.startTimer)
-      // .then(this.startCamera)
       .catch(console.log("failed to get user media"));
   }
 
-  startTimer = setInterval(() => {
-    if (this.state.searchTimer > 0) {
-      this.setState({ searchTimer: this.state.searchTimer - 1 });
-      this.clientSocket.emit("searchTimer", this.state.searchTimer);
-    } else if (this.state.playerJoined === true) {
-      // GO TO GAME
-    } else {
-      // NO OPPONENT FOUND
-    }
-  }, 1000);
-
   componentWillUnmount() {
-    clearInterval(this.startTimer);
     let stream = this.ownVideoFeed.current.srcObject;
     let tracks = stream.getTracks();
     tracks.forEach(function(track) {
@@ -166,12 +165,10 @@ class Socket extends Component {
     });
     this.ownVideoFeed.current.srcObject = null;
   }
-
   connectNU = () => {
     console.log("connect nu button pressed");
     this.rtc.media("start");
   };
-
   render() {
     return (
       <>
@@ -205,14 +202,14 @@ class Socket extends Component {
           <div className={styles.search_timer_text}>
             {this.state.searchTimer}
           </div>
-          <svg className={styles.timer_svg}>
-            <circle
-              className={styles.timer_circle}
-              r="40"
-              cx="50"
-              cy="50"
-            ></circle>
-          </svg>
+          <div className={styles.timer_wrapper}>
+            <div className={styles.timer_dot}></div>
+            <div className={styles.timer_dot}></div>
+            <div className={styles.timer_dot}></div>
+            <div className={styles.timer_dot}></div>
+            <div className={styles.timer_dot}></div>
+            <div className={styles.timer_dot}></div>
+          </div>
         </div>
         <div className={styles.front_content}>
           <div className={styles.white_content_background}>
@@ -392,4 +389,4 @@ class Socket extends Component {
 }
 
 // export default inject(`store`)(observer(Socket));
-export default Socket;
+export default SocketJoin;
