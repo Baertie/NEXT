@@ -16,6 +16,8 @@ import Screensaver from "./components/Screensaver";
 import Onboarding from "./components/Onboarding";
 import Postercarousel from "./components/Postercarousel";
 import Game from "./components/Game";
+import SocketJoin from "./components/SocketJoin";
+import SocketTest from "./components/SocketTest";
 function App() {
   return (
     <div className="App">
@@ -29,8 +31,9 @@ function App() {
         <Route path="/onboarding" component={Onboarding} />
         <Route path="/posterCarousel" component={Postercarousel} />
         <Route path="/game" component={Game} />
-        {/*<Route path="/joinGame" component={ NEW COMPONENT } />
-        <Route path="/gameInstructions" component={ NEW COMPONENT } />
+        <Route path="/joinGame" component={SocketJoin} />
+        <Route path="/test" component={SocketTest} />
+        {/*<Route path="/gameInstructions" component={ NEW COMPONENT } />
         <Route path="/endGame" component={ NEW COMPONENT } />
         <Route path="/scorebord" component={ NEW COMPONENT } />*/}
       </Switch>

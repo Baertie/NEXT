@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
 import * as faceapi from "face-api.js";
 
+import socketIOClient from "socket.io-client";
+
 import topMagLighten from "../assets/effects/bm/topMag-lighten.png";
 import topBlueLighten from "../assets/effects/bm/topBlue-lighten.png";
 import botMagSoft from "../assets/effects/bm/botMag-softLight.png";
@@ -18,13 +20,20 @@ class Screensaver extends Component {
       video: null,
       constraints: { audio: false, video: { width: "100%", height: "100%" } },
       timeSinceDetectedFace: 0,
-      faceGone: false
+      faceGone: false,
+      isBeingCalled: false
     };
     this.detect = this.detect.bind(this);
   }
 
   componentDidMount() {
     this._isMounted = true;
+    this.clientSocket = socketIOClient(":8080");
+    // When a call comes in
+    this.clientSocket.on("stopCarousel", () => {
+      console.log("stop carousel er wordt gebeld SCREENSAVER");
+      this.state.isBeingCalled = true;
+    });
     navigator.mediaDevices
       .getUserMedia(this.state.constraints)
       .then(
@@ -32,6 +41,14 @@ class Screensaver extends Component {
         this.detect()
       )
       .catch(console.log("failed to get user media"));
+  }
+
+  componentDidUpdate() {
+    // This check is needed because this will now only happen on this screen.
+    if (this.state.isBeingCalled === true) {
+      console.log("minder direct bro");
+      this.props.history.push("/called");
+    }
   }
 
   componentWillUnmount() {

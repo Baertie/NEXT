@@ -188,6 +188,96 @@
   line-height: 100px;
 }
 
+.timer_wrapper {
+  width: 6rem;
+  height: 6rem;
+  position: absolute;
+  left: 2rem;
+  top: 2rem;
+  z-index: 140;
+  animation: timer_wrapper 2s infinite linear both;
+}
+
+.timer_dot {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 150;
+  left: 0;
+  top: 0;
+  animation: timer_dot 1.5s infinite ease-in-out both;
+}
+
+.timer_dot:before {
+  content: "";
+  display: block;
+  width: 10%;
+  height: 10%;
+  background-color: #fff;
+  border-radius: 100%;
+  animation: timer_dot-before 1.5s infinite ease-in-out both;
+}
+
+.timer_dot:nth-child(1) {
+  animation-delay: -1.1s;
+}
+.timer_dot:nth-child(2) {
+  animation-delay: -1s;
+}
+.timer_dot:nth-child(3) {
+  animation-delay: -0.9s;
+}
+.timer_dot:nth-child(4) {
+  animation-delay: -0.8s;
+}
+.timer_dot:nth-child(5) {
+  animation-delay: -0.7s;
+}
+.timer_dot:nth-child(6) {
+  animation-delay: -0.6s;
+}
+.timer_dot:nth-child(1):before {
+  animation-delay: -1.1s;
+}
+.timer_dot:nth-child(2):before {
+  animation-delay: -1s;
+}
+.timer_dot:nth-child(3):before {
+  animation-delay: -0.9s;
+}
+.timer_dot:nth-child(4):before {
+  animation-delay: -0.8s;
+}
+.timer_dot:nth-child(5):before {
+  animation-delay: -0.7s;
+}
+.timer_dot:nth-child(6):before {
+  animation-delay: -0.6s;
+}
+
+@keyframes timer_wrapper {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes timer_dot {
+  80%,
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes sk_chase_dot_before {
+  50% {
+    transform: scale(0.4);
+  }
+  100%,
+  0% {
+    transform: scale(1);
+  }
+}
+
 @keyframes countdown {
   from {
     stroke-dashoffset: 0px;

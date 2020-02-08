@@ -18,12 +18,21 @@ io.on("connection", socket => {
   console.log("new connection - socket id:", socket.id);
 
   socket.on("stopCarousel", () => {
-    socket.to("BAPNEXT").emit("newPeerConnection");
+    // socket.to("BAPNEXT").emit("newPeerConnection");
+    socket.broadcast.emit("stopCarousel");
   });
 
   // TIMER WERKT
   socket.on("searchTimer", time => {
     socket.broadcast.emit("searchTimer", time);
+  });
+
+  socket.on("newPeerJoined", () => {
+    socket.broadcast.emit("newPeerJoined");
+  });
+
+  socket.on("peerAnswered", () => {
+    socket.broadcast.emit("peerAnswered");
   });
 
   socket.on("sendCall", test => {
@@ -40,7 +49,7 @@ io.on("connection", socket => {
         ? io.sockets.adapter.rooms[room].length
         : 0;
     // Check if client can join to the room
-    if (clientCount < 5) {
+    if (clientCount < 3) {
       socket.join(room);
       socket.emit("join", { clientCount: clientCount + 1 });
       console.log("Joined to room!");
@@ -54,7 +63,7 @@ io.on("connection", socket => {
   });
 });
 
-// http.listen(3001, function() {
+// http.listen(8080, function() {
 //   console.log("listening on *:3000");
 // });
 

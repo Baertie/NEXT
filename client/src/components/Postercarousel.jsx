@@ -22,8 +22,8 @@ class Postercarousel extends Component {
     this.timerID = setInterval(() => this.tick(), this.props.timeOut);
     this.clientSocket = socketIOClient(":8080");
     // When a call comes in
-    this.clientSocket.on("newPeerConnection", () => {
-      console.log("new peer connection incoming");
+    this.clientSocket.on("stopCarousel", () => {
+      console.log("stop carousel er wordt gebeld POSTERCAROUSEL");
       this.state.isBeingCalled = true;
     });
   }

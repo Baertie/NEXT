@@ -548,6 +548,7 @@ class Game extends Component {
   render() {
     const { store } = this.props;
     if (this.state.currentRound > 3) {
+      console.log("STOP");
       // store.setGameEnded();
       // Eerst nog score die je krijgt tonen, daarna (na x seconden) scorebord
     }
