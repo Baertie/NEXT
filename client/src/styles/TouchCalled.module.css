@@ -1,6 +1,9 @@
 .container {
-  display: flex;
-  align-items: flex-end;
+  width: 100vw;
+  height: 100vh;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: column;
 }
 
 .button {
@@ -9,14 +12,6 @@
   color: var(--white);
   height: 25rem;
   border: none;
-}
-
-.prevButton {
-  background-color: var(--background-dark);
-  width: 37%;
-}
-
-.nextButton {
+  width: 100%;
   background-color: var(--primary-color);
-  width: 63%;
 }

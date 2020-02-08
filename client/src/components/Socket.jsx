@@ -5,6 +5,7 @@ import { join, signaling, send } from "./SocketVideo";
 import NeatRTC from "neat-rtc";
 
 import styles from "../styles/Socket.module.css";
+import { socket } from "../App";
 
 // import { socket } from "../api/Api";
 class Socket extends Component {
@@ -126,6 +127,8 @@ class Socket extends Component {
     // connect to socket
     console.log("did mount socket.jsx");
     this.clientSocket = socketIOClient(":8080");
+
+    socket.emit("connecting");
     this.clientSocket.emit("stopCarousel", "einde carousel");
     this.clientSocket.emit("searchTimer", this.state.searchTimer);
 
