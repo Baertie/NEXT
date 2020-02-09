@@ -1,0 +1,40 @@
+.formContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.label {
+  font-family: "Alte-bold";
+  font-size: 3.6rem;
+  display: inline;
+}
+
+.input {
+  border: 3px solid var(--primary-color);
+  width: 49.6rem;
+  height: 8rem;
+  font-family: "Alte-bold";
+  font-size: 2.8rem;
+  padding: 0 2.4rem;
+  margin: 2.4rem 0;
+}
+
+.submit {
+  background-color: var(--primary-color);
+  font-family: "Heavitas";
+  font-size: 2.8rem;
+  color: var(--white);
+  border: none;
+  width: 49.6rem;
+  height: 8rem;
+}

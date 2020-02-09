@@ -3,6 +3,7 @@ import { socket } from "../App";
 
 import styles from "../styles/TouchOnboarding.module.css";
 import basicStyles from "../styles/Touch.module.css";
+import LogoOverlayTablet from "../components/LogoOverlayTablet";
 
 class TouchOnboarding extends Component {
   constructor(props) {
@@ -35,6 +36,8 @@ class TouchOnboarding extends Component {
   render() {
     return (
       <div className={`${basicStyles.container} ${styles.container}`}>
+        <LogoOverlayTablet />
+        {/* <LanguageSelector /> */}
         <button
           className={`${styles.button} ${styles.prevButton}`}
           onClick={this.handlePrevClick}

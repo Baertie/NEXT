@@ -6,7 +6,6 @@ import NeatRTC from "neat-rtc";
 
 import { socket } from "../App.js";
 import styles from "../styles/Socket.module.css";
-import { socket } from "../App";
 
 // import { socket } from "../api/Api";
 class Socket extends Component {

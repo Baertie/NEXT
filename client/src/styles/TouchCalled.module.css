@@ -1,8 +1,7 @@
 .container {
-  width: 100vw;
-  height: 100vh;
-  justify-content: flex-end;
+  display: flex;
   align-items: center;
+  justify-content: flex-end;
   flex-direction: column;
 }
 
@@ -14,4 +13,10 @@
   border: none;
   width: 100%;
   background-color: var(--primary-color);
+  margin-top: 12.9rem;
+}
+
+.timer {
+  font-family: "Heavitas";
+  font-size: 4.8rem;
 }

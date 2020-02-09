@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import TouchBackground from "../components/TouchBackground.jsx";
-import styles from "../styles/TouchGameTimer.module.css";
+import styles from "../styles/TouchConnecting.module.css";
 import basicStyles from "../styles/Touch.module.css";
 
 import { socket } from "../App.js";
@@ -22,8 +22,10 @@ class TouchGameTimer extends Component {
     return (
       <div className={basicStyles.container}>
         <TouchBackground />
-        {/* <p>De game start binnen</p> */}
-        <div>{this.state.gameTimer}</div>
+        <div className={styles.timerContainer}>
+          <p className={styles.bodytext}>De game start binnen</p>
+          <div className={styles.timer}>{this.state.gameTimer}</div>
+        </div>
       </div>
     );
   }

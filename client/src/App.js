@@ -19,7 +19,7 @@ import Socket from "./components/Socket";
 import Screensaver from "./components/Screensaver";
 import Onboarding from "./components/Onboarding";
 import Postercarousel from "./components/Postercarousel";
-// import SocketJoin from "./components/SocketJoin";
+import SocketJoin from "./components/SocketJoin";
 // import SocketTest from "./components/SocketTest";
 import Game from "./components/Game";
 import socketIOClient from "socket.io-client";
