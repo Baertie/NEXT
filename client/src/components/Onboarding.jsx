@@ -20,6 +20,10 @@ class Onboarding extends Component {
     socket.on("nextOnboardingPage", () => {
       this.handleNextClick();
     });
+
+    socket.on("startGame", () => {
+      this.handleStartClick();
+    });
   }
 
   handleResetClick = e => {

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 // import { inject, observer } from "mobx-react";
-import socketIOClient from "socket.io-client";
+// import socketIOClient from "socket.io-client";
+import { socket } from "../App.js";
 import { join, signaling, send } from "./SocketVideo";
 import NeatRTC from "neat-rtc";
 
@@ -58,6 +59,7 @@ class SocketJoin extends Component {
     join(message => {
       const { clientCount } = message;
       if (clientCount < 2) {
+        console.log("rtc connect JOIN.JSX");
         this.rtc.connect();
       }
     });
@@ -128,20 +130,20 @@ class SocketJoin extends Component {
 
   componentDidMount() {
     // connect to socket
-    this.clientSocket = socketIOClient(":8080");
-    // this.clientSocket.emit("newPeerJoined");
+    // socket = socketIOClient(":8080");
+    // socket.emit("newPeerJoined");
     // this.startCamera();
     console.log("set timeout binnen 2s socket newpeerjoined");
     setTimeout(() => {
-      this.clientSocket.emit("newPeerJoined");
+      socket.emit("newPeerJoined");
     }, 2000);
-    this.clientSocket.on("peerAnswered", () => {
+    socket.on("peerAnswered", () => {
       // console.log("anwser new peer joined on: ", new Date().getTime() / 1000);
       console.log("jo ik ben ier na 3s, de answer");
       // this.setState({ callerAnswered: true });
       this.startCamera();
     });
-    this.clientSocket.on("searchTimer", time => {
+    socket.on("searchTimer", time => {
       this.setState({
         searchTimer: time
       });

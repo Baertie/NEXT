@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 // import { inject, PropTypes, observer } from "mobx-react";
-import socketIOClient from "socket.io-client";
+// import socketIOClient from "socket.io-client";
+import { socket } from "../App.js";
 
 import carousel1 from "../assets/img/carousel/carousel1.jpg";
 import carousel2 from "../assets/img/carousel/carousel2.jpg";
@@ -20,9 +21,9 @@ class Postercarousel extends Component {
   componentDidMount() {
     // this._isMounted = true;
     this.timerID = setInterval(() => this.tick(), this.props.timeOut);
-    this.clientSocket = socketIOClient(":8080");
+    // socket = socketIOClient(":8080");
     // When a call comes in
-    this.clientSocket.on("stopCarousel", () => {
+    socket.on("stopCarousel", () => {
       console.log("stop carousel er wordt gebeld POSTERCAROUSEL");
       this.state.isBeingCalled = true;
     });

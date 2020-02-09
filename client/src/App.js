@@ -70,8 +70,8 @@ class App extends Component {
           <Route path="/onboarding" component={Onboarding} />
           <Route path="/posterCarousel" component={Postercarousel} />
           <Route path="/game" component={Game} />
-          {/*<Route path="/joinGame" component={ NEW COMPONENT } />
-        <Route path="/gameInstructions" component={ NEW COMPONENT } />
+          <Route path="/joinGame" component={SocketJoin} />
+          {/*<Route path="/gameInstructions" component={ NEW COMPONENT } />
         <Route path="/endGame" component={ NEW COMPONENT } />
         <Route path="/scorebord" component={ NEW COMPONENT } />*/}
           <Route path="/tablet" component={TabletWrapper}></Route>

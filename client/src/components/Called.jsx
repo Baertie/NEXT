@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 // import { inject, PropTypes, observer } from "mobx-react";
-import socketIOClient from "socket.io-client";
+// import socketIOClient from "socket.io-client";
+import { socket } from "../App.js";
 
 import { join, signaling, send } from "./SocketVideo";
 import NeatRTC from "neat-rtc";
@@ -108,8 +109,8 @@ class Called extends Component {
 
   componentDidMount() {
     // connect to socket
-    this.clientSocket = socketIOClient(":8080");
-    this.clientSocket.on("searchTimer", time => {
+    // this.clientSocket = socketIOClient(":8080");
+    socket.on("searchTimer", time => {
       this.setState({
         searchTimer: time
       });
