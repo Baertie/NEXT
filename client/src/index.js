@@ -5,7 +5,6 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { Provider } from "mobx-react";
 import store from "./store";
-import { BrowserRouter } from "react-router-dom";
 
 import "./styles/index.css";
 

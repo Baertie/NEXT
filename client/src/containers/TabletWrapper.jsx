@@ -1,19 +1,23 @@
 import React, { Component } from "react";
-import { inject, PropTypes, observer } from "mobx-react";
+import { inject, observer } from "mobx-react";
 
 import TouchCarousel from "../components/TouchCarousel";
 import { socket } from "../App";
-// import Called from "../components/Called";
-// import Screensaver from "../components/Screensaver";
+
 import TouchOnboarding from "../components/TouchOnboarding.jsx";
-// import Game from "../components/Game";
-// import Socket from "../components/Socket";
+import TouchConnecting from "../components/TouchConnecting.jsx";
+import TouchCalled from "../components/TouchCalled.jsx";
+import TouchNameInput from "../components/TouchNameInput.jsx";
+import TouchGameTimer from "../components/TouchGameTimer.jsx";
+import TouchRegioInput from "../components/TouchRegioInput.jsx";
+import TouchGDPR from "../components/TouchGDPR.jsx";
+import TouchLeaderboard from "../components/TouchGameTimer.jsx";
 
 class TabletWrapper extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentPage: ""
+      currentPage: "nameinput"
     };
   }
 
@@ -21,26 +25,54 @@ class TabletWrapper extends Component {
     socket.on("onboarding", () => {
       this.setState({ currentPage: "onboarding" });
     });
+
+    socket.on("connecting", () => {
+      this.setState({ currentPage: "connecting" });
+    });
+
+    socket.on("called", () => {
+      this.setState({ currentPage: "called" });
+    });
+
+    socket.on("nameinput", () => {
+      this.setState({ currentPage: "nameinput" });
+    });
+
+    socket.on("game", () => {
+      this.setState({ currentPage: "game" });
+    });
+
+    socket.on("regioinput", () => {
+      this.setState({ currentPage: "regioinput" });
+    });
+
+    socket.on("gdpr", () => {
+      this.setState({ currentPage: "gdpr" });
+    });
+
+    socket.on("leaderboard", () => {
+      this.setState({ currentPage: "leaderboard" });
+    });
   }
 
   render() {
     switch (this.state.currentPage) {
       case "onboarding":
         return <TouchOnboarding />;
-      //   case "startScreensaver":
-      //     return <Screensaver />;
-      //   case "onboardingStarted":
-      //     return <Onboarding />;
-      //   case "onboardingEnded":
-      //     return <Socket />;
-      //   case "startGame":
-      //     return <Game />;
-      //   case "calledUser":
-      //     return <Called />;
-      //   case "gameEnded":
-      //     return <Onboarding />;
-      //   case "Socket":
-      //     return <Socket />;
+      case "connecting":
+        return <TouchConnecting />;
+      case "called":
+        return <TouchCalled />;
+      case "nameinput":
+        return <TouchNameInput />;
+      case "game":
+        return <TouchGameTimer />;
+      case "regioinput":
+        return <TouchRegioInput />;
+      case "gdpr":
+        return <TouchGDPR />;
+      case "leaderboard":
+        return <TouchLeaderboard />;
       default:
         return <TouchCarousel />;
     }

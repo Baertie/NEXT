@@ -9,17 +9,17 @@ import Loader from "./Loader";
 import { shapeSimilarity } from "curve-matcher";
 // https://www.npmjs.com/package/stackblur
 import stackblur from "stackblur";
-import topRedLighten from "../assets/effects/br/topRed-lighten.png";
-import topBlackLighten from "../assets/effects/br/topBlack-lighten.png";
-import botRedSoft from "../assets/effects/br/botRed-softLight.png";
-import botBlackSoft from "../assets/effects/br/botBlack-softLight.png";
+// import topRedLighten from "../assets/effects/br/topRed-lighten.png";
+// import topBlackLighten from "../assets/effects/br/topBlack-lighten.png";
+// import botRedSoft from "../assets/effects/br/botRed-softLight.png";
+// import botBlackSoft from "../assets/effects/br/botBlack-softLight.png";
 
 import topMagLighten from "../assets/effects/bm/topMag-lighten.png";
 import topBlueLighten from "../assets/effects/bm/topBlue-lighten.png";
 import botMagSoft from "../assets/effects/bm/botMag-softLight.png";
 import botBlueSoft from "../assets/effects/bm/botBlue-softLight.png";
 
-import blackOverlay from "../assets/effects/overlay/blackOverlay.png";
+// import blackOverlay from "../assets/effects/overlay/blackOverlay.png";
 import whiteOverlay from "../assets/effects/overlay/whiteOverlay.png";
 
 // import happyMan from "../assets/referenceImages/happyMan.jpg";
@@ -90,11 +90,8 @@ class Game extends Component {
   componentDidMount() {
     this._isMounted = true;
 
-    // UNCOMMENT TO USE SOCKET
-    // if (!socket) {
-    //   socket = io(":4000");
-    //   //   socket.connect("/");
-    // }
+    socket.emit("game");
+
     console.log(this.state.constraints);
     console.log(navigator.mediaDevices);
     navigator.mediaDevices
@@ -119,11 +116,11 @@ class Game extends Component {
     // this.initSocket();
   }
 
-  initSocket = () => {
-    socket = io.connect(`/`);
-    socket.on(`connect`, () => console.log(socket.id));
-    console.log(`direct test zo`);
-  };
+  // initSocket = () => {
+  //   socket = io.connect(`/`);
+  //   socket.on(`connect`, () => console.log(socket.id));
+  //   console.log(`direct test zo`);
+  // };
 
   componentWillUnmount() {
     this._isMounted = false;
@@ -546,7 +543,7 @@ class Game extends Component {
   };
 
   render() {
-    const { store } = this.props;
+    // const { store } = this.props;
     if (this.state.currentRound > 3) {
       console.log("STOP");
       // store.setGameEnded();

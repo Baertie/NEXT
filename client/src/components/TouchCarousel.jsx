@@ -1,11 +1,12 @@
-import React, { Component } from "react";
+import React from "react";
 import styles from "../styles/TouchCarousel.module.css";
+import TouchBackground from "../components/TouchBackground.jsx";
 
 import nextLogoBigWhite from "../assets/img/logo/nextLogoBigWhite.png";
 const TouchCarousel = () => {
   return (
     <div className={styles.container}>
-      <div className={styles.background}></div>
+      <TouchBackground />
       <img src={nextLogoBigWhite} alt="logo next" className={styles.logo}></img>
     </div>
   );

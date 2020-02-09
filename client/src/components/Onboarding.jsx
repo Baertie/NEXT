@@ -179,6 +179,8 @@ class Onboarding extends Component {
             </button>
           </>
         );
+      default:
+        return <p>Deze pagina bestaat niet</p>;
     }
   }
 }

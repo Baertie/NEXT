@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { socket } from "../App";
 
 import styles from "../styles/TouchOnboarding.module.css";
+import basicStyles from "../styles/Touch.module.css";
 
 class TouchOnboarding extends Component {
   constructor(props) {
@@ -33,7 +34,7 @@ class TouchOnboarding extends Component {
 
   render() {
     return (
-      <div className={styles.container}>
+      <div className={`${basicStyles.container} ${styles.container}`}>
         <button
           className={`${styles.button} ${styles.prevButton}`}
           onClick={this.handlePrevClick}

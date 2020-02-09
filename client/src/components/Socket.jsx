@@ -6,6 +6,7 @@ import NeatRTC from "neat-rtc";
 
 import { socket } from "../App.js";
 import styles from "../styles/Socket.module.css";
+import { socket } from "../App";
 
 // import { socket } from "../api/Api";
 class Socket extends Component {
@@ -130,7 +131,6 @@ class Socket extends Component {
     // socket = socketIOClient(":8080");
     socket.emit("stopCarousel", "einde carousel");
     socket.emit("searchTimer", this.state.searchTimer);
-
     socket.on("newPeerJoined", () => {
       // console.log("new peer joined on:", new Date().getTime() / 1000);
       console.log("ik ben hier na 2s, de new peerjoined");

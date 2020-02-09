@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import "./App.css";
-import Wrapper from "./containers/Wrapper";
+// import Wrapper from "./containers/Wrapper";
 import TabletWrapper from "./containers/TabletWrapper";
-import { inject, PropTypes, observer } from "mobx-react";
+import { inject, observer } from "mobx-react";
 
-import Debugnavigation from "./components/Debugnavigation";
+// import Debugnavigation from "./components/Debugnavigation";
 // import { Route, Switch, withRouter, Redirect } from "react-router-dom";
 
 import {
@@ -19,8 +19,8 @@ import Socket from "./components/Socket";
 import Screensaver from "./components/Screensaver";
 import Onboarding from "./components/Onboarding";
 import Postercarousel from "./components/Postercarousel";
-import SocketJoin from "./components/SocketJoin";
-import SocketTest from "./components/SocketTest";
+// import SocketJoin from "./components/SocketJoin";
+// import SocketTest from "./components/SocketTest";
 import Game from "./components/Game";
 import socketIOClient from "socket.io-client";
 
@@ -47,7 +47,7 @@ class App extends Component {
     for (let i = 0; i < vars.length; i++) {
       let pair = vars[i].split("=");
       console.log(pair); //[ 'app', 'article' ][ 'act', 'news_content' ][ 'aid', '160990' ]
-      if (pair[0] == variable) {
+      if (pair[0] === variable) {
         //this.props.store.setLocation(pair[1]);
         console.log(pair[1]);
         // return pair[1];
