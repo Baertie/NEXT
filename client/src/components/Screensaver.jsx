@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
 import * as faceapi from "face-api.js";
 
-import socketIOClient from "socket.io-client";
+// import socketIOClient from "socket.io-client";
+import { socket } from "../App.js";
 
 import topMagLighten from "../assets/effects/bm/topMag-lighten.png";
 import topBlueLighten from "../assets/effects/bm/topBlue-lighten.png";
@@ -28,9 +29,9 @@ class Screensaver extends Component {
 
   componentDidMount() {
     this._isMounted = true;
-    this.clientSocket = socketIOClient(":8080");
+    // socket = socketIOClient(":8080");
     // When a call comes in
-    this.clientSocket.on("stopCarousel", () => {
+    socket.on("stopCarousel", () => {
       console.log("stop carousel er wordt gebeld SCREENSAVER");
       this.state.isBeingCalled = true;
     });

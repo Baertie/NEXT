@@ -13,7 +13,7 @@ class TabletWrapper extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentPage: "onboarding"
+      currentPage: ""
     };
   }
 

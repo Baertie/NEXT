@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 // import { inject, observer } from "mobx-react";
-import socketIOClient from "socket.io-client";
+// import socketIOClient from "socket.io-client";
 import { join, signaling, send } from "./SocketVideo";
 import NeatRTC from "neat-rtc";
 
+import { socket } from "../App.js";
 import styles from "../styles/Socket.module.css";
 
 // import { socket } from "../api/Api";
@@ -59,6 +60,7 @@ class Socket extends Component {
     join(message => {
       const { clientCount } = message;
       if (clientCount < 2) {
+        console.log("rtc connect STARTCONNECT.JSX");
         this.rtc.connect();
       }
     });
@@ -125,17 +127,17 @@ class Socket extends Component {
   componentDidMount() {
     // connect to socket
     console.log("did mount socket.jsx");
-    this.clientSocket = socketIOClient(":8080");
-    this.clientSocket.emit("stopCarousel", "einde carousel");
-    this.clientSocket.emit("searchTimer", this.state.searchTimer);
+    // socket = socketIOClient(":8080");
+    socket.emit("stopCarousel", "einde carousel");
+    socket.emit("searchTimer", this.state.searchTimer);
 
-    this.clientSocket.on("newPeerJoined", () => {
+    socket.on("newPeerJoined", () => {
       // console.log("new peer joined on:", new Date().getTime() / 1000);
       console.log("ik ben hier na 2s, de new peerjoined");
       // this.setState({ playerJoined: true });
       this.startCamera();
       setTimeout(() => {
-        this.clientSocket.emit("peerAnswered");
+        socket.emit("peerAnswered");
       }, 3000);
     });
     navigator.mediaDevices
@@ -149,7 +151,7 @@ class Socket extends Component {
   startTimer = setInterval(() => {
     if (this.state.searchTimer > 0) {
       this.setState({ searchTimer: this.state.searchTimer - 1 });
-      this.clientSocket.emit("searchTimer", this.state.searchTimer);
+      socket.emit("searchTimer", this.state.searchTimer);
     } else if (this.state.playerJoined === true) {
       // GO TO GAME
     } else {

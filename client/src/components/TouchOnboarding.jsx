@@ -17,6 +17,8 @@ class TouchOnboarding extends Component {
       this.setState({ screen: this.state.screen + 1 });
 
       socket.emit("nextOnboardingPage");
+    } else {
+      socket.emit("startGame");
     }
   };
 

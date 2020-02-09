@@ -31,6 +31,10 @@ io.on("connection", socket => {
       io.to(room).emit("nextOnboardingPage");
       console.log("next page");
     });
+    socket.on("startGame", () => {
+      io.to(room).emit("startGame");
+      console.log("start game");
+    });
 
     socket.on("prevOnboardingPage", () => {
       io.to(room).emit("prevOnboardingPage");
