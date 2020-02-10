@@ -127,6 +127,8 @@ class SocketTest extends Component {
   }
 
   startCamera = () => {
+    this.rtc.connect();
+    this.rtc.checkConnection();
     // This sends your video
     // start this when other player joins
     this.rtc.media("start");
