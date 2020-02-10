@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import * as faceapi from "face-api.js";
 
-// import { inject, observer } from "mobx-react";
-import io from "socket.io-client";
+// video call
+import { join, signaling, send } from "./SocketVideo";
+import NeatRTC from "neat-rtc";
+
+import { inject, observer } from "mobx-react";
 import Loader from "./Loader";
 
 // https://github.com/chanind/curve-matcher
@@ -44,7 +47,9 @@ Landmark point structure
 
 import styles from "../styles/Game.module.css";
 
-let socket;
+import { socket } from "../App.js";
+
+// let socket;
 
 class Game extends Component {
   _isMounted = false;
@@ -53,7 +58,7 @@ class Game extends Component {
     super(props);
     this.videoTag = React.createRef();
     // Extra video's voor css
-    this.videoTag2 = React.createRef();
+    // this.videoTag2 = React.createRef();
     this.videoTag3 = React.createRef();
     this.videoTag4 = React.createRef();
     this.canvasTag = React.createRef();
@@ -64,7 +69,10 @@ class Game extends Component {
 
     this.state = {
       video: null,
-      constraints: { audio: false, video: { width: 480, height: 720 } },
+      constraints: {
+        audio: false,
+        video: { width: 480, height: 720 }
+      },
       faceCurves: [],
       lEyebrowCurves: [],
       rEyebrowCurves: [],
@@ -83,17 +91,107 @@ class Game extends Component {
       hideCanvas: true,
       showScore: false,
       gameTimer: 5,
-      roundEnded: false
+      roundEnded: false,
+      ownLocation: this.props.store.currentLocation,
+      hasVideo: false
     };
+
+    // Setup NeatRTC
+    const {
+      connected,
+      mediaStreamConnected,
+      mediaStreamRemoved,
+      datachannelOpen,
+      datachannelMessage,
+      datachannelError,
+      datachannelClose,
+      sendSignalingMessage,
+      mediaStreamRemoteRemoved
+    } = this;
+    const config = {
+      devMode: true,
+      videoIdLocal: "localVideo",
+      videoIdRemote: "remoteVideo",
+      connected: connected,
+      mediaStreamConnected: mediaStreamConnected,
+      mediaStreamRemoved: mediaStreamRemoved,
+      mediaStreamRemoteRemoved: mediaStreamRemoteRemoved,
+      datachannels: [
+        {
+          name: "text",
+          callbacks: {
+            open: datachannelOpen,
+            message: datachannelMessage,
+            error: datachannelError,
+            close: datachannelClose
+          }
+        }
+      ]
+    };
+    this.rtc = new NeatRTC(config, sendSignalingMessage);
+    // Socket.IO join messages from server
+    join(message => {
+      const { clientCount } = message;
+      if (clientCount === 2) {
+        // console.log("rtc connect JOIN.JSX");
+        this.rtc.connect();
+      }
+    });
+    // Socket.IO signaling messages from server
+    signaling(message => {
+      // Ontvangt messages
+      this.rtc.handleSignaling(message);
+    });
   }
+
+  connected = () => {};
+  mediaStreamConnected = () => {};
+  mediaStreamRemoved = () => {};
+  mediaStreamRemoteRemoved = () => {};
+  datachannelOpen = channel => {};
+  datachannelMessage = (channel, message) => {};
+  datachannelError = channel => {};
+  datachannelClose = channel => {};
+  stopCamera = () => {};
+  stopRemoteCamera = () => {};
+  sendText = () => {};
+  sendSignalingMessage = message => {
+    send("signaling", message);
+  };
+  startCamera = () => {
+    this.rtc.media("start");
+  };
 
   componentDidMount() {
     this._isMounted = true;
 
-    socket.emit("game");
+    socket.emit("hasVideo");
+    console.log(
+      "verzonden van hasVideo, this.state.hasVideo: ",
+      this.state.hasVideo,
+      " huidige tijd: ",
+      Date.now()
+    );
+    socket.on("hasVideo", () => {
+      console.log(
+        "ontvang hasVideo, this.state.hasVideo: ",
+        this.state.hasVideo
+      );
+      if (!this.state.hasVideo) {
+        console.log("in de if, start camera en zet op true");
+        this.startCamera();
+        this.setState({ hasVideo: true });
+      }
+    });
 
-    console.log(this.state.constraints);
-    console.log(navigator.mediaDevices);
+    socket.emit("game");
+    console.log(
+      "this.props.store.currentLocation",
+      this.props.store.currentLocation
+    );
+
+    // console.log(this.state.constraints);
+    // console.log(navigator.mediaDevices);
     navigator.mediaDevices
       .getUserMedia(this.state.constraints)
       .then(
@@ -101,7 +199,6 @@ class Game extends Component {
         this.loadModels()
       )
       // Extra video's voor css
-      .then(stream => (this.videoTag2.current.srcObject = stream))
       .then(stream => (this.videoTag3.current.srcObject = stream))
       .then(stream => (this.videoTag4.current.srcObject = stream))
       .catch(console.log);
@@ -151,7 +248,7 @@ class Game extends Component {
           .detectSingleFace(referenceImage)
           .withFaceLandmarks(useTinyModel);
 
-        console.log(detectionsWithLandmarks);
+        // console.log(detectionsWithLandmarks);
 
         const landMarkPoints = detectionsWithLandmarks.landmarks.positions;
         const type = "reference";
@@ -345,8 +442,8 @@ class Game extends Component {
     topMagLightenImg.src = topMagLighten;
     whiteOverlayImg.src = whiteOverlay;
 
-    console.log(topMagLightenImg);
-    console.log(whiteOverlayImg);
+    // console.log(topMagLightenImg);
+    // console.log(whiteOverlayImg);
   };
 
   addPointsToState = (points, type) => {
@@ -449,55 +546,55 @@ class Game extends Component {
         this.state.faceCurves[0],
         this.state.faceCurves[1]
       );
-      console.log("similarity face:", similarityFace);
+      // console.log("similarity face:", similarityFace);
 
       const similarityLEyeBrow = shapeSimilarity(
         this.state.lEyebrowCurves[0],
         this.state.lEyebrowCurves[1]
       );
-      console.log("similarity LEyeBrow:", similarityLEyeBrow);
+      // console.log("similarity LEyeBrow:", similarityLEyeBrow);
 
       const similarityREyeBrow = shapeSimilarity(
         this.state.rEyebrowCurves[0],
         this.state.rEyebrowCurves[1]
       );
-      console.log("similarity REyeBrow:", similarityREyeBrow);
+      // console.log("similarity REyeBrow:", similarityREyeBrow);
 
       const similarityNoseBridge = shapeSimilarity(
         this.state.noseBridgeCurves[0],
         this.state.noseBridgeCurves[1]
       );
-      console.log("similarity NoseBridge:", similarityNoseBridge);
+      // console.log("similarity NoseBridge:", similarityNoseBridge);
 
       const similarityNoseBot = shapeSimilarity(
         this.state.noseBotCurves[0],
         this.state.noseBotCurves[1]
       );
-      console.log("similarity NoseBot:", similarityNoseBot);
+      // console.log("similarity NoseBot:", similarityNoseBot);
 
       const similarityLEye = shapeSimilarity(
         this.state.lEyeCurves[0],
         this.state.lEyeCurves[1]
       );
-      console.log("similarity LEye:", similarityLEye);
+      // console.log("similarity LEye:", similarityLEye);
 
       const similarityREye = shapeSimilarity(
         this.state.rEyeCurves[0],
         this.state.rEyeCurves[1]
       );
-      console.log("similarity REye:", similarityREye);
+      // console.log("similarity REye:", similarityREye);
 
       const similarityOMouth = shapeSimilarity(
         this.state.oMouthCurves[0],
         this.state.oMouthCurves[1]
       );
-      console.log("similarity OMouth:", similarityOMouth);
+      // console.log("similarity OMouth:", similarityOMouth);
 
       const similarityIMouth = shapeSimilarity(
         this.state.iMouthCurves[0],
         this.state.iMouthCurves[1]
       );
-      console.log("similarity i mouth:", similarityIMouth);
+      // console.log("similarity i mouth:", similarityIMouth);
 
       // const averageSimilarity =
       //   (similarityFace +
@@ -526,7 +623,7 @@ class Game extends Component {
         this.state.curves[0],
         this.state.curves[1]
       );
-      console.log("similarity whole thing:", curvesSim);
+      // console.log("similarity whole thing:", curvesSim);
     } else {
       console.log("geen curves in state momenteel");
     }
@@ -580,7 +677,7 @@ class Game extends Component {
               </p>
             </div>
           </div>
-          <div className={styles.game_wrapper}>
+          <div className={styles.game_wrapper} id="App">
             {/* <img
               crossorigin="anonymous"
               ref={this.referenceImage}
@@ -602,7 +699,12 @@ class Game extends Component {
                   <p className={styles.own_name}>{/*INSERT NAAM*/}Wout (jij)</p>
                   <div className={styles.player_score}>{/*INSERT SCORE*/}0</div>
                 </div>
-                <div className={styles.own_video_wrapper}>
+                <div className={styles.own_video_wrapper} id="local-container">
+                  <video
+                    id="localVideo"
+                    muted
+                    style={{ display: "none" }}
+                  ></video>
                   <video
                     className={styles.own_video_feed}
                     style={{ transform: "scaleX(-1)" }}
@@ -630,7 +732,7 @@ class Game extends Component {
                       `${styles.location_tag} ${styles.location_tag_1}` /*INSERT LOCATIE TAG VOOR KLEUR*/
                     }
                   >
-                    Kortrijk{/*INSERT LOCATIE*/}
+                    {this.state.ownLocation}
                   </p>
                 </div>
               </div>
@@ -643,15 +745,16 @@ class Game extends Component {
                   </p>
                   <div className={styles.player_score}>{/*INSERT SCORE*/}0</div>
                 </div>
-                <div className={styles.player_video_wrapper}>
+                <div
+                  className={styles.player_video_wrapper}
+                  id="remote-container"
+                >
                   <video
                     style={{ transform: "scaleX(-1)" }}
                     className={styles.oponent_video_feed}
-                    id="videoTag2"
-                    ref={this.videoTag2}
+                    id="remoteVideo"
                     width={this.state.constraints.video.width}
                     height={this.state.constraints.video.height}
-                    autoPlay
                     muted
                   ></video>
                   <p
@@ -775,5 +878,5 @@ class Game extends Component {
   }
 }
 
-// export default inject(`store`)(observer(Game));
-export default Game;
+export default inject(`store`)(observer(Game));
+// export default Game;

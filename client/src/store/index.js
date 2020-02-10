@@ -64,7 +64,8 @@ decorate(Store, {
   startSocket: action,
   setLocation: action,
 
-  flowStatus: observable
+  flowStatus: observable,
+  currentLocation: observable
 });
 
 const store = new Store();
