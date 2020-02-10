@@ -18,7 +18,7 @@ class Socket extends Component {
         audio: false,
         video: { width: 480, height: 720 }
       },
-      searchTimer: 45,
+      searchTimer: 15,
       playerJoined: false,
       videoSharing: false,
       videoSend: false
@@ -131,8 +131,8 @@ class Socket extends Component {
     socket.on("newPeerJoined", () => {
       console.log("Ontvang newPeerJoined");
       setTimeout(() => {
-        // this.startCamera();
         socket.emit("peerAnswered");
+        this.startCamera();
       }, 2500);
     });
     socket.on("playerCalled", () => {
@@ -140,19 +140,36 @@ class Socket extends Component {
       console.log("speler is gebeld");
       // this.startCamera();
     });
-    navigator.mediaDevices
-      .getUserMedia(this.state.constraints)
-      .then(stream => (this.ownVideoFeed.current.srcObject = stream))
-      .then(this.startTimer)
-      // .then(this.startCamera)
-      .catch(console.log("failed to get user media"));
+    // navigator.mediaDevices
+    //   .getUserMedia(this.state.constraints)
+    //   .then(stream => (this.ownVideoFeed.current.srcObject = stream))
+    //   .then(this.startTimer)
+    //   // .then(this.startCamera)
+    //   .catch(console.log("failed to get user media"));
+    this.getCamera();
   }
+
+  getCamera = async () => {
+    let stream = null;
+    try {
+      stream = await navigator.mediaDevices.getUserMedia(
+        this.state.constraints
+      );
+      this.ownVideoFeed.current.srcObject = stream;
+      this.startTimer();
+    } catch (err) {
+      console.log("kapoet");
+    }
+  };
 
   startTimer = setInterval(() => {
     if (this.state.searchTimer > 0) {
       this.setState({ searchTimer: this.state.searchTimer - 1 });
       socket.emit("searchTimer", this.state.searchTimer);
-    } else if (this.state.playerJoined === true) {
+    } else {
+      this.props.history.push("/game");
+    }
+    if (this.state.playerJoined === true) {
       // GO TO GAME
     } else {
       // NO OPPONENT FOUND
@@ -177,7 +194,7 @@ class Socket extends Component {
   render() {
     return (
       <>
-        <button
+        {/* <button
           style={{
             position: "absolute",
             fontSize: 50,
@@ -200,7 +217,7 @@ class Socket extends Component {
           onClick={this.stopRemoteCamera}
         >
           stop remote
-        </button>
+        </button> */}
         <div className={styles.red_background}></div>
         <div className={styles.logo_next_white}></div>
         <div className={styles.search_timer}>

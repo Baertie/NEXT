@@ -9,6 +9,7 @@ import styles from "../styles/Socket.module.css";
 
 // import { socket } from "../api/Api";
 class SocketJoin extends Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.ownVideoFeed = React.createRef();
@@ -130,33 +131,51 @@ class SocketJoin extends Component {
   };
 
   componentDidMount() {
+    this._isMounted = true;
     // console.log("Binnen 1s socket newPeerJoined + start camera");
     setTimeout(() => {
       socket.emit("newPeerJoined");
+      this.startCamera();
     }, 1000);
     socket.on("peerAnswered", () => {
-      // console.log("Ontvang peerAnswered");
-      setTimeout(() => {
-        // this.startCamera();
-      }, 1000);
+      console.log("Ontvang peerAnswered");
+      // setTimeout(() => {
+      // this.startCamera();
+      // }, 1000);
     });
     socket.on("searchTimer", time => {
-      this.setState({
-        searchTimer: time
-      });
+      if (this._isMounted) {
+        this.setState({
+          searchTimer: time
+        });
+      }
       if (this.state.searchTimer === 0) {
         // GO TO GAME
-        // this.props.history.push("/");
+        this.props.history.push("/game");
       }
     });
 
-    navigator.mediaDevices
-      .getUserMedia(this.state.constraints)
-      .then(stream => (this.ownVideoFeed.current.srcObject = stream))
-      .catch(console.log("failed to get user media"));
+    // navigator.mediaDevices
+    //   .getUserMedia(this.state.constraints)
+    //   .then(stream => (this.ownVideoFeed.current.srcObject = stream))
+    //   .catch(console.log("failed to get user media"));
+    this.getCamera();
   }
 
+  getCamera = async () => {
+    let stream = null;
+    try {
+      stream = await navigator.mediaDevices.getUserMedia(
+        this.state.constraints
+      );
+      this.ownVideoFeed.current.srcObject = stream;
+    } catch (err) {
+      console.log("kapoet");
+    }
+  };
+
   componentWillUnmount() {
+    this._isMounted = false;
     let stream = this.ownVideoFeed.current.srcObject;
     let tracks = stream.getTracks();
     tracks.forEach(function(track) {
@@ -171,7 +190,7 @@ class SocketJoin extends Component {
   render() {
     return (
       <>
-        <button
+        {/* <button
           style={{
             position: "absolute",
             fontSize: 50,
@@ -194,7 +213,7 @@ class SocketJoin extends Component {
           onClick={this.stopRemoteCamera}
         >
           stop remote
-        </button>
+        </button> */}
         <div className={styles.red_background}></div>
         <div className={styles.logo_next_white}></div>
         <div className={styles.search_timer}>

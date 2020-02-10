@@ -107,6 +107,10 @@ io.on("connection", socket => {
     socket.broadcast.emit("peerAnswered");
   });
 
+  socket.on("hasVideo", () => {
+    socket.emit("hasVideo");
+  });
+
   socket.on("sendCall", test => {
     console.log("test: ", test);
     socket.broadcast.emit("peerWantsACall");
