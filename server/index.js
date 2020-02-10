@@ -3,8 +3,14 @@ var http = require("http").createServer(app);
 var io = require("socket.io")(http);
 const port = process.env.PORT || 8080;
 
-app.get("/", function(req, res) {
-  res.sendFile(__dirname + "/index.html");
+// app.get("/", function(req, res) {
+//   res.sendFile(__dirname + "/index.html");
+// });
+
+app.use(express.static(path.resolve(__dirname, "../client/build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
 });
 
 const users = {};
