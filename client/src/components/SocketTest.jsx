@@ -54,7 +54,7 @@ class SocketTest extends Component {
           DtlsSrtpKeyAgreement: true
         },
         {
-          RtpDataChannels: false
+          RtpDataChannels: true
         }
       ]
     };
