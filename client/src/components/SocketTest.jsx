@@ -120,11 +120,25 @@ class SocketTest extends Component {
 
   componentDidMount() {
     // start showing own video on screen
-    navigator.mediaDevices
-      .getUserMedia(this.state.constraints)
-      .then(stream => (this.ownVideoFeed.current.srcObject = stream))
-      .catch(console.log("failed to get user media"));
+    //   navigator.mediaDevices
+    //     .getUserMedia(this.state.constraints)
+    //     .then(stream => (this.ownVideoFeed.current.srcObject = stream))
+    //     .catch(console.log("failed to get user media"));
+    // }
+    this.getCamera();
   }
+
+  getCamera = async () => {
+    let stream = null;
+    try {
+      stream = await navigator.mediaDevices.getUserMedia(
+        this.state.constraints
+      );
+      this.ownVideoFeed.current.srcObject = stream;
+    } catch (err) {
+      console.log("kapoet");
+    }
+  };
 
   startCamera = () => {
     this.rtc.connect();
