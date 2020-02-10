@@ -12,8 +12,7 @@ class Postercarousel extends Component {
     super(props);
     this.state = {
       posterArray: [carousel1, carousel2, carousel3],
-      posterIndex: 0,
-      isBeingCalled: false
+      posterIndex: 0
     };
     // this._isMounted = true;
   }
@@ -23,18 +22,18 @@ class Postercarousel extends Component {
     this.timerID = setInterval(() => this.tick(), this.props.timeOut);
     // socket = socketIOClient(":8080");
     // When a call comes in
-    socket.on("stopCarousel", () => {
-      console.log("stop carousel er wordt gebeld POSTERCAROUSEL");
-      this.state.isBeingCalled = true;
-    });
+    // socket.on("stopCarousel", () => {
+    //   console.log("stop carousel er wordt gebeld POSTERCAROUSEL");
+    //   this.state.isBeingCalled = true;
+    // });
   }
 
   componentDidUpdate() {
     // This check is needed because this will now only happen on this screen.
-    if (this.state.isBeingCalled === true) {
-      console.log("minder direct bro");
-      this.props.onCall();
-    }
+    // if (this.state.isBeingCalled === true) {
+    //   console.log("minder direct bro");
+    //   this.props.onCall();
+    // }
   }
 
   componentWillUnmount() {

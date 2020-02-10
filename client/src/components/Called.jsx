@@ -15,97 +15,97 @@ class Called extends Component {
       searchTimer: null
     };
     // Setup NeatRTC
-    const {
-      connected,
-      mediaStreamConnected,
-      mediaStreamRemoved,
-      datachannelOpen,
-      datachannelMessage,
-      datachannelError,
-      datachannelClose,
-      sendSignalingMessage,
-      mediaStreamRemoteRemoved
-    } = this;
-    const config = {
-      devMode: true,
-      videoIdLocal: "localVideo",
-      videoIdRemote: "remoteVideo",
-      connected: connected,
-      mediaStreamConnected: mediaStreamConnected,
-      mediaStreamRemoved: mediaStreamRemoved,
-      mediaStreamRemoteRemoved: mediaStreamRemoteRemoved,
-      datachannels: [
-        {
-          name: "text",
-          callbacks: {
-            open: datachannelOpen,
-            message: datachannelMessage,
-            error: datachannelError,
-            close: datachannelClose
-          }
-        }
-      ]
-    };
-    this.rtc = new NeatRTC(config, sendSignalingMessage);
-    // Socket.IO join messages from server
-    join(message => {
-      const { clientCount } = message;
-      if (clientCount === 2) {
-        this.rtc.connect();
-      }
-    });
-    // Socket.IO signaling messages from server
-    signaling(message => {
-      this.rtc.handleSignaling(message);
-    });
+    // const {
+    //   connected,
+    //   mediaStreamConnected,
+    //   mediaStreamRemoved,
+    //   datachannelOpen,
+    //   datachannelMessage,
+    //   datachannelError,
+    //   datachannelClose,
+    //   sendSignalingMessage,
+    //   mediaStreamRemoteRemoved
+    // } = this;
+    // const config = {
+    //   devMode: true,
+    //   videoIdLocal: "localVideo",
+    //   videoIdRemote: "remoteVideo",
+    //   connected: connected,
+    //   mediaStreamConnected: mediaStreamConnected,
+    //   mediaStreamRemoved: mediaStreamRemoved,
+    //   mediaStreamRemoteRemoved: mediaStreamRemoteRemoved,
+    //   datachannels: [
+    //     {
+    //       name: "text",
+    //       callbacks: {
+    //         open: datachannelOpen,
+    //         message: datachannelMessage,
+    //         error: datachannelError,
+    //         close: datachannelClose
+    //       }
+    //     }
+    //   ]
+    // };
+    // this.rtc = new NeatRTC(config, sendSignalingMessage);
+    // // Socket.IO join messages from server
+    // join(message => {
+    //   const { clientCount } = message;
+    //   if (clientCount === 2) {
+    //     this.rtc.connect();
+    //   }
+    // });
+    // // Socket.IO signaling messages from server
+    // signaling(message => {
+    //   this.rtc.handleSignaling(message);
+    // });
   }
 
-  connected = () => {
-    // Not needed
-  };
-  mediaStreamConnected = () => {
-    // Not needed
-  };
-  mediaStreamRemoved = () => {
-    // Not needed
-  };
-  mediaStreamRemoteRemoved = () => {
-    // Not needed
-  };
-  datachannelOpen = channel => {
-    // Not needed
-  };
-  datachannelMessage = (channel, message) => {
-    // Not needed
-  };
-  datachannelError = channel => {
-    // Not needed
-  };
-  datachannelClose = channel => {
-    // Not needed
-  };
-  stopCamera = () => {
-    // this.rtc.media("stop");
-    // Not needed to stop webcam
-  };
-  stopRemoteCamera = () => {
-    // this.rtc.media("stopRemote");
-    // console.log("1");
-    // Not needed to stop other webcam
-  };
-  sendText = () => {
-    // No messages needed with webrtc
-  };
+  // connected = () => {
+  //   // Not needed
+  // };
+  // mediaStreamConnected = () => {
+  //   // Not needed
+  // };
+  // mediaStreamRemoved = () => {
+  //   // Not needed
+  // };
+  // mediaStreamRemoteRemoved = () => {
+  //   // Not needed
+  // };
+  // datachannelOpen = channel => {
+  //   // Not needed
+  // };
+  // datachannelMessage = (channel, message) => {
+  //   // Not needed
+  // };
+  // datachannelError = channel => {
+  //   // Not needed
+  // };
+  // datachannelClose = channel => {
+  //   // Not needed
+  // };
+  // stopCamera = () => {
+  //   // this.rtc.media("stop");
+  //   // Not needed to stop webcam
+  // };
+  // stopRemoteCamera = () => {
+  //   // this.rtc.media("stopRemote");
+  //   // console.log("1");
+  //   // Not needed to stop other webcam
+  // };
+  // sendText = () => {
+  //   // No messages needed with webrtc
+  // };
 
-  sendSignalingMessage = message => {
-    send("signaling", message);
-  };
+  // sendSignalingMessage = message => {
+  //   send("signaling", message);
+  // };
 
-  startCamera = () => {
-    // This sends your video
-    // start this when other player joins
-    this.rtc.media("start");
-  };
+  // startCamera = () => {
+  //   // This sends your video
+  //   // start this when other player joins
+  //   this.rtc.media("start");
+  // };
 
   componentDidMount() {
     // connect to socket

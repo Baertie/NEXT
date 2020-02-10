@@ -130,14 +130,15 @@ class SocketJoin extends Component {
   };
 
   componentDidMount() {
-    socket.emit("newPeerJoined");
     // console.log("Binnen 1s socket newPeerJoined + start camera");
-    // setTimeout(() => {
-    //   socket.emit("newPeerJoined");
-    // }, 1000);
+    setTimeout(() => {
+      socket.emit("newPeerJoined");
+    }, 1000);
     socket.on("peerAnswered", () => {
       // console.log("Ontvang peerAnswered");
-      this.startCamera();
+      setTimeout(() => {
+        // this.startCamera();
+      }, 1000);
     });
     socket.on("searchTimer", time => {
       this.setState({
@@ -349,7 +350,7 @@ class SocketJoin extends Component {
                 />
               </svg>
             </div>
-            <div /* className="App" */>
+            <div className="App">
               <div id="local-container" style={{ display: "none" }}>
                 <video
                   id="localVideo"
@@ -366,15 +367,15 @@ class SocketJoin extends Component {
                 autoPlay
                 muted
               />
-              {/* <div id="remote-container"> */}
-              <video
-                className={`${styles.player_2_video} ${styles.player_video}`}
-                id="remoteVideo"
-                height={200}
-                width={160}
-                muted
-              />
-              {/* </div> */}
+              <div id="remote-container">
+                <video
+                  className={`${styles.player_2_video} ${styles.player_video}`}
+                  id="remoteVideo"
+                  height={200}
+                  width={160}
+                  muted
+                />
+              </div>
             </div>
           </div>
           <h2 className={styles.subtitle}>

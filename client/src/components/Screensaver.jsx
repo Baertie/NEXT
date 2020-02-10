@@ -35,14 +35,21 @@ class Screensaver extends Component {
       console.log("stop carousel er wordt gebeld SCREENSAVER");
       this.state.isBeingCalled = true;
     });
-    navigator.mediaDevices
-      .getUserMedia(this.state.constraints)
-      .then(
-        stream => (this.ownVideoFeed.current.srcObject = stream),
-        this.detect()
-      )
-      .catch(console.log("failed to get user media"));
+    this.getCamera();
   }
+
+  getCamera = async () => {
+    let stream = null;
+    try {
+      stream = await navigator.mediaDevices.getUserMedia(
+        this.state.constraints
+      );
+      this.ownVideoFeed.current.srcObject = stream;
+      this.detect();
+    } catch (err) {
+      console.log("kapoet");
+    }
+  };
 
   componentDidUpdate() {
     // This check is needed because this will now only happen on this screen.
@@ -84,25 +91,29 @@ class Screensaver extends Component {
     // return;
     this.timerID = setInterval(async () => {
       if (this.state.faceGone === false) {
-        const detections = await faceapi.detectAllFaces(videoTag);
         if (this._isMounted) {
+          const detections = await faceapi.detectAllFaces(videoTag);
           if (!detections[0]) {
             if (this.state.timeSinceDetectedFace >= 2000) {
               console.log("3 seconden lang geen gezicht");
-              this.state.faceGone = true;
+              // this.state.faceGone = true;
+              this.setState({ faceGone: true });
+              this.props.history.push("/");
             }
-            this.setState({
-              timeSinceDetectedFace: this.state.timeSinceDetectedFace + 200
-            });
+            if (this._isMounted) {
+              this.setState({
+                timeSinceDetectedFace: this.state.timeSinceDetectedFace + 500
+              });
+            }
           } else if (detections.length > 0) {
             if (this.state.timeSinceDetectedFace >= 2000) {
-              console.log("3 seconden lang een gezicht");
-              // this.props.store.setStartOnboarding();
               this.props.history.push("/onboarding");
             }
-            this.setState({
-              timeSinceDetectedFace: this.state.timeSinceDetectedFace + 200
-            });
+            if (this._isMounted) {
+              this.setState({
+                timeSinceDetectedFace: this.state.timeSinceDetectedFace + 200
+              });
+            }
           } else {
             // Reset the time since detection
             this.setState({ timeSinceDetectedFace: 0 });
@@ -113,11 +124,6 @@ class Screensaver extends Component {
   };
 
   render() {
-    const { store } = this.props;
-    if (this.state.faceGone === true) {
-      // store.resetEverything();
-      this.props.history.push("/");
-    }
     return (
       <>
         {/* <p>Screensaver</p>

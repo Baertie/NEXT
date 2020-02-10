@@ -7,6 +7,7 @@ import NeatRTC from "neat-rtc";
 import styles from "../styles/Socket.module.css";
 
 // import { socket } from "../api/Api";
+import { socket } from "../App.js";
 class Socket extends Component {
   constructor(props) {
     super(props);
@@ -129,15 +130,15 @@ class Socket extends Component {
     socket.emit("searchTimer", this.state.searchTimer);
     socket.on("newPeerJoined", () => {
       console.log("Ontvang newPeerJoined");
-      this.startCamera();
-      // setTimeout(() => {
-      socket.emit("peerAnswered");
-      // }, 5000);
+      setTimeout(() => {
+        // this.startCamera();
+        socket.emit("peerAnswered");
+      }, 2500);
     });
     socket.on("playerCalled", () => {
       // Dit hielp wel bij iets
       console.log("speler is gebeld");
-      this.startCamera();
+      // this.startCamera();
     });
     navigator.mediaDevices
       .getUserMedia(this.state.constraints)
@@ -355,7 +356,7 @@ class Socket extends Component {
                 />
               </svg>
             </div>
-            <div /*className="App"*/>
+            <div className="App">
               <div id="local-container" style={{ display: "none" }}>
                 <video
                   id="localVideo"
@@ -372,15 +373,15 @@ class Socket extends Component {
                 autoPlay
                 muted
               />
-              {/* <div id="remote-container"> */}
-              <video
-                className={`${styles.player_2_video} ${styles.player_video}`}
-                id="remoteVideo"
-                height={200}
-                width={160}
-                muted
-              />
-              {/* </div> */}
+              <div id="remote-container">
+                <video
+                  className={`${styles.player_2_video} ${styles.player_video}`}
+                  id="remoteVideo"
+                  height={200}
+                  width={160}
+                  muted
+                />
+              </div>
             </div>
           </div>
           <h2 className={styles.subtitle}>
