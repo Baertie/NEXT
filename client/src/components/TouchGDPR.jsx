@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import styles from "../styles/TouchGDPR.module.css";
 
+import buttonStyles from "../styles/TouchOnboarding.module.css";
+import basicStyles from "../styles/Touch.module.css";
+
+import LogoOverlayTablet from "../components/LogoOverlayTablet";
+
 class TouchGDPR extends Component {
   constructor(props) {
     super(props);
@@ -8,27 +13,32 @@ class TouchGDPR extends Component {
   }
   render() {
     return (
-      <div className={styles.container}>
+      <div className={`${basicStyles.container} ${styles.container}`}>
+        <LogoOverlayTablet />
         <div>
-          <p>
+          <p className={styles.bodytext}>
             Mogen we jouw foto's publiceren op onze sociale media en het
             scorebord?
           </p>
-          <p>Je kan deze terugvinden via de hashtag</p>
-          <p>#whosnext</p>
+          <p className={styles.subtext}>
+            Je kan deze terugvinden via de hashtag
+          </p>
+          <p className={styles.hashtag}>#whosnext</p>
         </div>
-        <button
-          className={`${styles.button} ${styles.prevButton}`}
-          onClick={this.handlePrevClick}
-        >
-          terug
-        </button>
-        <button
-          className={`${styles.button} ${styles.nextButton}`}
-          onClick={this.handleNextClick}
-        >
-          {this.state.screen < 2 ? "volgende" : "start de game"}
-        </button>
+        <div className={styles.buttonContainer}>
+          <button
+            className={`${buttonStyles.button} ${buttonStyles.prevButton} ${styles.fadedButton}`}
+            onClick={this.handlePrevClick}
+          >
+            nee
+          </button>
+          <button
+            className={`${buttonStyles.button} ${buttonStyles.nextButton}`}
+            onClick={this.handleNextClick}
+          >
+            Ja!
+          </button>
+        </div>
       </div>
     );
   }

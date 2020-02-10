@@ -22,11 +22,13 @@ io.on("connection", socket => {
     console.log("joined the room in: ", room);
     console.log("room count: ", io.sockets.adapter.rooms[room].length);
 
+    // trigger onboarding page
     socket.on("onboarding", () => {
       io.to(room).emit("onboarding");
-      console.log("onboarding matjes");
+      console.log("onboarding");
     });
 
+    // flip through the onboarding pages
     socket.on("nextOnboardingPage", () => {
       io.to(room).emit("nextOnboardingPage");
       console.log("next page");
@@ -39,6 +41,48 @@ io.on("connection", socket => {
     socket.on("prevOnboardingPage", () => {
       io.to(room).emit("prevOnboardingPage");
       console.log("previous page");
+    });
+
+    // trigger connecting page
+    socket.on("connecting", () => {
+      io.to(room).emit("connecting");
+      console.log("connecting");
+    });
+
+    // trigger called page
+    socket.on("called", () => {
+      io.to(room).emit("called");
+      console.log("called");
+    });
+
+    // trigger nameinput page
+    socket.on("nameinput", () => {
+      io.to(room).emit("nameinput");
+      console.log("nameinput");
+    });
+
+    // trigger game page
+    socket.on("game", () => {
+      io.to(room).emit("game");
+      console.log("game");
+    });
+
+    // trigger regioinput page
+    socket.on("regioinput", () => {
+      io.to(room).emit("regioinput");
+      console.log("regioinput");
+    });
+
+    // trigger gdpr page
+    socket.on("gdpr", () => {
+      io.to(room).emit("gdpr");
+      console.log("gdpr");
+    });
+
+    // trigger leaderboard page
+    socket.on("leaderboard", () => {
+      io.to(room).emit("leaderboard");
+      console.log("leaderboard");
     });
   });
 

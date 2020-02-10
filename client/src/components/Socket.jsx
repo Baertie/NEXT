@@ -5,7 +5,6 @@ import { join, signaling, send } from "./SocketVideo";
 import NeatRTC from "neat-rtc";
 
 import styles from "../styles/Socket.module.css";
-import { socket } from "../App";
 
 // import { socket } from "../api/Api";
 class Socket extends Component {

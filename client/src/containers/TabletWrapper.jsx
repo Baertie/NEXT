@@ -11,13 +11,13 @@ import TouchNameInput from "../components/TouchNameInput.jsx";
 import TouchGameTimer from "../components/TouchGameTimer.jsx";
 import TouchRegioInput from "../components/TouchRegioInput.jsx";
 import TouchGDPR from "../components/TouchGDPR.jsx";
-import TouchLeaderboard from "../components/TouchGameTimer.jsx";
+import TouchLeaderboard from "../components/TouchLeaderboard.jsx";
 
 class TabletWrapper extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentPage: "nameinput"
+      currentPage: "leaderboard"
     };
   }
 

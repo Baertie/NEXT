@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  padding-bottom: 6.4rem;
+  padding-top: 14.6rem;
+}
+
+.bodytext {
+  font-family: "Alte-bold";
+  font-size: 3.6rem;
+}
+
+.bigtext {
+  font-family: "Heavitas";
+  font-size: 4.8rem;
+  color: var(--primary-color);
+  margin-top: 1.6rem;
+}
+
+.smalltext {
+  font-family: "Alte";
+  font-size: 2.4rem;
+}
