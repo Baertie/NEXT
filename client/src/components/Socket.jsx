@@ -4,7 +4,6 @@ import React, { Component } from "react";
 import { join, signaling, send } from "./SocketVideo";
 import NeatRTC from "neat-rtc";
 
-import { socket } from "../App.js";
 import styles from "../styles/Socket.module.css";
 import { socket } from "../App";
 
@@ -60,14 +59,14 @@ class Socket extends Component {
     // Socket.IO join messages from server
     join(message => {
       const { clientCount } = message;
-      if (clientCount < 2) {
-        console.log("rtc connect STARTCONNECT.JSX");
+      if (clientCount === 2) {
+        // console.log("rtc connect STARTCONNECT.JSX");
         this.rtc.connect();
       }
     });
     // Socket.IO signaling messages from server
     signaling(message => {
-      console.log("signaling message in socket startconnect: ", message);
+      // Ontvangt messages
       this.rtc.handleSignaling(message);
     });
   }
@@ -123,22 +122,23 @@ class Socket extends Component {
   };
 
   startCamera = () => {
+    console.log("start camera socket.jsx");
     this.rtc.media("start");
   };
   componentDidMount() {
-    // connect to socket
-    console.log("did mount socket.jsx");
-    // socket = socketIOClient(":8080");
     socket.emit("stopCarousel", "einde carousel");
     socket.emit("searchTimer", this.state.searchTimer);
     socket.on("newPeerJoined", () => {
-      // console.log("new peer joined on:", new Date().getTime() / 1000);
-      console.log("ik ben hier na 2s, de new peerjoined");
-      // this.setState({ playerJoined: true });
+      console.log("Ontvang newPeerJoined");
       this.startCamera();
-      setTimeout(() => {
-        socket.emit("peerAnswered");
-      }, 3000);
+      // setTimeout(() => {
+      socket.emit("peerAnswered");
+      // }, 5000);
+    });
+    socket.on("playerCalled", () => {
+      // Dit hielp wel bij iets
+      console.log("speler is gebeld");
+      this.startCamera();
     });
     navigator.mediaDevices
       .getUserMedia(this.state.constraints)
@@ -356,7 +356,7 @@ class Socket extends Component {
                 />
               </svg>
             </div>
-            <div className="App">
+            <div /*className="App"*/>
               <div id="local-container" style={{ display: "none" }}>
                 <video
                   id="localVideo"
@@ -373,15 +373,15 @@ class Socket extends Component {
                 autoPlay
                 muted
               />
-              <div id="remote-container">
-                <video
-                  className={`${styles.player_2_video} ${styles.player_video}`}
-                  id="remoteVideo"
-                  height={200}
-                  width={160}
-                  muted
-                />
-              </div>
+              {/* <div id="remote-container"> */}
+              <video
+                className={`${styles.player_2_video} ${styles.player_video}`}
+                id="remoteVideo"
+                height={200}
+                width={160}
+                muted
+              />
+              {/* </div> */}
             </div>
           </div>
           <h2 className={styles.subtitle}>

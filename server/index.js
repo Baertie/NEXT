@@ -51,6 +51,9 @@ io.on("connection", socket => {
   socket.on("searchTimer", time => {
     socket.broadcast.emit("searchTimer", time);
   });
+  socket.on("playerCalled", time => {
+    socket.broadcast.emit("playerCalled", time);
+  });
 
   socket.on("newPeerJoined", () => {
     socket.broadcast.emit("newPeerJoined");

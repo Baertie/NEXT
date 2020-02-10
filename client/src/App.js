@@ -19,8 +19,8 @@ import Socket from "./components/Socket";
 import Screensaver from "./components/Screensaver";
 import Onboarding from "./components/Onboarding";
 import Postercarousel from "./components/Postercarousel";
-// import SocketJoin from "./components/SocketJoin";
-// import SocketTest from "./components/SocketTest";
+import SocketJoin from "./components/SocketJoin";
+import SocketTest from "./components/SocketTest";
 import Game from "./components/Game";
 import socketIOClient from "socket.io-client";
 
@@ -71,6 +71,7 @@ class App extends Component {
           <Route path="/posterCarousel" component={Postercarousel} />
           <Route path="/game" component={Game} />
           <Route path="/joinGame" component={SocketJoin} />
+          <Route path="/test" component={SocketTest} />
           {/*<Route path="/gameInstructions" component={ NEW COMPONENT } />
         <Route path="/endGame" component={ NEW COMPONENT } />
         <Route path="/scorebord" component={ NEW COMPONENT } />*/}

@@ -58,14 +58,14 @@ class SocketJoin extends Component {
     // Socket.IO join messages from server
     join(message => {
       const { clientCount } = message;
-      if (clientCount < 2) {
-        console.log("rtc connect JOIN.JSX");
+      if (clientCount === 2) {
+        // console.log("rtc connect JOIN.JSX");
         this.rtc.connect();
       }
     });
     // Socket.IO signaling messages from server
     signaling(message => {
-      console.log("signaling message in socket join: ", message);
+      // Ontvangt messages
       this.rtc.handleSignaling(message);
     });
   }
@@ -125,22 +125,18 @@ class SocketJoin extends Component {
   startCamera = () => {
     // This sends your video
     // start this when other player joins
+    console.log("start camera socketjoin.jsx");
     this.rtc.media("start");
   };
 
   componentDidMount() {
-    // connect to socket
-    // socket = socketIOClient(":8080");
-    // socket.emit("newPeerJoined");
-    // this.startCamera();
-    console.log("set timeout binnen 2s socket newpeerjoined");
-    setTimeout(() => {
-      socket.emit("newPeerJoined");
-    }, 2000);
+    socket.emit("newPeerJoined");
+    // console.log("Binnen 1s socket newPeerJoined + start camera");
+    // setTimeout(() => {
+    //   socket.emit("newPeerJoined");
+    // }, 1000);
     socket.on("peerAnswered", () => {
-      // console.log("anwser new peer joined on: ", new Date().getTime() / 1000);
-      console.log("jo ik ben ier na 3s, de answer");
-      // this.setState({ callerAnswered: true });
+      // console.log("Ontvang peerAnswered");
       this.startCamera();
     });
     socket.on("searchTimer", time => {
@@ -353,7 +349,7 @@ class SocketJoin extends Component {
                 />
               </svg>
             </div>
-            <div className="App">
+            <div /* className="App" */>
               <div id="local-container" style={{ display: "none" }}>
                 <video
                   id="localVideo"
@@ -370,15 +366,15 @@ class SocketJoin extends Component {
                 autoPlay
                 muted
               />
-              <div id="remote-container">
-                <video
-                  className={`${styles.player_2_video} ${styles.player_video}`}
-                  id="remoteVideo"
-                  height={200}
-                  width={160}
-                  muted
-                />
-              </div>
+              {/* <div id="remote-container"> */}
+              <video
+                className={`${styles.player_2_video} ${styles.player_video}`}
+                id="remoteVideo"
+                height={200}
+                width={160}
+                muted
+              />
+              {/* </div> */}
             </div>
           </div>
           <h2 className={styles.subtitle}>

@@ -49,7 +49,7 @@ class SocketTest extends Component {
     // Socket.IO join messages from server
     join(message => {
       const { clientCount } = message;
-      if (clientCount < 2) {
+      if (clientCount === 2) {
         this.rtc.connect();
       }
     });

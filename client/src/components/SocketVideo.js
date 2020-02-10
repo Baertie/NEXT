@@ -5,14 +5,14 @@ const join = callback => {
   // Listen for 'join' messages
   socket.on("join", message => {
     callback(message);
-    console.log("join in socketvideo");
+    // console.log("join in socketvideo");
   });
 };
 
 const signaling = callback => {
   // Listen for 'signaling' messages
   socket.on("signaling", message => {
-    console.log("signaling in socketvideo: ", message);
+    // console.log("signaling in socketvideo: ", message);
     callback(message);
   });
 };
@@ -20,7 +20,7 @@ const signaling = callback => {
 const send = (channel, message) => {
   // Send message to server
   socket.emit(channel, message);
-  console.log("emit socket, channel: ", channel, " . Message: ", message);
+  // console.log("emit socket, channel: ", channel, " . Message: ", message);
 };
 
 export { join, signaling, send };
