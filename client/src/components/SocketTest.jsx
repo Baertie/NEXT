@@ -75,6 +75,7 @@ class SocketTest extends Component {
     // Not needed
   };
   mediaStreamConnected = () => {
+    console.log("mediastreamconnected");
     // Not needed
   };
   mediaStreamRemoved = () => {
@@ -84,12 +85,17 @@ class SocketTest extends Component {
     // Not needed
   };
   datachannelOpen = channel => {
+    console.log("open", channel);
     // Not needed
   };
   datachannelMessage = (channel, message) => {
+    console.log("channelmessage", channel);
+
+    console.log("channelmessage", message);
     // Not needed
   };
   datachannelError = channel => {
+    console.log("channelerror", error);
     // Not needed
   };
   datachannelClose = channel => {
