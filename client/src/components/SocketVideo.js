@@ -1,5 +1,6 @@
-import socketIO from "socket.io-client";
-const socket = socketIO("http://localhost:8080", { transports: ["websocket"] });
+// import socketIO from "socket.io-client";
+// const socket = socketIO("http://localhost:8080", { transports: ["websocket"] });
+import { socket } from "../App.js";
 
 const join = callback => {
   // Listen for 'join' messages
