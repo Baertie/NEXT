@@ -33,6 +33,8 @@ app.get("/api/data", (req, res) => {
   res.send({ message: "ok", secret: process.env.SECRET });
 });
 
+io.set("origins", "*:*");
+
 const users = {};
 
 io.on("connection", socket => {
