@@ -1,18 +1,36 @@
 const express = require("express");
 const path = require("path");
 const app = express();
+const mongoose = require("mongoose");
+
 const http = require("http").createServer(app);
 const io = require("socket.io")(http);
 const port = process.env.PORT || 8080;
+
+require("dotenv").config();
 
 // app.get("/", function(req, res) {
 //   res.sendFile(__dirname + "/index.html");
 // });
 
+mongoose
+  .connect(process.env.DB_URL, {
+    useNewUrlParser: true,
+    useFindAndModify: false,
+    useCreateIndex: true
+  })
+  .catch(e => {
+    process.exit();
+  });
+
 app.use(express.static(path.resolve(__dirname, "../client/build")));
 
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
+});
+
+app.get("/api/data", (req, res) => {
+  res.send({ message: "ok", secret: process.env.SECRET });
 });
 
 const users = {};

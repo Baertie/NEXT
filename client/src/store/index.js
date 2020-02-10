@@ -1,10 +1,17 @@
 import { decorate, observable, configure, action } from "mobx";
+import Api from "../api";
+import Score from "../models/Score";
 
 configure({ enforceActions: `observed` });
 
 class Store {
+  constructor() {
+    this.api = new Api(`score`);
+  }
   flowStatus = "";
   currentLocation = "";
+  scores = [];
+
   // flowStatus = "Socket";
   //   constructor() {}
 
@@ -35,6 +42,14 @@ class Store {
   setLocation = location => {
     console.log(location);
     this.currentLocation = location;
+  };
+
+  getAll = () => {
+    this.api.getAll().then(d => d.forEach(this.addScoresToArray));
+  };
+
+  addScoresToArray = data => {
+    this.scores.push(data);
   };
 }
 
