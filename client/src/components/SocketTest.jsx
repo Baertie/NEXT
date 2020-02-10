@@ -95,7 +95,7 @@ class SocketTest extends Component {
     // Not needed
   };
   datachannelError = channel => {
-    console.log("channelerror", error);
+    console.log("channelerror", channel);
     // Not needed
   };
   datachannelClose = channel => {
