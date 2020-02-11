@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import * as faceapi from "face-api.js";
 
+// video call
+import { join, signaling, send } from "./SocketVideo";
+import NeatRTC from "neat-rtc";
+
 import { inject, observer } from "mobx-react";
 import Loader from "./Loader";
 
@@ -53,9 +57,10 @@ class Game extends Component {
   constructor(props) {
     super(props);
     this.videoTag = React.createRef();
-    this.imgTag1 = React.createRef();
-    this.imgTag2 = React.createRef();
-    this.imgTag3 = React.createRef();
+    // Extra video's voor css
+    // this.videoTag2 = React.createRef();
+    this.videoTag3 = React.createRef();
+    this.videoTag4 = React.createRef();
     this.canvasTag = React.createRef();
     this.referenceImageTag = React.createRef();
     this.referenceCanvasTag = React.createRef();
@@ -88,12 +93,96 @@ class Game extends Component {
       gameTimer: 5,
       roundEnded: false,
       ownLocation: this.props.store.currentLocation,
-      player2img: null
+      hasVideo: false
     };
+
+    // Setup NeatRTC
+    const {
+      connected,
+      mediaStreamConnected,
+      mediaStreamRemoved,
+      datachannelOpen,
+      datachannelMessage,
+      datachannelError,
+      datachannelClose,
+      sendSignalingMessage,
+      mediaStreamRemoteRemoved
+    } = this;
+    const config = {
+      devMode: true,
+      videoIdLocal: "localVideo",
+      videoIdRemote: "remoteVideo",
+      connected: connected,
+      mediaStreamConnected: mediaStreamConnected,
+      mediaStreamRemoved: mediaStreamRemoved,
+      mediaStreamRemoteRemoved: mediaStreamRemoteRemoved,
+      datachannels: [
+        {
+          name: "text",
+          callbacks: {
+            open: datachannelOpen,
+            message: datachannelMessage,
+            error: datachannelError,
+            close: datachannelClose
+          }
+        }
+      ]
+    };
+    this.rtc = new NeatRTC(config, sendSignalingMessage);
+    // Socket.IO join messages from server
+    join(message => {
+      const { clientCount } = message;
+      if (clientCount === 2) {
+        // console.log("rtc connect JOIN.JSX");
+        this.rtc.connect();
+      }
+    });
+    // Socket.IO signaling messages from server
+    signaling(message => {
+      // Ontvangt messages
+      this.rtc.handleSignaling(message);
+    });
   }
+
+  connected = () => {};
+  mediaStreamConnected = () => {};
+  mediaStreamRemoved = () => {};
+  mediaStreamRemoteRemoved = () => {};
+  datachannelOpen = channel => {};
+  datachannelMessage = (channel, message) => {};
+  datachannelError = channel => {};
+  datachannelClose = channel => {};
+  stopCamera = () => {};
+  stopRemoteCamera = () => {};
+  sendText = () => {};
+  sendSignalingMessage = message => {
+    send("signaling", message);
+  };
+  startCamera = () => {
+    this.rtc.media("start");
+  };
 
   componentDidMount() {
     this._isMounted = true;
+
+    socket.emit("hasVideo");
+    console.log(
+      "verzonden van hasVideo, this.state.hasVideo: ",
+      this.state.hasVideo,
+      " huidige tijd: ",
+      Date.now()
+    );
+    socket.on("hasVideo", () => {
+      console.log(
+        "ontvang hasVideo, this.state.hasVideo: ",
+        this.state.hasVideo
+      );
+      if (!this.state.hasVideo) {
+        console.log("in de if, start camera en zet op true");
+        this.startCamera();
+        this.setState({ hasVideo: true });
+      }
+    });
 
     socket.emit("game");
     console.log(
@@ -109,6 +198,9 @@ class Game extends Component {
         stream => (this.videoTag.current.srcObject = stream),
         this.loadModels()
       )
+      // Extra video's voor css
+      .then(stream => (this.videoTag3.current.srcObject = stream))
+      .then(stream => (this.videoTag4.current.srcObject = stream))
       .catch(console.log);
 
     this.setState(state => {
@@ -213,9 +305,6 @@ class Game extends Component {
 
     // how to get dataurl for img
     console.log("dataurl: ", canvas.toDataURL());
-    this.setState({
-      player2img: canvas.toDataURL()
-    });
 
     // Run landmarkdetection (tiny) with faceapi
     const useTinyModel = true;
@@ -242,17 +331,13 @@ class Game extends Component {
     this.addSharpenEffect(videoTag, canvas, ctx);
     this.addVisualEffects(canvas, ctx);
     this.calculateDistance();
-
     setTimeout(() => {
       this.setState({ showScore: true });
     }, 2000);
     setTimeout(() => {
       this.clearCreatedCanvas();
       this.goToNextRound();
-      this.setState({
-        roundEnded: false,
-        gameTimer: 5
-      });
+      this.setState({ roundEnded: false, gameTimer: 5 });
     }, 5000);
   };
 
@@ -630,7 +715,12 @@ class Game extends Component {
                   <p className={styles.own_name}>{/*INSERT NAAM*/}Wout (jij)</p>
                   <div className={styles.player_score}>{/*INSERT SCORE*/}0</div>
                 </div>
-                <div className={styles.own_video_wrapper}>
+                <div className={styles.own_video_wrapper} id="local-container">
+                  <video
+                    id="localVideo"
+                    muted
+                    style={{ display: "none" }}
+                  ></video>
                   <video
                     className={styles.own_video_feed}
                     style={{ transform: "scaleX(-1)" }}
@@ -671,13 +761,18 @@ class Game extends Component {
                   </p>
                   <div className={styles.player_score}>{/*INSERT SCORE*/}0</div>
                 </div>
-                <div className={styles.player_video_wrapper}>
-                  <img
-                    src={this.state.player2img}
-                    alt="Player 2"
-                    ref={this.imgTag1}
-                    className={styles.oponent_img}
-                  />
+                <div
+                  className={styles.player_video_wrapper}
+                  id="remote-container"
+                >
+                  <video
+                    style={{ transform: "scaleX(-1)" }}
+                    className={styles.oponent_video_feed}
+                    id="remoteVideo"
+                    width={this.state.constraints.video.width}
+                    height={this.state.constraints.video.height}
+                    muted
+                  ></video>
                   <p
                     className={
                       `${styles.location_tag} ${styles.location_tag_2}` /*INSERT LOCATIE TAG VOOR KLEUR*/
@@ -695,12 +790,16 @@ class Game extends Component {
                   <div className={styles.player_score}>{/*INSERT SCORE*/}0</div>
                 </div>
                 <div className={styles.player_video_wrapper}>
-                  <img
-                    src="PLAYER3"
-                    alt="Player 3"
-                    ref={this.imgTag2}
-                    className={styles.oponent_img}
-                  />
+                  <video
+                    style={{ transform: "scaleX(-1)" }}
+                    className={styles.oponent_video_feed}
+                    id="videoTag3"
+                    ref={this.videoTag3}
+                    width={this.state.constraints.video.width}
+                    height={this.state.constraints.video.height}
+                    autoPlay
+                    muted
+                  ></video>
                   <p
                     className={
                       `${styles.location_tag} ${styles.location_tag_3}` /*INSERT LOCATIE TAG VOOR KLEUR*/
@@ -718,12 +817,16 @@ class Game extends Component {
                   <div className={styles.player_score}>{/*INSERT SCORE*/}0</div>
                 </div>
                 <div className={styles.player_video_wrapper}>
-                  <img
-                    src="PLAYER4"
-                    alt="Player 4"
-                    ref={this.imgTag3}
-                    className={styles.oponent_img}
-                  />
+                  <video
+                    style={{ transform: "scaleX(-1)" }}
+                    className={styles.oponent_video_feed}
+                    id="videoTag4"
+                    ref={this.videoTag4}
+                    width={this.state.constraints.video.width}
+                    height={this.state.constraints.video.height}
+                    autoPlay
+                    muted
+                  ></video>
                   <p
                     className={
                       `${styles.location_tag} ${styles.location_tag_4}` /*INSERT LOCATIE TAG VOOR KLEUR*/

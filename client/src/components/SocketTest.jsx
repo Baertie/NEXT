@@ -119,12 +119,6 @@ class SocketTest extends Component {
   };
 
   componentDidMount() {
-    // start showing own video on screen
-    //   navigator.mediaDevices
-    //     .getUserMedia(this.state.constraints)
-    //     .then(stream => (this.ownVideoFeed.current.srcObject = stream))
-    //     .catch(console.log("failed to get user media"));
-    // }
     this.getCamera();
   }
 
