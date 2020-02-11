@@ -48,6 +48,17 @@ exports.findAll = async (req, res) => {
   }
 };
 
+exports.getLimited = async (req, res) => {
+  try {
+    const scores = await Score.find()
+      .sort({ playerScore: -1 })
+      .limit(5);
+    res.send(scores);
+  } catch (err) {
+    res.status(500).send({ err: err.score || "Error" });
+  }
+};
+
 // exports.findOne = async (req, res) => {
 //   try {
 //     const score = await Score.findOne({

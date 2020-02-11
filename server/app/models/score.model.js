@@ -5,8 +5,7 @@ const ScoreSchema = mongoose.Schema({
   playerRegion: String,
   playerPicture: String,
   playerScore: Number,
-  installationLocation: String,
-  baas: String
+  installationLocation: String
 });
 
 module.exports = mongoose.model("Score", ScoreSchema);

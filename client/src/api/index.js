@@ -8,6 +8,11 @@ class Api {
     return await r.json();
   };
 
+  getLimited = async entity => {
+    const r = await fetch(`/api/${this.entity}/${entity.limit}`);
+    return await r.json();
+  };
+
   create = async entity => {
     const r = await fetch(
       `/api/${this.entity}`,

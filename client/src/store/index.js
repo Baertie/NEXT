@@ -7,13 +7,14 @@ configure({ enforceActions: `observed` });
 class Store {
   constructor() {
     this.api = new Api(`scores`);
-    this.getAll();
-
-    console.log("store");
+    this.regioApi = new Api(`regioscores`);
+    this.getLimited();
+    this.getRegioScores();
   }
   flowStatus = "";
   currentLocation = "";
   scores = [];
+  regioScores = [];
 
   setStartOnboarding = () => {
     this.flowStatus = "onboardingStarted";
@@ -45,7 +46,11 @@ class Store {
   };
 
   getAll = () => {
-    this.api.getAll().then(d => d.forEach(this.addScoresToArray));
+    //this.api.getAll().then(d => d.forEach(this.addScoresToArray));
+  };
+
+  getLimited = () => {
+    this.api.getLimited(5).then(d => d.forEach(this.addScoresToArray));
   };
 
   addScoresToArray = data => {
@@ -60,6 +65,15 @@ class Store {
       .create(newScore)
       .then(scoreValues => newScore.updateFromServer(scoreValues));
   };
+
+  getRegioScores = () => {
+    this.regioApi.getAll().then(d => d.forEach(this.addRegioScoresToArray));
+  };
+
+  addRegioScoresToArray = data => {
+    this.regioScores.push(data);
+    console.log(this.regioScores);
+  };
 }
 
 decorate(Store, {
@@ -73,9 +87,12 @@ decorate(Store, {
   startSocket: action,
   setLocation: action,
   addScoresToArray: action,
+  addRegioScoresToArray: action,
 
   flowStatus: observable,
-  currentLocation: observable
+  currentLocation: observable,
+  scores: observable,
+  regioScores: observable
 });
 
 const store = new Store();

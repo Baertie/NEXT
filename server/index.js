@@ -34,6 +34,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 require("./app/routes/scores.routes.js")(app);
+require("./app/routes/regioscores.routes.js")(app);
 
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
