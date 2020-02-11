@@ -1,0 +1,212 @@
+.red_background {
+  position: absolute;
+  width: 1232.86px;
+  height: 767.83px;
+  left: -102.16px;
+  top: -76.05px;
+  background: var(--background-red);
+  transform: rotate(-5deg);
+  z-index: 1;
+}
+
+.full_wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100vh;
+}
+
+.logo_next_white {
+  background-image: url("../assets/img/logo-next-white.svg");
+  position: absolute;
+  z-index: 5;
+  width: 17.874rem;
+  height: 6.4rem;
+  left: 3.6rem;
+  top: 3.6rem;
+  background-size: contain;
+}
+
+.own_score {
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding-top: 20rem;
+}
+
+.title {
+  font-family: "Heavitas";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 5.5rem;
+  color: var(--white);
+  display: flex;
+  justify-self: start;
+  padding-bottom: 4rem;
+  padding-left: 5rem;
+}
+
+.score_background {
+  width: 952px;
+  height: 144px;
+  left: 64px;
+  top: 302px;
+  background: var(--white);
+  box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.15);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: row;
+  /* justify-content: space-between; */
+  align-items: center;
+}
+
+.score_position {
+  font-family: "Heavitas";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 4.4rem;
+  margin-left: 6rem;
+}
+
+.score_image {
+  width: 8rem;
+  height: 8rem;
+  border-radius: 1.6rem;
+  margin-left: 4rem;
+}
+
+.score_person {
+  height: 9rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-around;
+  margin-left: 8rem;
+}
+
+.score_person_name {
+  font-family: "Alte-bold";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 4rem;
+}
+
+.score_person_location {
+  font-family: "Alte";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 2.4rem;
+  color: var(--white);
+  background-color: var(--label-1);
+  padding: 0.5rem 1.2rem;
+  border-radius: 0.8rem;
+}
+
+.score_points {
+  font-family: "Heavitas";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 5.6rem;
+  margin-left: 40rem;
+}
+
+.board_background {
+  width: 952px;
+  height: 936px;
+  margin: 0 auto;
+  background: var(--white);
+  box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.15);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 100;
+}
+
+.board_item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 15rem;
+  border-bottom: 0.1rem solid gray;
+}
+
+.board_item:nth-child(5) {
+  border-bottom: none;
+}
+
+.board_title {
+  font-family: "Heavitas";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 4.8rem;
+  color: var(--primary-color);
+  display: flex;
+  align-self: flex-start;
+  margin: 6rem;
+}
+/* .board_item_border {
+  height: 0;
+  width: 82.4rem;
+  border-bottom: 0.1rem solid grey;
+} */
+.regional {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0 auto;
+}
+.regional_title {
+  font-family: "Heavitas";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 4rem;
+  color: var(--primary-color);
+}
+
+.regional_grid {
+  width: 95.2rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 12rem);
+  margin-top: 3rem;
+}
+
+.regional_item:nth-child(1) {
+  border-bottom: 0.1rem solid gray;
+  border-right: 0.1rem solid gray;
+}
+
+.regional_item:nth-child(2) {
+  border-bottom: 0.1rem solid gray;
+}
+
+.regional_item:nth-child(3) {
+  border-right: 0.1rem solid gray;
+}
+
+.regional_item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.regional_item_region {
+  font-family: "Alte-bold";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 3.6rem;
+  color: var(--white);
+  background-color: var(--label-1);
+  padding: 0.8rem 1.2rem;
+  border-radius: 0.8rem;
+}
+
+.regional_item_points {
+  font-family: "Heavitas";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 4rem;
+}
