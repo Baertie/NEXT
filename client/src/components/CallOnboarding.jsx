@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import FilterAffiche from "../assets/img/afficheFilter.png";
 import Affiche from "../assets/img/afficheNoFilter.png";
+import Rounds from "../assets/img/rounds.svg";
 
 import styles from "../styles/CallOnboarding.module.css";
 
@@ -25,7 +26,9 @@ class CallOnboarding extends Component {
                 te zien.
               </p>
             </div>
-            <img src={FilterAffiche} />
+            <div className={styles.image_container_single}>
+              <img className={styles.call_image} src={FilterAffiche} />
+            </div>
           </div>
           <div className={styles.step}>
             <div className={styles.text_column}>
@@ -40,9 +43,9 @@ class CallOnboarding extends Component {
                 gemaakt.
               </p>
             </div>
-            <div>
-              <img src={FilterAffiche} />
-              <img src={Affiche} />
+            <div className={styles.image_container}>
+              <img className={styles.call_image} src={FilterAffiche} />
+              <img className={styles.call_image} src={Affiche} />
             </div>
           </div>
           <div className={styles.step}>
@@ -58,11 +61,17 @@ class CallOnboarding extends Component {
                 je verdient.
               </p>
             </div>
-            <div>
-              <img src={FilterAffiche} />
-              <img src={Affiche} />
-              <p>+75</p>
+            <div className={styles.image_grid}>
+              <img className={styles.call_image} src={FilterAffiche} />
+              <img className={styles.call_image} src={Affiche} />
+              <p className={styles.points}>+75</p>
             </div>
+          </div>
+          <div className={styles.rounds}>
+            <img src={Rounds} />
+            <p className={styles.rounds_text}>
+              Er zijn <span className={styles.call_text_bold}>3 rondes.</span>
+            </p>
           </div>
         </div>
       </div>
