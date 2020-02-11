@@ -9,6 +9,7 @@ app.get("/", function(req, res) {
 
 const users = {};
 
+io.set("origins", "*:*");
 io.on("connection", socket => {
   users[socket.id] = {
     peers: {}
@@ -99,44 +100,36 @@ io.on("connection", socket => {
     socket.broadcast.emit("playerCalled", time);
   });
 
-  socket.on("newPeerJoined", () => {
-    socket.broadcast.emit("newPeerJoined");
+  socket.on("joinGame", location => {
+    socket.broadcast.emit("joinGame", location);
   });
 
-  socket.on("peerAnswered", () => {
-    socket.broadcast.emit("peerAnswered");
-  });
-
-  socket.on("hasVideo", () => {
-    socket.emit("hasVideo");
-  });
-
-  socket.on("sendCall", test => {
-    console.log("test: ", test);
-    socket.broadcast.emit("peerWantsACall");
+  socket.on("sendImg", ({ location, image }) => {
+    console.log("sendImg, loc: ", location, ". img: ", image);
+    socket.broadcast.emit("sendImg", { location, image });
   });
 
   // ENKEL PEER TO PEER
-  const room = "BAPNEXT";
-  const join = room => {
-    // Count clients in room
-    const clientCount =
-      typeof io.sockets.adapter.rooms[room] !== "undefined"
-        ? io.sockets.adapter.rooms[room].length
-        : 0;
-    // Check if client can join to the room
-    if (clientCount < 3) {
-      socket.join(room);
-      socket.emit("join", { clientCount: clientCount + 1 });
-      console.log("Joined to room!");
-    } else {
-      console.log("Room is full!");
-    }
-  };
-  join(room);
-  socket.on("signaling", message => {
-    socket.to(room).emit("signaling", message);
-  });
+  // const room = "BAPNEXT";
+  // const join = room => {
+  //   // Count clients in room
+  //   const clientCount =
+  //     typeof io.sockets.adapter.rooms[room] !== "undefined"
+  //       ? io.sockets.adapter.rooms[room].length
+  //       : 0;
+  //   // Check if client can join to the room
+  //   if (clientCount < 3) {
+  //     socket.join(room);
+  //     socket.emit("join", { clientCount: clientCount + 1 });
+  //     console.log("Joined to room!");
+  //   } else {
+  //     console.log("Room is full!");
+  //   }
+  // };
+  // join(room);
+  // socket.on("signaling", message => {
+  //   socket.to(room).emit("signaling", message);
+  // });
 });
 
 // http.listen(8080, function() {

@@ -21,6 +21,7 @@ import Onboarding from "./components/Onboarding";
 import Postercarousel from "./components/Postercarousel";
 import SocketJoin from "./components/SocketJoin";
 import SocketTest from "./components/SocketTest";
+import VideoTest from "./components/VideoTest";
 import Game from "./components/Game";
 import Scoreboard from "./components/Scoreboard";
 import TeamBoard from "./components/TeamBoard";

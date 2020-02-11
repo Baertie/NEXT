@@ -26,6 +26,10 @@ class Called extends Component {
     socket.emit("playerCalled");
   }
 
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
   joinGame = () => {
     this.props.history.push("/joinGame");
   };
