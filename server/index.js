@@ -1,5 +1,7 @@
 const express = require("express");
 const path = require("path");
+const bodyParser = require("body-parser");
+
 const app = express();
 const mongoose = require("mongoose");
 
@@ -17,13 +19,21 @@ mongoose
   .connect(process.env.DB_URL, {
     useNewUrlParser: true,
     useFindAndModify: false,
-    useCreateIndex: true
+    useCreateIndex: true,
+    useUnifiedTopology: true
   })
+  .then(() => console.log("db connected"))
   .catch(e => {
+    console.log("Error, exiting", e);
     process.exit();
   });
 
 app.use(express.static(path.resolve(__dirname, "../client/build")));
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+require("./app/routes/scores.routes.js")(app);
 
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));

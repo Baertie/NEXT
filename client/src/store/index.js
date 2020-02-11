@@ -1,4 +1,4 @@
-import { decorate, observable, configure, action } from "mobx";
+import { decorate, observable, configure, action, runInAction } from "mobx";
 import Api from "../api";
 import Score from "../models/Score";
 
@@ -6,7 +6,10 @@ configure({ enforceActions: `observed` });
 
 class Store {
   constructor() {
-    this.api = new Api(`score`);
+    this.api = new Api(`scores`);
+    this.getAll();
+
+    console.log("store");
   }
   flowStatus = "";
   currentLocation = "";
@@ -45,12 +48,28 @@ class Store {
   };
 
   getAll = () => {
+    console.log("in get all");
     this.api.getAll().then(d => d.forEach(this.addScoresToArray));
+    // this.api.getAll().then(d => d.forEach(console.log(d)));
+    // console.log("api", this.api.getAll());
+    //this.api.getAll().then(d => console.log("api data", d));
+    // this.api.getAll().then(d => console.log(d));
+
+    console.log("na get all");
   };
 
   addScoresToArray = data => {
+    console.log("in add", data);
     this.scores.push(data);
+    console.log(this.scores);
   };
+
+  // addScoresToArray = values => {
+  //   const score = new Score();
+  //   score.updateFromServer(values);
+  //   runInAction(() => this.scores.push(score));
+  //   console.log("dit werkt");
+  // };
 }
 
 decorate(Store, {
@@ -63,6 +82,7 @@ decorate(Store, {
   setGameEnded: action,
   startSocket: action,
   setLocation: action,
+  addScoresToArray: action,
 
   flowStatus: observable,
   currentLocation: observable

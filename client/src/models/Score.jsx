@@ -1,8 +1,18 @@
 import { decorate, observable, action, computed } from "mobx";
 
 class Score {
-  constructor(score) {
-    this.score = score;
+  constructor(
+    playerName,
+    playerRegion,
+    playerPicture,
+    playerScore,
+    installationLocation
+  ) {
+    this.playerName = playerName;
+    this.playerRegion = playerRegion;
+    this.playerPicture = playerPicture;
+    this.playerScore = playerScore;
+    this.installationLocation = installationLocation;
     // this.answers = answers;
   }
 
