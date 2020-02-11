@@ -15,9 +15,6 @@ class Store {
   currentLocation = "";
   scores = [];
 
-  // flowStatus = "Socket";
-  //   constructor() {}
-
   setStartOnboarding = () => {
     this.flowStatus = "onboardingStarted";
   };
@@ -48,28 +45,21 @@ class Store {
   };
 
   getAll = () => {
-    console.log("in get all");
     this.api.getAll().then(d => d.forEach(this.addScoresToArray));
-    // this.api.getAll().then(d => d.forEach(console.log(d)));
-    // console.log("api", this.api.getAll());
-    //this.api.getAll().then(d => console.log("api data", d));
-    // this.api.getAll().then(d => console.log(d));
-
-    console.log("na get all");
   };
 
   addScoresToArray = data => {
-    console.log("in add", data);
     this.scores.push(data);
-    console.log(this.scores);
   };
 
-  // addScoresToArray = values => {
-  //   const score = new Score();
-  //   score.updateFromServer(values);
-  //   runInAction(() => this.scores.push(score));
-  //   console.log("dit werkt");
-  // };
+  addPlayerScoreToDatabase = data => {
+    const newScore = new Score();
+    newScore.updateFromServer(data);
+
+    this.api
+      .create(newScore)
+      .then(scoreValues => newScore.updateFromServer(scoreValues));
+  };
 }
 
 decorate(Store, {
