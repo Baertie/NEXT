@@ -21,6 +21,7 @@ import Onboarding from "./components/Onboarding";
 import Postercarousel from "./components/Postercarousel";
 import SocketJoin from "./components/SocketJoin";
 import SocketTest from "./components/SocketTest";
+import VideoTest from "./components/VideoTest";
 import Game from "./components/Game";
 import socketIOClient from "socket.io-client";
 
@@ -73,6 +74,7 @@ class App extends Component {
           <Route path="/game" component={Game} />
           <Route path="/joinGame" component={SocketJoin} />
           <Route path="/test" component={SocketTest} />
+          <Route path="/rtc" component={VideoTest} />
           {/*
         <Route path="/endGame" component={ NEW COMPONENT } />
         <Route path="/scorebord" component={ NEW COMPONENT } />*/}

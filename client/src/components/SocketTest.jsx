@@ -54,7 +54,7 @@ class SocketTest extends Component {
           DtlsSrtpKeyAgreement: true
         },
         {
-          RtpDataChannels: false
+          RtpDataChannels: true
         }
       ]
     };
@@ -113,12 +113,22 @@ class SocketTest extends Component {
   };
 
   componentDidMount() {
-    // start showing own video on screen
-    navigator.mediaDevices
-      .getUserMedia(this.state.constraints)
-      .then(stream => (this.ownVideoFeed.current.srcObject = stream))
-      .catch(console.log("failed to get user media"));
+    //const signalingChannel = new SignalingChannel(remoteClientId);
+    // const signalingChannel = new SignalingChannel(remoteClientId);
+    this.getCamera();
   }
+
+  getCamera = async () => {
+    let stream = null;
+    try {
+      stream = await navigator.mediaDevices.getUserMedia(
+        this.state.constraints
+      );
+      this.ownVideoFeed.current.srcObject = stream;
+    } catch (err) {
+      console.log("kapoet");
+    }
+  };
 
   startCamera = () => {
     // This sends your video

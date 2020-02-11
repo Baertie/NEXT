@@ -1,153 +1,144 @@
 import React, { Component } from "react";
-// import { inject, observer } from "mobx-react";
-// import socketIOClient from "socket.io-client";
-import { join, signaling, send } from "./SocketVideo";
-import NeatRTC from "neat-rtc";
+import { inject, observer } from "mobx-react";
 
 import styles from "../styles/Socket.module.css";
 
-// import { socket } from "../api/Api";
+import className from "classnames";
+
 import { socket } from "../App.js";
 class Socket extends Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.ownVideoFeed = React.createRef();
+    this.ownCanvas = React.createRef();
     this.state = {
       video: null,
       constraints: {
         audio: false,
         video: { width: 480, height: 720 }
       },
-      searchTimer: 15,
+      searchTimer: 200,
       playerJoined: false,
-      videoSharing: false,
-      videoSend: false
+      ownVideoStyle: null,
+      kortrijkPlayer: false,
+      kortrijkImg: null,
+      lillePlayer: false,
+      lilleImg: null,
+      valenciennesPlayer: false,
+      valenciennesImg: null,
+      tournaiPlayer: false,
+      tournaiImg: null
     };
-    // Setup NeatRTC
-    const {
-      connected,
-      mediaStreamConnected,
-      mediaStreamRemoved,
-      datachannelOpen,
-      datachannelMessage,
-      datachannelError,
-      datachannelClose,
-      sendSignalingMessage,
-      mediaStreamRemoteRemoved
-    } = this;
-    const config = {
-      devMode: true,
-      videoIdLocal: "localVideo",
-      videoIdRemote: "remoteVideo",
-      connected: connected,
-      mediaStreamConnected: mediaStreamConnected,
-      mediaStreamRemoved: mediaStreamRemoved,
-      mediaStreamRemoteRemoved: mediaStreamRemoteRemoved,
-      datachannels: [
-        {
-          name: "text",
-          callbacks: {
-            open: datachannelOpen,
-            message: datachannelMessage,
-            error: datachannelError,
-            close: datachannelClose
-          }
-        }
-      ]
-    };
-    this.rtc = new NeatRTC(config, sendSignalingMessage);
-    // Socket.IO join messages from server
-    join(message => {
-      const { clientCount } = message;
-      if (clientCount === 2) {
-        // console.log("rtc connect STARTCONNECT.JSX");
-        this.rtc.connect();
-      }
-    });
-    // Socket.IO signaling messages from server
-    signaling(message => {
-      // Ontvangt messages
-      this.rtc.handleSignaling(message);
-    });
   }
 
-  connected = () => {
-    // Not needed
-    console.log("START-CONNECTING connected");
-  };
-  mediaStreamConnected = () => {
-    // Not needed
-    console.log("START-CONNECTING mediaStreamConnected");
-  };
-  mediaStreamRemoved = () => {
-    // Not needed
-    console.log("START-CONNECTING mediaStreamRemoved");
-  };
-  mediaStreamRemoteRemoved = () => {
-    // Not needed
-    console.log("START-CONNECTING mediaStreamRemoteRemoved");
-  };
-  datachannelOpen = channel => {
-    // Not needed
-    console.log("START-CONNECTING datachannelOpen");
-  };
-  datachannelMessage = (channel, message) => {
-    // Not needed
-    console.log("START-CONNECTING datachannelMessage");
-  };
-  datachannelError = channel => {
-    // Not needed
-    console.log("START-CONNECTING datachannelError");
-  };
-  datachannelClose = channel => {
-    // Not needed
-    console.log("START-CONNECTING datachannelClose");
-  };
-  stopCamera = () => {
-    // this.rtc.media("stop");
-    // Not needed to stop webcam
-  };
-  stopRemoteCamera = () => {
-    this.rtc.media("stopRemote");
-    // console.log("1");
-    // Not needed to stop other webcam
-  };
-  sendText = () => {
-    // No messages needed with webrtc
-  };
-
-  sendSignalingMessage = message => {
-    console.log("send signal start connect");
-    send("signaling", message);
-  };
-
-  startCamera = () => {
-    console.log("start camera socket.jsx");
-    this.rtc.media("start");
-  };
   componentDidMount() {
+    this._isMounted = true;
+    this.setCurrentLocationClass();
+
     socket.emit("stopCarousel", "einde carousel");
     socket.emit("searchTimer", this.state.searchTimer);
-    socket.on("newPeerJoined", () => {
-      console.log("Ontvang newPeerJoined");
-      setTimeout(() => {
-        socket.emit("peerAnswered");
-        this.startCamera();
-      }, 2500);
+
+    socket.on("joinGame", location => {
+      console.log("iemand uit ", location, " joint de game");
+      this.sendImg();
     });
-    socket.on("playerCalled", () => {
-      // Dit hielp wel bij iets
-      console.log("speler is gebeld");
-      // this.startCamera();
+
+    socket.on("sendImg", ({ location, image }) => {
+      console.log("iemand uit ", location, " stuurt je een foto: ", image);
+      this.checkNewPlayerLocation(location);
+      this.setNewPlayerImg(location, image);
     });
-    // navigator.mediaDevices
-    //   .getUserMedia(this.state.constraints)
-    //   .then(stream => (this.ownVideoFeed.current.srcObject = stream))
-    //   .then(this.startTimer)
-    //   // .then(this.startCamera)
-    //   .catch(console.log("failed to get user media"));
+
     this.getCamera();
   }
+
+  setNewPlayerImg = (location, image) => {
+    if (this._isMounted) {
+      switch (location) {
+        case "kortrijk":
+          this.setState({ kortrijkImg: image });
+          break;
+        case "tournai":
+          this.setState({ tournaiImg: image });
+          break;
+        case "lille":
+          this.setState({ lilleImg: image });
+          break;
+        case "valenciennes":
+          this.setState({ valenciennesImg: image });
+          break;
+      }
+    }
+  };
+
+  checkNewPlayerLocation = location => {
+    if (this._isMounted) {
+      switch (location) {
+        case "kortrijk":
+          this.setState({ kortrijkPlayer: true });
+          break;
+        case "tournai":
+          this.setState({ tournaiPlayer: true });
+          break;
+        case "lille":
+          this.setState({ lillePlayer: true });
+          break;
+        case "valenciennes":
+          this.setState({ valenciennes: true });
+          break;
+      }
+    }
+  };
+
+  setCurrentLocationClass = () => {
+    let currentclasses;
+    if (this._isMounted) {
+      switch (this.props.store.currentLocation) {
+        case "kortrijk":
+          currentclasses = className(
+            `${styles.player_1_img} ${styles.player_img}`
+          );
+          this.setState({ ownVideoStyle: currentclasses });
+          break;
+        case "tournai":
+          currentclasses = className(
+            `${styles.player_2_img} ${styles.player_img}`
+          );
+          this.setState({ ownVideoStyle: currentclasses });
+          break;
+        case "lille":
+          currentclasses = className(
+            `${styles.player_3_img} ${styles.player_img}`
+          );
+          this.setState({ ownVideoStyle: currentclasses });
+          break;
+        case "valenciennes":
+          currentclasses = className(
+            `${styles.player_4_img} ${styles.player_img}`
+          );
+          this.setState({ ownVideoStyle: currentclasses });
+          break;
+      }
+    }
+  };
+
+  sendImg = () => {
+    const videoTag = this.ownVideoFeed.current;
+    const canvas = this.ownCanvas.current;
+
+    const ctx = canvas.getContext("2d");
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(videoTag, 0, 0, canvas.width, canvas.height);
+
+    console.log("img to send", canvas.toDataURL());
+    console.log("location to send", this.props.store.currentLocation);
+    socket.emit("sendImg", {
+      location: this.props.store.currentLocation,
+      image: canvas.toDataURL()
+    });
+  };
 
   getCamera = async () => {
     let stream = null;
@@ -177,6 +168,7 @@ class Socket extends Component {
   }, 1000);
 
   componentWillUnmount() {
+    this._isMounted = false;
     clearInterval(this.startTimer);
     let stream = this.ownVideoFeed.current.srcObject;
     let tracks = stream.getTracks();
@@ -186,38 +178,9 @@ class Socket extends Component {
     this.ownVideoFeed.current.srcObject = null;
   }
 
-  connectNU = () => {
-    console.log("connect nu button pressed");
-    this.rtc.media("start");
-  };
-
   render() {
     return (
       <>
-        {/* <button
-          style={{
-            position: "absolute",
-            fontSize: 50,
-            top: 100,
-            left: 100,
-            zIndex: 50
-          }}
-          onClick={this.connectNU}
-        >
-          Connect nu
-        </button>
-        <button
-          style={{
-            position: "absolute",
-            fontSize: 50,
-            top: 200,
-            left: 100,
-            zIndex: 50
-          }}
-          onClick={this.stopRemoteCamera}
-        >
-          stop remote
-        </button> */}
         <div className={styles.red_background}></div>
         <div className={styles.logo_next_white}></div>
         <div className={styles.search_timer}>
@@ -373,33 +336,62 @@ class Socket extends Component {
                 />
               </svg>
             </div>
-            <div className="App">
-              <div id="local-container" style={{ display: "none" }}>
-                <video
-                  id="localVideo"
-                  muted
-                  style={{ display: "none" }}
-                ></video>
-              </div>
-              <video
-                className={`${styles.player_1_video} ${styles.player_video}`}
-                id="ownVideoFeed"
-                ref={this.ownVideoFeed}
-                height={200}
-                width={160}
-                autoPlay
-                muted
-              />
-              <div id="remote-container">
-                <video
-                  className={`${styles.player_2_video} ${styles.player_video}`}
-                  id="remoteVideo"
-                  height={200}
-                  width={160}
-                  muted
-                />
-              </div>
-            </div>
+            <canvas
+              style={{
+                display: "none"
+              }}
+              ref={this.ownCanvas}
+              width={this.state.constraints.video.width}
+              height={this.state.constraints.video.height}
+            ></canvas>
+            <video
+              className={this.state.ownVideoStyle}
+              ref={this.ownVideoFeed}
+              height={200}
+              width={160}
+              autoPlay
+              muted
+            />
+            <img
+              className={
+                this.state.kortrijkPlayer
+                  ? `${styles.player_1_img} ${styles.player_img}`
+                  : styles.hidden_img
+              }
+              ref={this.player2img}
+              src={this.state.kortrijkImg}
+              alt="Kortrijk"
+            />
+            <img
+              className={
+                this.state.tournaiPlayer
+                  ? `${styles.player_2_img} ${styles.player_img}`
+                  : styles.hidden_img
+              }
+              ref={this.player2img}
+              src={this.state.tournaiImg}
+              alt="Tournai"
+            />
+            <img
+              className={
+                this.state.lillePlayer
+                  ? `${styles.player_3_img} ${styles.player_img}`
+                  : styles.hidden_img
+              }
+              ref={this.player3img}
+              src={this.state.lilleImg}
+              alt="Lille"
+            />
+            <img
+              className={
+                this.state.valenciennesPlayer
+                  ? `${styles.player_4_img} ${styles.player_img}`
+                  : styles.hidden_img
+              }
+              ref={this.player4img}
+              src={this.state.valenciennesImg}
+              alt="Valenciennes"
+            />
           </div>
           <h2 className={styles.subtitle}>
             We zijn op zoek naar andere spelers, <br /> dit kan even duren.
@@ -410,5 +402,5 @@ class Socket extends Component {
   }
 }
 
-// export default inject(`store`)(observer(Socket));
-export default Socket;
+export default inject(`store`)(observer(Socket));
+// export default Socket;
