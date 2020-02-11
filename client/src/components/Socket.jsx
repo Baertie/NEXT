@@ -18,7 +18,7 @@ class Socket extends Component {
         audio: false,
         video: { width: 480, height: 720 }
       },
-      searchTimer: 200,
+      searchTimer: 30,
       playerJoined: false,
       ownVideoStyle: null,
       kortrijkPlayer: false,
