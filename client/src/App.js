@@ -36,7 +36,7 @@ class App extends Component {
     super();
     this.state = {};
 
-    socket = socketIOClient(":8080");
+    socket = socketIOClient("/");
   }
 
   componentDidMount() {
