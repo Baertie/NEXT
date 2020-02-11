@@ -1,121 +1,25 @@
 import React, { Component } from "react";
-// import { inject, PropTypes, observer } from "mobx-react";
-// import socketIOClient from "socket.io-client";
 import { socket } from "../App.js";
-
-import { join, signaling, send } from "./SocketVideo";
-import NeatRTC from "neat-rtc";
-
 import styles from "../styles/Called.module.css";
 
 class Called extends Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
       searchTimer: null
     };
-    // Setup NeatRTC
-    // const {
-    //   connected,
-    //   mediaStreamConnected,
-    //   mediaStreamRemoved,
-    //   datachannelOpen,
-    //   datachannelMessage,
-    //   datachannelError,
-    //   datachannelClose,
-    //   sendSignalingMessage,
-    //   mediaStreamRemoteRemoved
-    // } = this;
-    // const config = {
-    //   devMode: true,
-    //   videoIdLocal: "localVideo",
-    //   videoIdRemote: "remoteVideo",
-    //   connected: connected,
-    //   mediaStreamConnected: mediaStreamConnected,
-    //   mediaStreamRemoved: mediaStreamRemoved,
-    //   mediaStreamRemoteRemoved: mediaStreamRemoteRemoved,
-    //   datachannels: [
-    //     {
-    //       name: "text",
-    //       callbacks: {
-    //         open: datachannelOpen,
-    //         message: datachannelMessage,
-    //         error: datachannelError,
-    //         close: datachannelClose
-    //       }
-    //     }
-    //   ]
-    // };
-    // this.rtc = new NeatRTC(config, sendSignalingMessage);
-    // // Socket.IO join messages from server
-    // join(message => {
-    //   const { clientCount } = message;
-    //   if (clientCount === 2) {
-    //     this.rtc.connect();
-    //   }
-    // });
-    // // Socket.IO signaling messages from server
-    // signaling(message => {
-    //   this.rtc.handleSignaling(message);
-    // });
   }
 
-  // connected = () => {
-  //   // Not needed
-  // };
-  // mediaStreamConnected = () => {
-  //   // Not needed
-  // };
-  // mediaStreamRemoved = () => {
-  //   // Not needed
-  // };
-  // mediaStreamRemoteRemoved = () => {
-  //   // Not needed
-  // };
-  // datachannelOpen = channel => {
-  //   // Not needed
-  // };
-  // datachannelMessage = (channel, message) => {
-  //   // Not needed
-  // };
-  // datachannelError = channel => {
-  //   // Not needed
-  // };
-  // datachannelClose = channel => {
-  //   // Not needed
-  // };
-  // stopCamera = () => {
-  //   // this.rtc.media("stop");
-  //   // Not needed to stop webcam
-  // };
-  // stopRemoteCamera = () => {
-  //   // this.rtc.media("stopRemote");
-  //   // console.log("1");
-  //   // Not needed to stop other webcam
-  // };
-  // sendText = () => {
-  //   // No messages needed with webrtc
-  // };
-
-  // sendSignalingMessage = message => {
-  //   send("signaling", message);
-  // };
-
-  // startCamera = () => {
-  //   // This sends your video
-  //   // start this when other player joins
-  //   this.rtc.media("start");
-  // };
-
   componentDidMount() {
-    // connect to socket
-    // this.clientSocket = socketIOClient(":8080");
+    this._isMounted = true;
     socket.on("searchTimer", time => {
-      this.setState({
-        searchTimer: time
-      });
+      if (this._isMounted) {
+        this.setState({
+          searchTimer: time
+        });
+      }
       if (this.state.searchTimer === 0) {
-        // Player didn't join, so back to carousel
         this.props.history.push("/");
       }
     });
@@ -123,22 +27,10 @@ class Called extends Component {
   }
 
   joinGame = () => {
-    console.log("called.jsx ik wil meedoen");
     this.props.history.push("/joinGame");
   };
 
   render() {
-    // return (
-    //   <>
-    //     <p style={{ fontStyle: "italic", fontSize: 15 }}>CALLED PAGE</p>
-    //     <button onClick={() => this.props.store.startSocket()}>socket</button>
-    //     <button onClick={this.answerCall}>Accept call</button>
-    //     <p style={{ fontSize: 25 }}>Timer: {this.state.searchTimer}</p>
-
-    //     <video id="localVideo" muted width="300" height="200"></video>
-    //     <video id="remoteVideo" muted width="300" height="200"></video>
-    //   </>
-    // );
     return (
       <>
         <button
@@ -159,14 +51,6 @@ class Called extends Component {
           <div className={styles.search_timer_text}>
             {this.state.searchTimer}
           </div>
-          {/* <svg className={styles.timer_svg}>
-            <circle
-              className={styles.timer_circle}
-              r="40"
-              cx="50"
-              cy="50"
-            ></circle>
-          </svg> */}
           <div className={styles.timer_wrapper}>
             <div className={styles.timer_dot}></div>
             <div className={styles.timer_dot}></div>
@@ -237,5 +121,4 @@ class Called extends Component {
   }
 }
 
-// export default inject(`store`)(observer(Called));
 export default Called;

@@ -56,6 +56,7 @@ class App extends Component {
         console.log(pair[1]);
         // return pair[1];
         socket.emit("joinLocationRoom", pair[1]);
+        this.props.store.setLocation(pair[1]);
       }
     }
     return false;
@@ -76,12 +77,14 @@ class App extends Component {
           <Route path="/game" component={Game} />
           <Route path="/joinGame" component={SocketJoin} />
           <Route path="/test" component={SocketTest} />
+
           <Route path="/scoreboard" component={Scoreboard} />
           <Route path="/teamboard" component={TeamBoard} />
           <Route path="/nameoverlay" component={NameOverlay} />
           <Route path="/callonboarding" component={CallOnboarding} />
 
           {/*<Route path="/gameInstructions" component={ NEW COMPONENT } />
+
         <Route path="/endGame" component={ NEW COMPONENT } />
         <Route path="/scorebord" component={ NEW COMPONENT } />*/}
           <Route path="/tablet" component={TabletWrapper}></Route>

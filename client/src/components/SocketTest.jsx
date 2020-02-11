@@ -43,6 +43,19 @@ class SocketTest extends Component {
             close: datachannelClose
           }
         }
+      ],
+      iceServers: [
+        {
+          url: "stun:stun.l.google.com:19302"
+        }
+      ],
+      optional: [
+        {
+          DtlsSrtpKeyAgreement: true
+        },
+        {
+          RtpDataChannels: false
+        }
       ]
     };
     this.rtc = new NeatRTC(config, sendSignalingMessage);
