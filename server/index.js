@@ -65,7 +65,7 @@ io.on("connection", socket => {
     // trigger onboarding page
     socket.on("onboarding", () => {
       io.to(room).emit("onboarding");
-      console.log("onboarding");
+      console.log("onboarding", room);
     });
 
     // flip through the onboarding pages
@@ -73,9 +73,10 @@ io.on("connection", socket => {
       io.to(room).emit("nextOnboardingPage");
       console.log("next page");
     });
+
     socket.on("startGame", () => {
       io.to(room).emit("startGame");
-      console.log("start game");
+      console.log("start game", room);
     });
 
     socket.on("prevOnboardingPage", () => {
@@ -84,45 +85,55 @@ io.on("connection", socket => {
     });
 
     // trigger connecting page
-    socket.on("connecting", () => {
-      io.to(room).emit("connecting");
-      console.log("connecting");
+    socket.on("banaan", () => {
+      io.to(room).emit("banaan");
+      console.log("banaan", room);
+    });
+
+    // socket.on("namechange", namevalue => {
+    //   io.to(room).emit("namechange", namevalue);
+    //   console.log("namevalue", namvevalue);
+    // });
+
+    socket.on("namechange", namevalue => {
+      io.to(room).emit("namechange", namevalue);
+      //   console.log("namevalue", namvevalue);
     });
 
     // trigger called page
     socket.on("called", () => {
       io.to(room).emit("called");
-      console.log("called");
+      console.log("called", room);
     });
 
     // trigger nameinput page
     socket.on("nameinput", () => {
       io.to(room).emit("nameinput");
-      console.log("nameinput");
+      console.log("nameinput", room);
     });
 
     // trigger game page
     socket.on("game", () => {
       io.to(room).emit("game");
-      console.log("game");
+      console.log("game", room);
     });
 
     // trigger regioinput page
     socket.on("regioinput", () => {
       io.to(room).emit("regioinput");
-      console.log("regioinput");
+      console.log("regioinput", room);
     });
 
     // trigger gdpr page
     socket.on("gdpr", () => {
       io.to(room).emit("gdpr");
-      console.log("gdpr");
+      console.log("gdpr", room);
     });
 
     // trigger leaderboard page
     socket.on("leaderboard", () => {
       io.to(room).emit("leaderboard");
-      console.log("leaderboard");
+      console.log("leaderboard", room);
     });
   });
 
@@ -144,7 +155,7 @@ io.on("connection", socket => {
   });
 
   socket.on("sendImg", ({ location, image }) => {
-    console.log("sendImg, loc: ", location, ". img: ", image);
+    // console.log("sendImg, loc: ", location, ". img: ", image);
     socket.broadcast.emit("sendImg", { location, image });
   });
 

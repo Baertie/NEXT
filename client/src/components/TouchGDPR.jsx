@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import styles from "../styles/TouchGDPR.module.css";
+import { inject, observer } from "mobx-react";
 
 import buttonStyles from "../styles/TouchOnboarding.module.css";
 import basicStyles from "../styles/Touch.module.css";
@@ -10,6 +11,16 @@ class TouchGDPR extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.handleSubmitPlayerdata = this.handleSubmitPlayerdata.bind(this);
+  }
+
+  handleSubmitPlayerdata() {
+    // console.log(event.target.value);
+    // this.setState({ value: event.target.value });
+    // console.log(this.props.store);
+    // console.log(props.store);
+    // this.props.store.addPlayerScoreToDatabase();
+    this.props.store.addPlayerScoreToDatabase();
   }
   render() {
     return (
@@ -28,13 +39,13 @@ class TouchGDPR extends Component {
         <div className={styles.buttonContainer}>
           <button
             className={`${buttonStyles.button} ${buttonStyles.prevButton} ${styles.fadedButton}`}
-            onClick={this.handlePrevClick}
+            onClick={this.handleReject}
           >
             nee
           </button>
           <button
             className={`${buttonStyles.button} ${buttonStyles.nextButton}`}
-            onClick={this.handleNextClick}
+            onClick={this.handleSubmitPlayerdata}
           >
             Ja!
           </button>
@@ -44,4 +55,4 @@ class TouchGDPR extends Component {
   }
 }
 
-export default TouchGDPR;
+export default inject(`store`)(observer(TouchGDPR));

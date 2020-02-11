@@ -13,31 +13,56 @@ class Score {
     this.playerPicture = playerPicture;
     this.playerScore = playerScore;
     this.installationLocation = installationLocation;
-    // this.answers = answers;
   }
 
-  //   setQuestion = value => {
-  //     this.question = value;
-  //   };
+  setName = value => {
+    this.playerName = value;
+  };
 
-  //   setAnswers = value => (this.answers = value);
+  setRegion = value => {
+    this.playerRegion = value;
+  };
+  setPicture = value => {
+    this.playerPicture = value;
+  };
+  setScore = value => {
+    this.playerScore = value;
+  };
+  setLocation = value => {
+    this.installationLocation = value;
+  };
 
-  //   updateFromServer = values => {
-  //     this.setQuestion(values.question);
-  //     this.setAnswers(values.answers);
-  //   };
+  updateFromServer = values => {
+    this.setName(values.playerName);
+    this.setRegion(values.playerRegion);
+    this.setPicture(values.playerPicture);
+    this.setScore(values.playerScore);
+    this.setLocation(values.installationLocation);
+  };
 
-  //   get values() {
-  //     return { question: this.question, answers: this.answers };
-  //   }
+  get values() {
+    return {
+      playerName: this.playerName,
+      playerRegion: this.playerRegion,
+      playerPicture: this.playerPicture,
+      playerScore: this.playerScore,
+      installationLocation: this.installationLocation
+    };
+  }
 }
 
-// decorate(Answer, {
-//   question: observable,
-//   answers: observable,
-//   setQuestion: action,
-//   setAnswers: action,
-//   values: computed
-// });
+decorate(Score, {
+  playerName: observable,
+  playerRegion: observable,
+  playerPicture: observable,
+  playerScore: observable,
+  installationLocation: observable,
+  setName: action,
+  setRegion: action,
+  setPicture: action,
+  setScore: action,
+  setLocation: action,
+  values: computed
+});
 
 export default Score;

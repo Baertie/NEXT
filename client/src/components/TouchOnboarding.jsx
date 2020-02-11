@@ -21,6 +21,7 @@ class TouchOnboarding extends Component {
       socket.emit("nextOnboardingPage");
     } else {
       socket.emit("startGame");
+      // socket.emit("connecting");
     }
   };
 

@@ -13,6 +13,7 @@ class Called extends Component {
 
   componentDidMount() {
     this._isMounted = true;
+
     socket.on("searchTimer", time => {
       if (this._isMounted) {
         this.setState({
@@ -24,6 +25,13 @@ class Called extends Component {
       }
     });
     socket.emit("playerCalled");
+
+    socket.emit("called");
+
+    socket.on("banaan", () => {
+      console.log("ga naar join game");
+      this.joinGame();
+    });
   }
 
   componentWillUnmount() {

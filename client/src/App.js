@@ -36,25 +36,29 @@ class App extends Component {
     super();
     this.state = {};
 
-    socket = socketIOClient("/");
+    // socket for deployment
+    // socket = socketIOClient("/");
+
+    // socket for dev
+    socket = socketIOClient(":8080");
   }
 
   componentDidMount() {
-    console.log("testbaas", this.props.location);
+    // console.log("testbaas", this.props.location);
     this.getQueryVariable("loc");
   }
 
   getQueryVariable(variable) {
     let query = this.props.location.search.substring(1);
-    console.log(query); //"app=article&act=news_content&aid=160990"
+    // console.log(query); //"app=article&act=news_content&aid=160990"
     let vars = query.split("&");
-    console.log(vars); //[ 'app=article', 'act=news_content', 'aid=160990' ]
+    // console.log(vars); //[ 'app=article', 'act=news_content', 'aid=160990' ]
     for (let i = 0; i < vars.length; i++) {
       let pair = vars[i].split("=");
-      console.log(pair); //[ 'app', 'article' ][ 'act', 'news_content' ][ 'aid', '160990' ]
+      // console.log(pair); //[ 'app', 'article' ][ 'act', 'news_content' ][ 'aid', '160990' ]
       if (pair[0] === variable) {
         //this.props.store.setLocation(pair[1]);
-        console.log(pair[1]);
+        // console.log(pair[1]);
         // return pair[1];
         socket.emit("joinLocationRoom", pair[1]);
         this.props.store.setLocation(pair[1]);
