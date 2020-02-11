@@ -132,7 +132,7 @@
   border-bottom: 0.1rem solid gray;
 }
 
-.board_item:nth-child(6) {
+.board_item:nth-child(5) {
   border-bottom: none;
 }
 

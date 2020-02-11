@@ -37,7 +37,6 @@ class Scoreboard extends Component {
                 </div>
                 <p className={styles.score_points}>220</p>
               </div>
-              <div className={styles.board_item_border}></div>
               <div className={styles.board_item}>
                 <p className={styles.score_position}>19</p>
                 <img className={styles.score_image} src={person} />

@@ -10,10 +10,10 @@ class TeamBoard extends Component {
   }
   render() {
     return (
-      <>
-        <div className={styles.full_wrapper}>
+      <div className={styles.full_wrapper}>
+        <div className={styles.component_wrapper}>
           <div>
-            <h2 className={styles.board_title}>Goed gespeeld!</h2>
+            <h1 className={styles.title}>Goed gespeeld!</h1>
             <p className={styles.board_text}>Dit is jullie tussenstand.</p>
           </div>
           <div className={styles.board_background}>
@@ -28,7 +28,6 @@ class TeamBoard extends Component {
                 </div>
                 <p className={styles.score_points}>220</p>
               </div>
-              <div className={styles.board_item_border}></div>
               <div className={styles.board_item}>
                 <p className={styles.score_position}>2</p>
                 <img className={styles.score_image} src={Person} />
@@ -63,10 +62,10 @@ class TeamBoard extends Component {
               Voer jouw regio hieronder in om jouw plaats op het globale
               scoreboard te zien.
             </p>
-            <img className={styles.pijl} src={Arrow} />
+            <img className={styles.arrow} src={Arrow} />
           </div>
         </div>
-      </>
+      </div>
     );
   }
 }
