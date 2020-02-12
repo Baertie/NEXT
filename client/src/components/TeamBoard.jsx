@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { PropTypes, inject, observer } from "mobx-react";
 import Person from "../assets/img/testPerson.png";
 import Arrow from "../assets/img/pijl.svg";
 
@@ -7,7 +8,25 @@ import styles from "../styles/TeamBoard.module.css";
 class TeamBoard extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      sortedPlayerScores: [],
+      ownLocation: this.props.store.currentLocation
+    };
   }
+  componentDidMount() {
+    const unsortedScores = this.props.store.sortedScores;
+
+    this.setSortedScores(unsortedScores);
+  }
+
+  setSortedScores = unsortedScores => {
+    this.setState({
+      sortedPlayerScores: unsortedScores.sort((a, b) => {
+        return b.score - a.score;
+      })
+    });
+  };
   render() {
     return (
       <div className={styles.full_wrapper}>
@@ -19,42 +38,30 @@ class TeamBoard extends Component {
           <div className={styles.board_background}>
             <h2 className={styles.board_title}>Jullie scoorden:</h2>
             <div>
-              <div className={styles.board_item}>
-                <p className={styles.score_position}>1</p>
-                <img className={styles.score_image} src={Person} />
-                <div className={styles.score_person}>
-                  <p className={styles.score_person_name}>Arno</p>
-                  <p className={styles.score_person_location}>Orroir</p>
-                </div>
-                <p className={styles.score_points}>220</p>
-              </div>
-              <div className={styles.board_item}>
-                <p className={styles.score_position}>2</p>
-                <img className={styles.score_image} src={Person} />
-                <div className={styles.score_person}>
-                  <p className={styles.score_person_name}>Arno</p>
-                  <p className={styles.score_person_location}>Orroir</p>
-                </div>
-                <p className={styles.score_points}>220</p>
-              </div>
-              <div className={styles.board_item}>
-                <p className={styles.score_position}>3</p>
-                <img className={styles.score_image} src={Person} />
-                <div className={styles.score_person}>
-                  <p className={styles.score_person_name}>Arno</p>
-                  <p className={styles.score_person_location}>Orroir</p>
-                </div>
-                <p className={styles.score_points}>220</p>
-              </div>
-              <div className={styles.board_item}>
-                <p className={styles.score_position}>4</p>
-                <img className={styles.score_image} src={Person} />
-                <div className={styles.score_person}>
-                  <p className={styles.score_person_name}>Arno</p>
-                  <p className={styles.score_person_location}>Orroir</p>
-                </div>
-                <p className={styles.score_points}>220</p>
-              </div>
+              {this.state.sortedPlayerScores.map(
+                ({ installationLocation, score }, index) => (
+                  <div
+                    className={`${styles.board_item} ${
+                      this.state.ownLocation === installationLocation
+                        ? styles.ownStats
+                        : ""
+                    }`}
+                    key={`player_${index}`}
+                  >
+                    <p className={styles.score_position}>{index + 1}</p>
+                    <img className={styles.score_image} src={Person} />
+                    <div className={styles.score_person}>
+                      <p className={styles.score_person_name}>Arno</p>
+                      <p
+                        className={`${styles.score_person_location} ${styles[installationLocation]}`}
+                      >
+                        {installationLocation}
+                      </p>
+                    </div>
+                    <p className={styles.score_points}>{score}</p>
+                  </div>
+                )
+              )}
             </div>
           </div>
           <div>
@@ -70,4 +77,4 @@ class TeamBoard extends Component {
   }
 }
 
-export default TeamBoard;
+export default inject(`store`)(observer(TeamBoard));

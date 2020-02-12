@@ -19,7 +19,7 @@ class Store {
   currentName = "";
   scores = [];
   regioScores = [];
-  currentLocation = "";
+  currentLocation = "kortrijk";
   imgKortrijk = null;
   imgLille = null;
   imgValenciennes = null;
@@ -32,6 +32,14 @@ class Store {
   nameLille = "";
   nameTournai = "";
   nameValenciennes = "";
+
+  // sortedScores = [
+  //   { installationLocation: "kortrijk", score: 210 },
+  //   { installationLocation: "valenciennes", score: 230 },
+  //   { installationLocation: "tournai", score: 180 },
+  //   { installationLocation: "lille", score: 30 }
+  // ];
+
 
   // Regio model
   // kortrijkScore = {
@@ -128,6 +136,7 @@ class Store {
     this.scoreValenciennes = score;
   };
 
+
   setNameKortrijk = name => {
     console.log("set name Kortrijk", name);
     this.nameKortrijk = name;
@@ -143,6 +152,8 @@ class Store {
   setNameValenciennes = name => {
     console.log("set name Valenciennes", name);
     this.nameValenciennes = name;
+
+  
   };
 }
 
@@ -177,10 +188,14 @@ decorate(Store, {
   setScoreTournai: action,
   setScoreValenciennes: action,
   setScoreLille: action,
+<<<<<<< HEAD
   setNameKortrijk: action,
   setNameTournai: action,
   setNameValenciennes: action,
   setNameLille: action,
+=======
+  setSortedScores: action,
+>>>>>>> 83e116a71a649b413961eca9ca5e679e9ba76d42
 
   imgKortrijk: observable,
   imgValenciennes: observable,
@@ -190,10 +205,14 @@ decorate(Store, {
   scoreValenciennes: observable,
   scoreLille: observable,
   scoreTournai: observable,
+<<<<<<< HEAD
   nameKortrijk: observable,
   nameValenciennes: observable,
   nameLille: observable,
   nameTournai: observable
+=======
+  sortedScores: observable
+>>>>>>> 83e116a71a649b413961eca9ca5e679e9ba76d42
 });
 
 const store = new Store();
