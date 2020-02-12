@@ -176,8 +176,8 @@
 }
 
 .timer_circle {
-  stroke-dasharray: 250px;
-  stroke-dashoffset: 0px;
+  stroke-dasharray: 25rem;
+  stroke-dashoffset: 0rem;
   stroke-linecap: round;
   stroke-width: 0.8rem;
   stroke: var(--white);
@@ -190,7 +190,7 @@
   font-family: "Alte-bold";
   color: var(--white);
   font-size: 3.6rem;
-  line-height: 100px;
+  line-height: 10rem;
 }
 
 .timer_wrapper {
@@ -285,9 +285,9 @@
 
 @keyframes countdown {
   from {
-    stroke-dashoffset: 0px;
+    stroke-dashoffset: 0rem;
   }
   to {
-    stroke-dashoffset: 250px;
+    stroke-dashoffset: 25rem;
   }
 }

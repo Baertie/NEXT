@@ -18,13 +18,15 @@ class Scoreboard extends Component {
           <div className={styles.own_score}>
             <h1 className={styles.title}>Je scoorde:</h1>
             <div className={styles.score_background}>
-              <p className={styles.score_position}>19</p>
-              <img className={styles.score_image} src={person} />
-              <div className={styles.score_person}>
-                <p className={styles.score_person_name}>Arno</p>
-                <p className={styles.score_person_location}>Orroir</p>
+              <div className={styles.board_item}>
+                <p className={styles.score_position}>19</p>
+                <img className={styles.score_image} src={person} />
+                <div className={styles.score_person}>
+                  <p className={styles.score_person_name}>Arno</p>
+                  <p className={styles.score_person_location}>Orroir</p>
+                </div>
+                <p className={styles.score_points}>220</p>
               </div>
-              <p className={styles.score_points}>220</p>
             </div>
           </div>
           <div className={styles.board_background}>
