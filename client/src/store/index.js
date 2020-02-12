@@ -19,7 +19,7 @@ class Store {
   currentName = "";
   scores = [];
   regioScores = [];
-  currentLocation = "";
+  currentLocation = "kortrijk";
   imgKortrijk = null;
   imgLille = null;
   imgValenciennes = null;
@@ -28,6 +28,13 @@ class Store {
   scoreLille = 0;
   scoreValenciennes = 0;
   scoreTournai = 0;
+  sortedScores = [
+    { installationLocation: "kortrijk", score: 210 },
+    { installationLocation: "valenciennes", score: 230 },
+    { installationLocation: "tournai", score: 180 },
+    { installationLocation: "lille", score: 30 }
+  ];
+  // sortedScores = [1, 5, 3, 6];
 
   // flowStatus = "Socket";
   //   constructor() {}
@@ -150,6 +157,12 @@ class Store {
   setScoreValenciennes = score => {
     this.scoreValenciennes = score;
   };
+
+  setSortedScores = data => {
+    data.sort((a, b) => {
+      return a.value - b.value;
+    });
+  };
 }
 
 decorate(Store, {
@@ -183,6 +196,7 @@ decorate(Store, {
   setScoreTournai: action,
   setScoreValenciennes: action,
   setScoreLille: action,
+  setSortedScores: action,
 
   imgKortrijk: observable,
   imgValenciennes: observable,
@@ -191,7 +205,8 @@ decorate(Store, {
   scoreKortrijk: observable,
   scoreValenciennes: observable,
   scoreLille: observable,
-  scoreTournai: observable
+  scoreTournai: observable,
+  sortedScores: observable
 });
 
 const store = new Store();

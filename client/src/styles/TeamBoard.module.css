@@ -63,6 +63,7 @@
   font-weight: normal;
   font-size: 5.6rem;
   grid-area: score;
+  justify-self: flex-end;
 }
 
 .board_background {
@@ -80,12 +81,12 @@
 
 .board_item {
   display: grid;
-  grid-template-columns: 8.5rem 15.5rem 47rem 13rem;
+  grid-template-columns: 1fr 8.5rem 15.5rem 47rem 13rem 1fr;
   align-items: center;
   justify-items: flex-start;
-
+  width: 95.2rem;
   height: 15rem;
-  grid-template-areas: "pos image name score";
+  grid-template-areas: ". pos image name score .";
   border-bottom: 0.1rem solid gray;
 }
 
@@ -139,4 +140,9 @@
 
 .valenciennes {
   background-color: var(--label-4);
+}
+
+.ownStats {
+  background-color: var(--primary-color);
+  color: var(--white);
 }
