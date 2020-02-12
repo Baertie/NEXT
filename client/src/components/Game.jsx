@@ -197,20 +197,20 @@ class Game extends Component {
           this.state.player2Location === location &&
           this.state.player2score != null
         ) {
-          this.setState({ player2score: this.state.player2score + score });
+          this.setState({ player2score: score });
           break;
         } else if (
           this.state.player3Location === location &&
           this.state.player3score != null
         ) {
-          this.setState({ player3score: this.state.player3score + score });
+          this.setState({ player3score: score });
           break;
         } else if (
           this.state.player4Location === location &&
           this.state.player4score != null
         ) {
           this.setState({
-            player4score: this.state.player4score + score
+            player4score: score
           });
           break;
         }
@@ -219,20 +219,20 @@ class Game extends Component {
           this.state.player2Location === location &&
           this.state.player2score != null
         ) {
-          this.setState({ player2score: this.state.player2score + score });
+          this.setState({ player2score: score });
           break;
         } else if (
           this.state.player3Location === location &&
           this.state.player3score != null
         ) {
-          this.setState({ player3score: this.state.player3score + score });
+          this.setState({ player3score: score });
           break;
         } else if (
           this.state.player4Location === location &&
           this.state.player4score != null
         ) {
           this.setState({
-            player4score: this.state.player4score + score
+            player4score: score
           });
           break;
         }
@@ -241,20 +241,20 @@ class Game extends Component {
           this.state.player2Location === location &&
           this.state.player2score != null
         ) {
-          this.setState({ player2score: this.state.player2score + score });
+          this.setState({ player2score: score });
           break;
         } else if (
           this.state.player3Location === location &&
           this.state.player3score != null
         ) {
-          this.setState({ player3score: this.state.player3score + score });
+          this.setState({ player3score: score });
           break;
         } else if (
           this.state.player4Location === location &&
           this.state.player4score != null
         ) {
           this.setState({
-            player4score: this.state.player4score + score
+            player4score: score
           });
           break;
         }
