@@ -31,7 +31,8 @@ class Socket extends Component {
       tournaiImg: null,
       imgToSend: null,
       gotFoto: false,
-      playerCount: 1
+      playerCount: 1,
+      imgToSendDone: false
     };
   }
 
@@ -187,6 +188,9 @@ class Socket extends Component {
         break;
     }
     this.setState({ imgToSend: canvas.toDataURL() });
+    setTimeout(() => {
+      this.setState({ imgToSendDone: true });
+    }, 750);
   };
 
   sendImg = () => {
@@ -250,10 +254,12 @@ class Socket extends Component {
   render() {
     return (
       <>
-        <div className={styles.fotoTimerWrapper}>
-          <p className={styles.fotoTimerText}>We nemen een foto over</p>
-          <p className={styles.fotoTimer}>{this.state.fotoTimer}</p>
-        </div>
+        {!this.state.imgToSendDone ? (
+          <div className={styles.fotoTimerWrapper}>
+            <p className={styles.fotoTimerText}>We nemen een foto over</p>
+            <p className={styles.fotoTimer}>{this.state.fotoTimer}</p>
+          </div>
+        ) : null}
         <div className={styles.red_background}></div>
         <div className={styles.logo_next_white}></div>
         <div className={styles.search_timer}>
