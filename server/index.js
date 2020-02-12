@@ -48,7 +48,7 @@ app.get("/api/data", (req, res) => {
 
 // const users = {};
 var connectionCounter = 0;
-var playerCount = 0;
+// var playerCount = 0;
 
 // io.set("origins", "*:*");
 io.on("connection", socket => {
@@ -165,15 +165,16 @@ io.on("connection", socket => {
     });
   });
 
+  socket.on("resetPlayerCount", () => {
+    var playerCount = 0;
+    console.log("RESET totalplayers wordt ", playerCount);
+
+    socket.broadcast.emit("resetPlayerCount", 0);
+  });
+
   socket.on("totalPlayers", players => {
     console.log("OUD totalplayers wordt ", players);
     playerCount = players;
-  });
-
-  socket.on("resetPlayerCount", () => {
-    console.log("RESET totalplayers wordt ");
-    playerCount = 0;
-    socket.broadcast.emit("resetPlayerCount", 0);
   });
 
   socket.on("startOnboardingTimer", () => {
