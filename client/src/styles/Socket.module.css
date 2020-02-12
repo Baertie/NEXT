@@ -156,6 +156,29 @@
   margin-top: 15rem;
 }
 
+.fotoTimerWrapper {
+  position: absolute;
+  z-index: 50;
+  left: calc(50% - 15rem);
+  width: 30rem;
+  top: 5rem;
+}
+
+.fotoTimerText,
+.fotoTimer {
+  color: var(--white);
+  font-family: "Heavitas";
+}
+
+.fotoTimerText {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+.fotoTimer {
+  font-size: 3rem;
+}
+
 .search_timer {
   position: absolute;
   right: 6.4rem;

@@ -30,7 +30,8 @@ class SocketJoin extends Component {
       valenciennesPlayer: false,
       tournaiPlayer: false,
       gotFoto: false,
-      imgToSend: null
+      imgToSend: null,
+      imgToSendDone: false
     };
   }
 
@@ -109,6 +110,9 @@ class SocketJoin extends Component {
         break;
     }
     this.setState({ imgToSend: canvas.toDataURL() });
+    setTimeout(() => {
+      this.setState({ imgToSendDone: true });
+    }, 750);
     setTimeout(() => {
       this.sendImg();
     }, 1000);
@@ -242,17 +246,12 @@ class SocketJoin extends Component {
   render() {
     return (
       <>
-        <p
-          style={{
-            position: "absolute",
-            fontSize: 25,
-            zIndex: 50,
-            left: "40%",
-            top: 150
-          }}
-        >
-          Foto wordt genomen binnen: {this.state.fotoTimer}
-        </p>
+        {!this.state.imgToSendDone ? (
+          <div className={styles.fotoTimerWrapper}>
+            <p className={styles.fotoTimerText}>We nemen een foto over</p>
+            <p className={styles.fotoTimer}>{this.state.fotoTimer}</p>
+          </div>
+        ) : null}
         <div className={styles.red_background}></div>
         <div className={styles.logo_next_white}></div>
         <div className={styles.search_timer}>

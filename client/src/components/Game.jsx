@@ -4,6 +4,7 @@ import * as faceapi from "face-api.js";
 import { inject, observer } from "mobx-react";
 import Loader from "./Loader";
 import CallOnboarding from "./CallOnboarding";
+import GameTutorial from "./GameTutorial";
 import NameOverlay from "./NameOverlay";
 import TeamBoard from "./TeamBoard";
 
@@ -88,7 +89,8 @@ class Game extends Component {
       hideCanvas: true,
       showScore: false,
       gameTimer: 5,
-      onboardingTimer: 30,
+      onboardingTimer: 15,
+      tutorialTimer: 3,
       roundEnded: false,
       ownLocation: this.props.store.currentLocation,
       ownScore: 0,
@@ -118,6 +120,7 @@ class Game extends Component {
 
       // render variables 3 screens
       startTutorial: false,
+      startSecondTutorial: false,
       inputName: true,
       gameEnded: false,
 
@@ -756,19 +759,23 @@ class Game extends Component {
   startGameTimer = () => {
     // this.clearInterval(this.onboardingTimer);
     // clearInterval(this.onboardintTimer);
-    this.gameTimer = setInterval(() => {
-      if (!this.state.roundEnded) {
-        if (this.state.gameTimer > 0) {
-          this.setState({ gameTimer: this.state.gameTimer - 1 });
+    if (!this.state.gameEnded) {
+      this.gameTimer = setInterval(() => {
+        if (!this.state.roundEnded) {
+          if (this.state.gameTimer > 0) {
+            this.setState({ gameTimer: this.state.gameTimer - 1 });
+          } else {
+            // TIMER IS 0 GEWORDEN!
+            this.screenShot();
+            this.setState({ roundEnded: true });
+          }
         } else {
-          // TIMER IS 0 GEWORDEN!
-          this.screenShot();
-          this.setState({ roundEnded: true });
+          if (this.state.currentRound === 4) {
+            clearInterval(this.gameTimer);
+          }
         }
-      } else {
-        // clearInterval(this.gameTimer);
-      }
-    }, 1000);
+      }, 1000);
+    }
   };
 
   startOnboardingTimer = () => {
@@ -776,13 +783,22 @@ class Game extends Component {
       if (this.state.onboardingTimer > 0) {
         this.setState({ onboardingTimer: this.state.onboardingTimer - 1 });
       } else {
-        console.log("onboarding stopt", this.state.onboardingTimer);
-        this.setState({ startTutorial: false, onboardingEnded: true });
+        this.setState({ startTutorial: false, startSecondTutorial: true });
         clearInterval(this.onboardingTimer);
-        // this.clearInterval(this.onboardingTimer);
-
         this.getOponentNames();
         this.getOwnName();
+        this.startTutorialTimer();
+      }
+    }, 1000);
+  };
+
+  startTutorialTimer = () => {
+    this.tutorialTimer = setInterval(() => {
+      if (this.state.tutorialTimer > 0) {
+        this.setState({ tutorialTimer: this.state.tutorialTimer - 1 });
+      } else {
+        this.setState({ startSecondTutorial: false, onboardingEnded: true });
+        clearInterval(this.tutorialTimer);
         this.startGameTimer();
       }
     }, 1000);
@@ -1195,18 +1211,32 @@ class Game extends Component {
   };
 
   goToNextRound = () => {
-    if (this.state.currentRound === this.state.maxRounds) {
-      console.log("game gedaan");
-      // this.setState({ gameEnded: true });
-      // this.props.store.createPlayerArray();
-    } else {
-      this.setState(prevState => {
-        return {
-          currentRound: prevState.currentRound + 1
-        };
-      });
+    if (!this.state.gameEnded) {
+      if (this.state.currentRound === this.state.maxRounds) {
+        console.log("game gedaan");
+        this.setState({ gameEnded: true });
+        clearInterval(this.gameTimer);
+      } else {
+        this.setState(prevState => {
+          return {
+            currentRound: prevState.currentRound + 1
+          };
+        });
+        this.getReferenceData();
+      }
 
-      this.getReferenceData();
+      //     if (this.state.currentRound === this.state.maxRounds) {
+      //       console.log("game gedaan");
+      //       // this.setState({ gameEnded: true });
+      //       // this.props.store.createPlayerArray();
+      //     } else {
+      //       this.setState(prevState => {
+      //         return {
+      //           currentRound: prevState.currentRound + 1
+      //         };
+      //       });
+
+      //       this.getReferenceData();
     }
   };
 
@@ -1229,7 +1259,11 @@ class Game extends Component {
         <div className={`${styles.full_game_wrapper} ${basicStyles.container}`}>
           {this.state.inputName ? <NameOverlay /> : null}
 
-          {this.state.startTutorial ? <CallOnboarding /> : null}
+          {this.state.startTutorial ? (
+            <CallOnboarding />
+          ) : this.state.startSecondTutorial ? (
+            <GameTutorial />
+          ) : null}
           {this.state.gameEnded ? <TeamBoard /> : null}
 
           {/* <CallOnboarding /> */}
@@ -1250,11 +1284,13 @@ class Game extends Component {
               </svg>
             </div> */}
             <div className={styles.game_timer}>
-              {this.state.showTimer ? (
+              {this.state.gameEnded ? null : this.state.showTimer ? (
                 <>
                   <div className={styles.game_timer_text}>
                     {!this.state.startTutorial
-                      ? this.state.gameTimer
+                      ? !this.state.startSecondTutorial
+                        ? this.state.gameTimer
+                        : this.state.tutorialTimer
                       : this.state.onboardingTimer}
                   </div>
 
