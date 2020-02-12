@@ -32,6 +32,7 @@ class Store {
   nameLille = "";
   nameTournai = "";
   nameValenciennes = "";
+  unsortedPlayers = [];
 
   // sortedScores = [
   //   { installationLocation: "kortrijk", score: 210 },
@@ -150,6 +151,57 @@ class Store {
   setNameValenciennes = name => {
     console.log("set name Valenciennes", name);
     this.nameValenciennes = name;
+  };
+
+  createPlayerArray = () => {
+    // sortedScores = [
+    //   { installationLocation: "kortrijk", score: 210 },
+    //   { installationLocation: "valenciennes", score: 230 },
+    //   { installationLocation: "tournai", score: 180 },
+    //   { installationLocation: "lille", score: 30 }
+    // ];
+
+    if (this.nameKortrijk != "") {
+      this.unsortedPlayers.push({
+        installationLocation: "kortrijk",
+        score: this.scoreKortrijk,
+        playerName: this.nameKortrijk,
+        playerImage: this.imgKortrijk
+      });
+    }
+
+    if (this.nameLille != "") {
+      this.unsortedPlayers.push({
+        installationLocation: "lille",
+        score: this.scoreLille,
+        playerName: this.nameLille,
+        playerImage: this.imgLille
+      });
+    }
+
+    if (this.nameTournai != "") {
+      this.unsortedPlayers.push({
+        installationLocation: "tournai",
+        score: this.scoreTournai,
+        playerName: this.nameTournai,
+        playerImage: this.imgTournai
+      });
+    }
+
+    if (this.nameValenciennes != "") {
+      this.unsortedPlayers.push({
+        installationLocation: "valenciennes",
+        score: this.scoreValenciennes,
+        playerName: this.nameValenciennes,
+        playerImage: this.imgValenciennes
+      });
+    }
+    // this.unsortedPlayers = [
+    //   ,
+    //   ,
+    //   ,
+
+    // ];
   };
 }
 
