@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import styles from "../styles/TouchNameInput.module.css";
 import basicStyles from "../styles/Touch.module.css";
 
+import { inject, observer } from "mobx-react";
+
 import LogoOverlayTablet from "../components/LogoOverlayTablet";
 import { socket } from "../App";
 
@@ -23,9 +25,35 @@ class TouchNameInput extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    socket.emit("gametutorial");
 
-    socket.emit("playerInputNameFinished");
+    const currentLocation = this.props.store.currentLocation;
+
+    switch (currentLocation) {
+      case "kortrijk":
+        console.log("set name voor kortrijk");
+        socket.emit("setNameKortrijk", this.state.value);
+        socket.emit("gametutorial");
+        socket.emit("playerInputNameFinished");
+        break;
+      case "tournai":
+        console.log("set name voor tournai");
+        socket.emit("setNameTournai", this.state.value);
+        socket.emit("gametutorial");
+        socket.emit("playerInputNameFinished");
+        break;
+      case "lille":
+        console.log("set name voor lille");
+        socket.emit("setNameLille", this.state.value);
+        socket.emit("gametutorial");
+        socket.emit("playerInputNameFinished");
+        break;
+      case "valenciennes":
+        console.log("set name voor valenciennes");
+        socket.emit("setNameValenciennes", this.state.value);
+        socket.emit("gametutorial");
+        socket.emit("playerInputNameFinished");
+        break;
+    }
   }
 
   render() {
@@ -59,4 +87,5 @@ class TouchNameInput extends Component {
   }
 }
 
-export default TouchNameInput;
+// export default TouchNameInput;
+export default inject(`store`)(observer(TouchNameInput));

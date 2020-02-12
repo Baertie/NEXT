@@ -191,16 +191,16 @@
   text-transform: capitalize;
 }
 
-.location_tag_1 {
+.kortrijk {
   background: var(--label-1);
 }
-.location_tag_2 {
+.lille {
   background: var(--label-2);
 }
-.location_tag_3 {
+.tournai {
   background: var(--label-3);
 }
-.location_tag_4 {
+.valenciennes {
   background: var(--label-4);
 }
 

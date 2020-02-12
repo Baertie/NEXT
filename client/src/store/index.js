@@ -28,9 +28,10 @@ class Store {
   scoreLille = 0;
   scoreValenciennes = 0;
   scoreTournai = 0;
-
-  // flowStatus = "Socket";
-  //   constructor() {}
+  nameKortrijk = "";
+  nameLille = "";
+  nameTournai = "";
+  nameValenciennes = "";
 
   // Regio model
   // kortrijkScore = {
@@ -39,30 +40,6 @@ class Store {
   //   score: "10000"
   // };
 
-  // setStartOnboarding = () => {
-  //   this.flowStatus = "onboardingStarted";
-  // };
-  // setDetected = () => {
-  //   this.flowStatus = "startScreensaver";
-  // };
-  // startConnecting = () => {
-  //   this.flowStatus = "onboardingEnded";
-  // };
-  // startGame = () => {
-  //   this.flowStatus = "startGame";
-  // };
-  // getCalled = () => {
-  //   this.flowStatus = "calledUser";
-  // };
-  // resetEverything = () => {
-  //   this.flowStatus = "detectedFalse";
-  // };
-  // setGameEnded = () => {
-  //   this.flowStatus = "gameEnded";
-  // };
-  // startSocket = () => {
-  //   this.flowStatus = "Socket";
-  // };
   setLocation = location => {
     console.log(location);
     this.currentLocation = location;
@@ -150,6 +127,23 @@ class Store {
   setScoreValenciennes = score => {
     this.scoreValenciennes = score;
   };
+
+  setNameKortrijk = name => {
+    console.log("set name Kortrijk", name);
+    this.nameKortrijk = name;
+  };
+  setNameLille = name => {
+    console.log("set name Lille", name);
+    this.nameLille = name;
+  };
+  setNameTournai = name => {
+    console.log("set name Tournai", name);
+    this.nameTournai = name;
+  };
+  setNameValenciennes = name => {
+    console.log("set name Valenciennes", name);
+    this.nameValenciennes = name;
+  };
 }
 
 decorate(Store, {
@@ -183,6 +177,10 @@ decorate(Store, {
   setScoreTournai: action,
   setScoreValenciennes: action,
   setScoreLille: action,
+  setNameKortrijk: action,
+  setNameTournai: action,
+  setNameValenciennes: action,
+  setNameLille: action,
 
   imgKortrijk: observable,
   imgValenciennes: observable,
@@ -191,7 +189,11 @@ decorate(Store, {
   scoreKortrijk: observable,
   scoreValenciennes: observable,
   scoreLille: observable,
-  scoreTournai: observable
+  scoreTournai: observable,
+  nameKortrijk: observable,
+  nameValenciennes: observable,
+  nameLille: observable,
+  nameTournai: observable
 });
 
 const store = new Store();

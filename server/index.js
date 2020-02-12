@@ -48,6 +48,7 @@ app.get("/api/data", (req, res) => {
 
 // const users = {};
 let connectionCounter = 0;
+let playerCount = 0;
 
 // io.set("origins", "*:*");
 io.on("connection", socket => {
@@ -125,6 +126,23 @@ io.on("connection", socket => {
       console.log("regioinput", room);
     });
 
+    socket.on("setNameKortrijk", name => {
+      console.log("emit kortrijk name", name);
+      io.emit("setNameKortrijk", name);
+    });
+    socket.on("setNameLille", name => {
+      console.log("emit lille name", name);
+      io.emit("setNameLille", name);
+    });
+    socket.on("setNameTournai", name => {
+      console.log("emit tournai name", name);
+      io.emit("setNameTournai", name);
+    });
+    socket.on("setNameValenciennes", name => {
+      console.log("emit valenciennes name", name);
+      io.emit("setNameValenciennes", name);
+    });
+
     // trigger gdpr page
     socket.on("gdpr", () => {
       io.to(room).emit("gdpr");
@@ -147,15 +165,30 @@ io.on("connection", socket => {
     });
   });
 
+  socket.on("totalPlayers", players => {
+    console.log("OUD totalplayers wordt ", players);
+    playerCount = players;
+  });
+
+  socket.on("resetPlayerCount", () => {
+    console.log("RESET totalplayers wordt ");
+    playerCount = 0;
+    socket.broadcast.emit("resetPlayerCount", 0);
+  });
+
+  socket.on("startOnboardingTimer", () => {
+    socket.emit("startOnboardingTimer");
+  });
+
   socket.on("playerInputNameFinished", () => {
     console.log("input finishes");
-    console.log("counter", connectionCounter);
+    console.log("counter voor", connectionCounter);
     connectionCounter++;
-    console.log("counter", connectionCounter);
-
-    if (io.sockets.adapter.rooms["kortrijk"]) {
-      playerCounter++;
-      console.log(playerCounter);
+    console.log("counter na", connectionCounter);
+    console.log("playercount:", playerCount);
+    if (playerCount === connectionCounter) {
+      socket.broadcast.emit("startOnboardingTimer");
+      console.log("wow in de if count: ", playerCount);
     }
     //   console.log(io.sockets.adapter.rooms["kortrijk"]);
     // console.log(io.sockets.adapter.rooms["valenciennes"]);

@@ -87,13 +87,22 @@ class Game extends Component {
       hideCanvas: true,
       showScore: false,
       gameTimer: 5,
+      onboardingTimer: 15,
       roundEnded: false,
       ownLocation: this.props.store.currentLocation,
       ownScore: 0,
+      ownName: "",
       kortrijkImg: null,
       tournaiImg: null,
       lilleImg: null,
       valenciennesImg: null,
+
+      kortrijkName: "",
+      tournaiName: "",
+      lilleName: "",
+      valenciennesName: "",
+
+      onboardingEnded: false,
 
       player2img: null,
       player3img: null,
@@ -103,16 +112,18 @@ class Game extends Component {
       player3Location: null,
       player4Location: null,
 
-      player2name: null,
-      player3name: null,
-      player4name: null,
+      player2name: "",
+      player3name: "",
+      player4name: "",
 
       startTutorial: false,
       inputName: true,
 
       player2score: 0,
       player3score: 0,
-      player4score: 0
+      player4score: 0,
+
+      showTimer: false
     };
   }
 
@@ -135,6 +146,8 @@ class Game extends Component {
       )
       .catch(console.log);
 
+    this.getOponentImg();
+
     this.setState(state => {
       state.referenceImageArray.push(reference1);
       state.referenceImageArray.push(reference2);
@@ -154,13 +167,38 @@ class Game extends Component {
       this.setRoundImg(img, "valenciennes");
     });
 
+    socket.on("setNameKortrijk", name => {
+      console.log("setNameKortrijk", name);
+      this.props.store.setNameKortrijk(name);
+    });
+    socket.on("setNameLille", name => {
+      console.log("setNameLille", name);
+      this.props.store.setNameLille(name);
+    });
+    socket.on("setNameTournai", name => {
+      console.log("setNameTournai", name);
+      this.props.store.setNameTournai(name);
+    });
+    socket.on("setNameValenciennes", name => {
+      console.log("setNameValenciennes", name);
+      this.props.store.setNameValenciennes(name);
+    });
+
     socket.on("gametutorial", () => {
       console.log("tutorial triggeren");
       this.setState({ startTutorial: true });
       this.setState({ inputName: false });
-  });
+    });
 
-      // this,setState
+    socket.on("startOnboardingTimer", () => {
+      console.log("startOnboardingTimer letsgo");
+      this.setState({ showTimer: true });
+      this.startOnboardingTimer();
+    });
+
+    socket.emit("nameinput");
+
+    // this,setState
     socket.on("scoreKortrijk", score => {
       this.setRoundScore(score, "kortrijk");
     });
@@ -173,12 +211,10 @@ class Game extends Component {
     socket.on("scoreValenciennes", score => {
       this.setRoundScore(score, "valenciennes");
     });
+  }
 
-    this.getOponentImg();
-
-    // INIT SOCKET
-    // this.initSocket();
-
+  // INIT SOCKET
+  // this.initSocket();
 
   setRoundScore = (score, location) => {
     // score en loc
@@ -342,6 +378,170 @@ class Game extends Component {
           this.setState({ player4img: img });
           break;
         }
+    }
+  };
+
+  getOponentNames = () => {
+    let players = 0;
+    let locations = [];
+
+    console.log("nameKortrijk", this.props.store.nameKortrijk);
+    console.log("nameLille", this.props.store.nameLille);
+    console.log("nameTournai", this.props.store.nameTournai);
+    console.log("nameValenciennes", this.props.store.nameValenciennes);
+
+    if (
+      this.props.store.nameKortrijk !== "" &&
+      this.props.store.currentLocation !== "kortrijk"
+    ) {
+      console.log("add kortrijk");
+      this.setState({ kortrijkName: this.props.store.nameKortrijk });
+      players++;
+      locations.push("kortrijk");
+    }
+    if (
+      this.props.store.nameTournai !== "" &&
+      this.props.store.currentLocation !== "tournai"
+    ) {
+      console.log("add tournai");
+      this.setState({ tournaiName: this.props.store.nameTournai });
+      players++;
+      locations.push("tournai");
+    }
+    if (
+      this.props.store.nameLille !== "" &&
+      this.props.store.currentLocation !== "lille"
+    ) {
+      console.log("add lille");
+      this.setState({ lilleName: this.props.store.nameLille });
+      players++;
+      locations.push("lille");
+    }
+    if (
+      this.props.store.nameValenciennes !== "" &&
+      this.props.store.currentLocation !== "valenciennes"
+    ) {
+      console.log("add valencienens");
+      this.setState({ valenciennesName: this.props.store.nameValenciennes });
+      players++;
+      locations.push("valenciennes");
+    }
+
+    let player2NameFree = true;
+    let player3NameFree = true;
+
+    for (let index = 0; index < players; index++) {
+      const locationToAdd = locations[index];
+      switch (locationToAdd) {
+        case "kortrijk":
+          if (player2NameFree) {
+            console.log("kortrijk naam player 2");
+            this.setState({
+              player2name: this.props.store.nameKortrijk
+            });
+            player2NameFree = false;
+            break;
+          } else if (player3NameFree) {
+            console.log("kortrijk naam player 3");
+            this.setState({
+              player3name: this.props.store.nameKortrijk
+            });
+            player3NameFree = false;
+            break;
+          } else {
+            console.log("kortrijk naam player 4");
+            this.setState({
+              player4name: this.props.store.nameKortrijk
+            });
+            break;
+          }
+
+        case "tournai":
+          if (player2NameFree) {
+            console.log("tournai naam player 2");
+            this.setState({
+              player2name: this.props.store.nameTournai
+            });
+            player2NameFree = false;
+            break;
+          } else if (player3NameFree) {
+            console.log("tournai naam player 3");
+            this.setState({
+              player3name: this.props.store.nameTournai
+            });
+            player3NameFree = false;
+            break;
+          } else {
+            console.log("tournai naam player 4");
+            this.setState({
+              player4name: this.props.store.nameTournai
+            });
+            break;
+          }
+
+        case "lille":
+          if (player2NameFree) {
+            console.log("lille naam player 2");
+            this.setState({
+              player2name: this.props.store.nameLille
+            });
+            player2NameFree = false;
+            break;
+          } else if (player3NameFree) {
+            console.log("lille naam player 3");
+            this.setState({
+              player3name: this.props.store.nameLille
+            });
+            player3NameFree = false;
+            break;
+          } else {
+            console.log("lille naam player 4");
+            this.setState({
+              player4name: this.props.store.nameLille
+            });
+            break;
+          }
+
+        case "valenciennes":
+          if (player2NameFree) {
+            console.log("valenciennes naam player 2");
+            this.setState({
+              player2name: this.props.store.nameValenciennes
+            });
+            player2NameFree = false;
+            break;
+          } else if (player3NameFree) {
+            console.log("valenciennes naam player 3");
+            this.setState({
+              player3name: this.props.store.nameValenciennes
+            });
+            player3NameFree = false;
+            break;
+          } else {
+            console.log("valenciennes naam player 4");
+            this.setState({
+              player4name: this.props.store.nameValenciennes
+            });
+            break;
+          }
+      }
+    }
+  };
+
+  getOwnName = () => {
+    switch (this.state.ownLocation) {
+      case "kortrijk":
+        this.setState({ ownName: this.props.store.nameKortrijk });
+        break;
+      case "lille":
+        this.setState({ ownName: this.props.store.nameLille });
+        break;
+      case "tournai":
+        this.setState({ ownName: this.props.store.nameTournai });
+        break;
+      case "valenciennes":
+        this.setState({ ownName: this.props.store.nameValenciennes });
+        break;
     }
   };
 
@@ -534,23 +734,6 @@ class Game extends Component {
         // faceapi.draw.drawFaceLandmarks(canvasTag, detectionsWithLandmarks);
         this.setState({ _isLoaded: true });
         //console.log("alles geladen");
-        // this.startGameTimer();
-
-        // GAME TIMER DISABLED OM TE TESTEN
-        // this.startGameTimer = setInterval(() => {
-        //   if (!this.state.roundEnded) {
-        //     if (this.state.gameTimer > 0) {
-        //       this.setState({ gameTimer: this.state.gameTimer - 1 });
-        //     } else {
-        //       // TIMER IS 0 GEWORDEN!
-        //       this.screenShot();
-        //       this.setState({ roundEnded: true });
-        //     }
-        //   } else {
-        //     clearInterval(this.startGameTimer);
-        //   }
-        // }, 1000);
-
       };
 
       //referenceImage.crossOrigin = "anonymous";
@@ -559,6 +742,37 @@ class Game extends Component {
         this.state.currentRound - 1
       ];
     }
+  };
+
+  startGameTimer = () => {
+    this.gameTimer = setInterval(() => {
+      if (!this.state.roundEnded) {
+        if (this.state.gameTimer > 0) {
+          this.setState({ gameTimer: this.state.gameTimer - 1 });
+        } else {
+          // TIMER IS 0 GEWORDEN!
+          this.screenShot();
+          this.setState({ roundEnded: true });
+        }
+      } else {
+        // clearInterval(this.gameTimer);
+      }
+    }, 1000);
+  };
+
+  startOnboardingTimer = () => {
+    this.onboardingTimer = setInterval(() => {
+      if (this.state.onboardingTimer > 0) {
+        this.setState({ onboardingTimer: this.state.onboardingTimer - 1 });
+      } else {
+        console.log("onboarding stopt");
+        this.setState({ startTutorial: false, onboardingEnded: true });
+        clearInterval(this.onboardingTimer);
+        this.getOponentNames();
+        this.getOwnName();
+        this.startGameTimer();
+      }
+    }, 1000);
   };
 
   screenShot = async () => {
@@ -1000,24 +1214,33 @@ class Game extends Component {
               </svg>
             </div> */}
             <div className={styles.game_timer}>
-              <div className={styles.game_timer_text}>
-                {this.state.gameTimer}
-              </div>
-              <div className={styles.timer_wrapper}>
-                <div className={styles.timer_dot}></div>
-                <div className={styles.timer_dot}></div>
-                <div className={styles.timer_dot}></div>
-                <div className={styles.timer_dot}></div>
-                <div className={styles.timer_dot}></div>
-                <div className={styles.timer_dot}></div>
-              </div>
+              {this.state.showTimer ? (
+                <>
+                  <div className={styles.game_timer_text}>
+                    {!this.state.startTutorial
+                      ? this.state.gameTimer
+                      : this.state.onboardingTimer}
+                  </div>
+
+                  <div className={styles.timer_wrapper}>
+                    <div className={styles.timer_dot}></div>
+                    <div className={styles.timer_dot}></div>
+                    <div className={styles.timer_dot}></div>
+                    <div className={styles.timer_dot}></div>
+                    <div className={styles.timer_dot}></div>
+                    <div className={styles.timer_dot}></div>
+                  </div>
+                </>
+              ) : null}
             </div>
-            <div className={styles.game_round}>
-              <p className={styles.game_round_top}>Ronde</p>
-              <p className={styles.game_round_bot}>
-                {this.state.currentRound}/3
-              </p>
-            </div>
+            {this.state.onboardingEnded ? (
+              <div className={styles.game_round}>
+                <p className={styles.game_round_top}>Ronde</p>
+                <p className={styles.game_round_bot}>
+                  {this.state.currentRound}/3
+                </p>
+              </div>
+            ) : null}
           </div>
           <div className={styles.game_wrapper} id="App">
             {/* <img
@@ -1038,7 +1261,7 @@ class Game extends Component {
               </div>
               <div>
                 <div className={styles.player_top}>
-                  <p className={styles.own_name}>{/*INSERT NAAM*/}Wout (jij)</p>
+                  <p className={styles.own_name}>{this.state.ownName} (jij)</p>
                   <div className={styles.player_score}>
                     {this.state.ownScore}
                   </div>
@@ -1067,9 +1290,9 @@ class Game extends Component {
                     </p>
                   </div>
                   <p
-                    className={
-                      `${styles.location_tag} ${styles.location_tag_1}` /*INSERT LOCATIE TAG VOOR KLEUR*/
-                    }
+                    className={`${styles.location_tag} ${
+                      styles[this.state.ownLocation]
+                    }`}
                   >
                     {this.state.ownLocation}
                   </p>
@@ -1078,77 +1301,91 @@ class Game extends Component {
             </div>
             <div className={styles.game_bottom}>
               <div className={styles.oponent_wrapper}>
-                <div className={styles.player_top}>
-                  <p className={styles.oponent_name}>
-                    {/*INSERT NAAM*/} Tegenstander lange naam bro
-                  </p>
-                  <div className={styles.player_score}>
-                    {this.state.player2score}
-                  </div>
-                </div>
-                <div className={styles.player_video_wrapper}>
-                  <img
-                    src={this.state.player2img}
-                    alt="Player 2"
-                    className={styles.oponent_img}
-                  />
-                  <p
-                    className={
-                      `${styles.location_tag} ${styles.location_tag_2}` /*INSERT LOCATIE TAG VOOR KLEUR*/
-                    }
-                  >
-                    {this.state.player2Location}
-                  </p>
-                </div>
+                {this.state.player2img !== null ? (
+                  <>
+                    {" "}
+                    <div className={styles.player_top}>
+                      <p className={styles.oponent_name}>
+                        {this.state.player2name}
+                      </p>
+                      <div className={styles.player_score}>
+                        {this.state.player2score}
+                      </div>
+                    </div>
+                    <div className={styles.player_video_wrapper}>
+                      <img
+                        src={this.state.player2img}
+                        alt="Player 2"
+                        className={styles.oponent_img}
+                      />
+                      <p
+                        className={`${styles.location_tag} ${
+                          styles[this.state.player2Location]
+                        }`}
+                      >
+                        {this.state.player2Location}
+                      </p>
+                    </div>
+                  </>
+                ) : null}
               </div>
               <div className={styles.oponent_wrapper}>
-                <div className={styles.player_top}>
-                  <p className={styles.oponent_name}>
-                    {/*INSERT NAAM*/} Tegenstander
-                  </p>
-                  <div className={styles.player_score}>
-                    {this.state.player3score}
-                  </div>
-                </div>
-                <div className={styles.player_video_wrapper}>
-                  <img
-                    src={this.state.player3img}
-                    alt="Player 3"
-                    ref={this.imgTag2}
-                    className={styles.oponent_img}
-                  />
-                  <p
-                    className={
-                      `${styles.location_tag} ${styles.location_tag_3}` /*INSERT LOCATIE TAG VOOR KLEUR*/
-                    }
-                  >
-                    {this.state.player3Location}
-                  </p>
-                </div>
+                {this.state.player3img !== null ? (
+                  <>
+                    {" "}
+                    <div className={styles.player_top}>
+                      <p className={styles.oponent_name}>
+                        {this.state.player3name}
+                      </p>
+                      <div className={styles.player_score}>
+                        {this.state.player3score}
+                      </div>
+                    </div>
+                    <div className={styles.player_video_wrapper}>
+                      <img
+                        src={this.state.player3img}
+                        alt="Player 3"
+                        ref={this.imgTag2}
+                        className={styles.oponent_img}
+                      />
+                      <p
+                        className={`${styles.location_tag} ${
+                          styles[this.state.player3Location]
+                        }`}
+                      >
+                        {this.state.player3Location}
+                      </p>
+                    </div>
+                  </>
+                ) : null}{" "}
               </div>
               <div className={styles.oponent_wrapper}>
-                <div className={styles.player_top}>
-                  <p className={styles.oponent_name}>
-                    {/*INSERT NAAM*/} Tegenstander
-                  </p>
-                  <div className={styles.player_score}>
-                    {this.state.player4score}
-                  </div>
-                </div>
-                <div className={styles.player_video_wrapper}>
-                  <img
-                    src={this.state.player4img}
-                    alt="Player 4"
-                    className={styles.oponent_img}
-                  />
-                  <p
-                    className={
-                      `${styles.location_tag} ${styles.location_tag_4}` /*INSERT LOCATIE TAG VOOR KLEUR*/
-                    }
-                  >
-                    {this.state.player4Location}
-                  </p>
-                </div>
+                {this.state.player4img !== null ? (
+                  <>
+                    <div className={styles.player_top}>
+                      <p className={styles.oponent_name}>
+                        {this.state.player4name}
+                      </p>
+                      <div className={styles.player_score}>
+                        {this.state.player4score}
+                      </div>
+                    </div>
+                    <div className={styles.player_video_wrapper}>
+                      <img
+                        src={this.state.player4img}
+                        alt="Player 4"
+                        className={styles.oponent_img}
+                      />
+                      <p
+                        className={`${styles.location_tag} ${
+                          styles[this.state.player4Location]
+                        }`}
+                      >
+                        {this.state.player4Location}
+                      </p>
+                    </div>
+                  </>
+                ) : null}{" "}
               </div>
             </div>
             <canvas

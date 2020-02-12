@@ -30,7 +30,8 @@ class Socket extends Component {
       tournaiPlayer: false,
       tournaiImg: null,
       imgToSend: null,
-      gotFoto: false
+      gotFoto: false,
+      playerCount: 1
     };
   }
 
@@ -41,12 +42,16 @@ class Socket extends Component {
     }, 500);
 
     socket.emit("stopCarousel", "einde carousel");
+    socket.emit("resetPlayerCount");
+
     socket.emit("searchTimer", this.state.searchTimer);
     socket.emit("banaan");
 
     socket.on("joinGame", () => {
       this.sendImg();
-      // add to total player count
+      // add to total player count every time someone joins
+      socket.emit("totalPlayers", this.state.playerCount + 1);
+      this.setState({ playerCount: this.playerCount + 1 });
     });
 
     socket.on("sendImg", ({ location, image }) => {
