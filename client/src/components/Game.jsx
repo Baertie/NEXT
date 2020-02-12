@@ -86,24 +86,33 @@ class Game extends Component {
       _isLoaded: false,
       hideCanvas: true,
       showScore: false,
-      gameTimer: 20,
+      gameTimer: 5,
       roundEnded: false,
       ownLocation: this.props.store.currentLocation,
+      ownScore: 0,
       kortrijkImg: null,
       tournaiImg: null,
       lilleImg: null,
       valenciennesImg: null,
+
       player2img: null,
       player3img: null,
       player4img: null,
+
       player2Location: null,
       player3Location: null,
       player4Location: null,
+
       player2name: null,
       player3name: null,
       player4name: null,
+
       startTutorial: false,
-      inputName: true
+      inputName: true,
+
+      player2score: 0,
+      player3score: 0,
+      player4score: 0
     };
   }
 
@@ -149,16 +158,119 @@ class Game extends Component {
       console.log("tutorial triggeren");
       this.setState({ startTutorial: true });
       this.setState({ inputName: false });
+  });
 
       // this,setState
+    socket.on("scoreKortrijk", score => {
+      this.setRoundScore(score, "kortrijk");
+    });
+    socket.on("scoreTournai", score => {
+      this.setRoundScore(score, "tournai");
+    });
+    socket.on("scoreLille", score => {
+      this.setRoundScore(score, "lille");
+    });
+    socket.on("scoreValenciennes", score => {
+      this.setRoundScore(score, "valenciennes");
     });
 
     this.getOponentImg();
 
     // INIT SOCKET
     // this.initSocket();
-  }
 
+
+  setRoundScore = (score, location) => {
+    // score en loc
+    switch (location) {
+      case "kortrijk":
+        if (
+          this.state.player2Location === location &&
+          this.state.player2score != null
+        ) {
+          this.setState({ player2score: score });
+          break;
+        } else if (
+          this.state.player3Location === location &&
+          this.state.player3score != null
+        ) {
+          this.setState({ player3score: score });
+          break;
+        } else if (
+          this.state.player4Location === location &&
+          this.state.player4score != null
+        ) {
+          this.setState({ player4score: score });
+          break;
+        }
+      case "tournai":
+        if (
+          this.state.player2Location === location &&
+          this.state.player2score != null
+        ) {
+          this.setState({ player2score: score });
+          break;
+        } else if (
+          this.state.player3Location === location &&
+          this.state.player3score != null
+        ) {
+          this.setState({ player3score: score });
+          break;
+        } else if (
+          this.state.player4Location === location &&
+          this.state.player4score != null
+        ) {
+          this.setState({
+            player4score: score
+          });
+          break;
+        }
+      case "lille":
+        if (
+          this.state.player2Location === location &&
+          this.state.player2score != null
+        ) {
+          this.setState({ player2score: score });
+          break;
+        } else if (
+          this.state.player3Location === location &&
+          this.state.player3score != null
+        ) {
+          this.setState({ player3score: score });
+          break;
+        } else if (
+          this.state.player4Location === location &&
+          this.state.player4score != null
+        ) {
+          this.setState({
+            player4score: score
+          });
+          break;
+        }
+      case "valenciennes":
+        if (
+          this.state.player2Location === location &&
+          this.state.player2score != null
+        ) {
+          this.setState({ player2score: score });
+          break;
+        } else if (
+          this.state.player3Location === location &&
+          this.state.player3score != null
+        ) {
+          this.setState({ player3score: score });
+          break;
+        } else if (
+          this.state.player4Location === location &&
+          this.state.player4score != null
+        ) {
+          this.setState({
+            player4score: score
+          });
+          break;
+        }
+    }
+  };
   setRoundImg = (img, location) => {
     // img en loc
     switch (location) {
@@ -175,7 +287,7 @@ class Game extends Component {
         ) {
           this.setState({ player3img: img });
           break;
-        } else {
+        } else if (this.state.player4img != null) {
           this.setState({ player4img: img });
           break;
         }
@@ -192,7 +304,7 @@ class Game extends Component {
         ) {
           this.setState({ player3img: img });
           break;
-        } else {
+        } else if (this.state.player4img != null) {
           this.setState({ player4img: img });
           break;
         }
@@ -209,7 +321,7 @@ class Game extends Component {
         ) {
           this.setState({ player3img: img });
           break;
-        } else {
+        } else if (this.state.player4img != null) {
           this.setState({ player4img: img });
           break;
         }
@@ -226,7 +338,7 @@ class Game extends Component {
         ) {
           this.setState({ player3img: img });
           break;
-        } else {
+        } else if (this.state.player4img != null) {
           this.setState({ player4img: img });
           break;
         }
@@ -438,6 +550,7 @@ class Game extends Component {
         //     clearInterval(this.startGameTimer);
         //   }
         // }, 1000);
+
       };
 
       //referenceImage.crossOrigin = "anonymous";
@@ -787,24 +900,56 @@ class Game extends Component {
       //   9;
 
       const averageSimilarity =
-        ((similarityFace +
+        (similarityFace +
           similarityLEyeBrow +
           similarityREyeBrow +
           similarityOMouth +
           similarityIMouth) /
-          5) *
-        100;
+        5;
       console.log(`Average: averageSimilarity`, averageSimilarity);
-      this.setState({ similarity: averageSimilarity });
 
-      const curvesSim = shapeSimilarity(
-        this.state.curves[0],
-        this.state.curves[1]
-      );
+      let playerScore = this.mapScore(averageSimilarity, 0.7, 1, 0, 1.5);
+      playerScore = Math.round(playerScore * 100);
+      this.setState({
+        similarity: playerScore,
+        ownScore: this.state.ownScore + playerScore
+      });
+
+      switch (this.state.ownLocation) {
+        case "kortrijk":
+          console.log("emit score kortrijk:", this.state.ownScore);
+          socket.emit("scoreKortrijk", this.state.ownScore);
+          this.props.store.setScoreKortrijk(this.state.ownScore);
+          break;
+        case "tournai":
+          console.log("emit score tournai:", this.state.ownScore);
+          socket.emit("scoreTournai", this.state.ownScore);
+          this.props.store.setScoreTournai(this.state.ownScore);
+          break;
+        case "lille":
+          console.log("emit score lille:", this.state.ownScore);
+          socket.emit("scoreLille", this.state.ownScore);
+          this.props.store.setScoreLille(this.state.ownScore);
+          break;
+        case "valenciennes":
+          console.log("emit score valenciennes:", this.state.ownScore);
+          socket.emit("scoreValencienness", this.state.ownScore);
+          this.props.store.setScoreValenciennes(this.state.ownScore);
+          break;
+      }
+
+      // const curvesSim = shapeSimilarity(
+      //   this.state.curves[0],
+      //   this.state.curves[1]
+      // );
       // console.log("similarity whole thing:", curvesSim);
     } else {
       console.log("geen curves in state momenteel");
     }
+  };
+
+  mapScore = (num, in_min, in_max, out_min, out_max) => {
+    return ((num - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min;
   };
 
   goToNextRound = () => {
@@ -894,7 +1039,9 @@ class Game extends Component {
               <div>
                 <div className={styles.player_top}>
                   <p className={styles.own_name}>{/*INSERT NAAM*/}Wout (jij)</p>
-                  <div className={styles.player_score}>{/*INSERT SCORE*/}0</div>
+                  <div className={styles.player_score}>
+                    {this.state.ownScore}
+                  </div>
                 </div>
                 <div className={styles.own_video_wrapper}>
                   <video
@@ -935,7 +1082,9 @@ class Game extends Component {
                   <p className={styles.oponent_name}>
                     {/*INSERT NAAM*/} Tegenstander lange naam bro
                   </p>
-                  <div className={styles.player_score}>{/*INSERT SCORE*/}0</div>
+                  <div className={styles.player_score}>
+                    {this.state.player2score}
+                  </div>
                 </div>
                 <div className={styles.player_video_wrapper}>
                   <img
@@ -957,7 +1106,9 @@ class Game extends Component {
                   <p className={styles.oponent_name}>
                     {/*INSERT NAAM*/} Tegenstander
                   </p>
-                  <div className={styles.player_score}>{/*INSERT SCORE*/}0</div>
+                  <div className={styles.player_score}>
+                    {this.state.player3score}
+                  </div>
                 </div>
                 <div className={styles.player_video_wrapper}>
                   <img
@@ -980,7 +1131,9 @@ class Game extends Component {
                   <p className={styles.oponent_name}>
                     {/*INSERT NAAM*/} Tegenstander
                   </p>
-                  <div className={styles.player_score}>{/*INSERT SCORE*/}0</div>
+                  <div className={styles.player_score}>
+                    {this.state.player4score}
+                  </div>
                 </div>
                 <div className={styles.player_video_wrapper}>
                   <img

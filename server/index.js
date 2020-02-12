@@ -131,6 +131,10 @@ io.on("connection", socket => {
       console.log("gdpr", room);
     });
 
+    socket.on("gameTimer", time => {
+      io.to(room).emit("gameTimer", time);
+    });
+
     // trigger leaderboard page
     socket.on("leaderboard", () => {
       io.to(room).emit("leaderboard");
@@ -189,6 +193,19 @@ io.on("connection", socket => {
   });
   socket.on("imgValenciennes", img => {
     socket.broadcast.emit("imgValenciennes", img);
+  });
+
+  socket.on("scoreKortrijk", score => {
+    socket.broadcast.emit("scoreKortrijk", score);
+  });
+  socket.on("scoreLille", score => {
+    socket.broadcast.emit("scoreLille", score);
+  });
+  socket.on("scoreTournai", score => {
+    socket.broadcast.emit("scoreTournai", score);
+  });
+  socket.on("scoreValenciennes", score => {
+    socket.broadcast.emit("scoreValenciennes", score);
   });
   // ENKEL PEER TO PEER
   // const room = "BAPNEXT";

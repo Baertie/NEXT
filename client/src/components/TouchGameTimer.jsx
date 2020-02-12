@@ -23,7 +23,7 @@ class TouchGameTimer extends Component {
       <div className={basicStyles.container}>
         <TouchBackground />
         <div className={styles.timerContainer}>
-          <p className={styles.bodytext}>De game start binnen</p>
+          <p className={styles.bodytext}>De game start over</p>
           <div className={styles.timer}>{this.state.gameTimer}</div>
         </div>
       </div>
