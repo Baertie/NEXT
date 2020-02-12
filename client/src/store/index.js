@@ -19,7 +19,7 @@ class Store {
   currentName = "";
   scores = [];
   regioScores = [];
-  currentLocation = "kortrijk";
+  currentLocation = "";
   imgKortrijk = null;
   imgLille = null;
   imgValenciennes = null;

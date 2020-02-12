@@ -3,8 +3,6 @@
   height: 192rem;
   display: flex;
   align-items: flex-end;
-  position: absolute;
-  top: 1rem;
   z-index: 100;
 }
 
@@ -46,6 +44,7 @@
   width: 54.5rem;
   text-align: left;
   margin-top: 2rem;
+  line-height: 5.5rem;
 }
 
 .call_text_bold {
