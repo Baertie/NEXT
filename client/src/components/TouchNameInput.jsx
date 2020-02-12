@@ -11,7 +11,7 @@ class TouchNameInput extends Component {
   constructor(props) {
     super(props);
     this.nameInput = React.createRef();
-    this.state = { value: "" };
+    this.state = { value: "", submitted: false };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -25,6 +25,11 @@ class TouchNameInput extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    if (this.state.value === "") {
+      console.log("foutje");
+    } else {
+      this.setState({ submitted: true });
+    }
 
     const currentLocation = this.props.store.currentLocation;
 
@@ -76,11 +81,20 @@ class TouchNameInput extends Component {
               value={this.state.value}
             />
           </div>
-          <input
-            className={styles.submit}
-            type="submit"
-            value="Dit is mijn naam!"
-          />
+          {this.state.submitted ? (
+            <input
+              className={styles.alreadySubmit}
+              type="submit"
+              disabled
+              value="Dit is mijn naam!"
+            />
+          ) : (
+            <input
+              className={styles.submit}
+              type="submit"
+              value="Dit is mijn naam!"
+            />
+          )}
         </form>
       </div>
     );
