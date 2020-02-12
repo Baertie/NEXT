@@ -80,6 +80,10 @@ io.on("connection", socket => {
       console.log("gdpr");
     });
 
+    socket.on("gameTimer", time => {
+      io.to(room).emit("gameTimer", time);
+    });
+
     // trigger leaderboard page
     socket.on("leaderboard", () => {
       io.to(room).emit("leaderboard");
