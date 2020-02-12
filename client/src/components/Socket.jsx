@@ -19,6 +19,7 @@ class Socket extends Component {
         video: { width: 480, height: 720 }
       },
       searchTimer: 30,
+      fotoTimer: 3,
       playerJoined: false,
       ownVideoStyle: null,
       kortrijkPlayer: false,
@@ -28,13 +29,17 @@ class Socket extends Component {
       valenciennesPlayer: false,
       valenciennesImg: null,
       tournaiPlayer: false,
-      tournaiImg: null
+      tournaiImg: null,
+      imgToSend: null,
+      gotFoto: false
     };
   }
 
   componentDidMount() {
     this._isMounted = true;
-    this.setCurrentLocationClass();
+    setTimeout(() => {
+      this.setCurrentLocationClass();
+    }, 500);
 
     socket.emit("stopCarousel", "einde carousel");
     socket.emit("searchTimer", this.state.searchTimer);
@@ -51,7 +56,39 @@ class Socket extends Component {
       this.setNewPlayerImg(location, image);
     });
 
+    socket.on("imgKortrijk", img => {
+      console.log("socket on imgKortrijk, set store img: ", img);
+      this.props.store.setImgKortrijk(img);
+    });
+    socket.on("imgTournai", img => {
+      console.log("socket on imgTournai, set store img: ", img);
+      this.props.store.setImgTournai(img);
+    });
+    socket.on("imgLille", img => {
+      console.log("socket on imgLille, set store img: ", img);
+      this.props.store.setImgLille(img);
+    });
+    socket.on("imgValenciennes", img => {
+      console.log("socket on imgValenciennes, set store img: ", img);
+      this.props.store.setImgValenciennes(img);
+    });
+
     this.getCamera();
+    this.startFotoTimer();
+  }
+
+  startFotoTimer = () => {
+    this.fotoInterval = setInterval(() => {
+      this.setState({ fotoTimer: this.state.fotoTimer - 1 });
+    }, 1000);
+  };
+
+  componentDidUpdate() {
+    if (this.state.fotoTimer === 0 && !this.state.gotFoto) {
+      this.getImgToSend();
+      this.setState({ gotFoto: true });
+      clearInterval(this.fotoInterval);
+    }
   }
 
   setNewPlayerImg = (location, image) => {
@@ -93,6 +130,7 @@ class Socket extends Component {
   };
 
   setCurrentLocationClass = () => {
+    console.log("in setCurrentLocationClass", this.props.store.currentLocation);
     let currentclasses;
     if (this._isMounted) {
       switch (this.props.store.currentLocation) {
@@ -124,20 +162,55 @@ class Socket extends Component {
     }
   };
 
-  sendImg = () => {
+  getImgToSend = () => {
     const videoTag = this.ownVideoFeed.current;
     const canvas = this.ownCanvas.current;
-
     const ctx = canvas.getContext("2d");
-
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(videoTag, 0, 0, canvas.width, canvas.height);
+    switch (this.props.store.currentLocation) {
+      case "kortrijk":
+        socket.emit("imgKortrijk", canvas.toDataURL());
+        this.props.store.setImgKortrijk(canvas.toDataURL());
+        break;
+      case "tournai":
+        socket.emit("imgTournai", canvas.toDataURL());
+        this.props.store.setImgTournai(canvas.toDataURL());
+        break;
+      case "lille":
+        socket.emit("imgLille", canvas.toDataURL());
+        this.props.store.setImgLille(canvas.toDataURL());
+        break;
+      case "valenciennes":
+        socket.emit("imgValenciennes", canvas.toDataURL());
+        this.props.store.setImgValenciennes(canvas.toDataURL());
+        break;
+    }
+    this.setState({ imgToSend: canvas.toDataURL() });
+  };
 
-    console.log("img to send", canvas.toDataURL());
-    console.log("location to send", this.props.store.currentLocation);
+  sendImg = () => {
+    switch (this.props.store.currentLocation) {
+      case "kortrijk":
+        socket.emit("imgKortrijk", this.state.imgToSend);
+        this.props.store.setImgKortrijk(this.state.imgToSend);
+        break;
+      case "tournai":
+        socket.emit("imgTournai", this.state.imgToSend);
+        this.props.store.setImgTournai(this.state.imgToSend);
+        break;
+      case "lille":
+        socket.emit("imgLille", this.state.imgToSend);
+        this.props.store.setImgLille(this.state.imgToSend);
+        break;
+      case "valenciennes":
+        socket.emit("imgValenciennes", this.state.imgToSend);
+        this.props.store.setImgValenciennes(this.state.imgToSend);
+        break;
+    }
     socket.emit("sendImg", {
       location: this.props.store.currentLocation,
-      image: canvas.toDataURL()
+      image: this.state.imgToSend
     });
   };
 
@@ -182,6 +255,17 @@ class Socket extends Component {
   render() {
     return (
       <>
+        <p
+          style={{
+            position: "absolute",
+            fontSize: 25,
+            zIndex: 50,
+            left: "40%",
+            top: 150
+          }}
+        >
+          Foto wordt genomen binnen: {this.state.fotoTimer}
+        </p>
         <div className={styles.red_background}></div>
         <div className={styles.logo_next_white}></div>
         <div className={styles.search_timer}>

@@ -155,10 +155,21 @@ io.on("connection", socket => {
   });
 
   socket.on("sendImg", ({ location, image }) => {
-    // console.log("sendImg, loc: ", location, ". img: ", image);
     socket.broadcast.emit("sendImg", { location, image });
   });
 
+  socket.on("imgKortrijk", img => {
+    socket.broadcast.emit("imgKortrijk", img);
+  });
+  socket.on("imgLille", img => {
+    socket.broadcast.emit("imgLille", img);
+  });
+  socket.on("imgTournai", img => {
+    socket.broadcast.emit("imgTournai", img);
+  });
+  socket.on("imgValenciennes", img => {
+    socket.broadcast.emit("imgValenciennes", img);
+  });
   // ENKEL PEER TO PEER
   // const room = "BAPNEXT";
   // const join = room => {

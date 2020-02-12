@@ -13,14 +13,19 @@ class Store {
     this.getRegioScores();
     // this.updateRegioScore("kortrijk");
   }
-  // flowStatus = "";
-  currentLocation = "kortrijk";
-  currentRegio = "kuurne";
-  currentPicture = "test.jpg";
-  currentScore = "400";
-  currentName = "jannestestinput";
+  currentRegio = "";
+  currentPicture = "";
+  currentScore = "";
+  currentName = "";
   scores = [];
   regioScores = [];
+  currentLocation = "";
+  imgKortrijk = null;
+  imgLille = null;
+  imgValenciennes = null;
+  imgTournai = null;
+  // flowStatus = "Socket";
+  //   constructor() {}
 
   // Regio model
   // kortrijkScore = {
@@ -114,6 +119,23 @@ class Store {
       .update(newRegioscore)
       .then(scoreValues => newRegioscore.updateFromServer(scoreValues));
   };
+
+  setImgKortrijk = img => {
+    console.log("set img kortrijk store: ", img);
+    this.imgKortrijk = img;
+  };
+  setImgLille = img => {
+    console.log("set img lille store: ", img);
+    this.imgLille = img;
+  };
+  setImgTournai = img => {
+    console.log("set img tournai store: ", img);
+    this.imgTournai = img;
+  };
+  setImgValenciennes = img => {
+    console.log("set img valenciennes store: ", img);
+    this.imgValenciennes = img;
+  };
 }
 
 decorate(Store, {
@@ -138,7 +160,16 @@ decorate(Store, {
   currentName: observable,
   currentScore: observable,
   scores: observable,
-  regioScores: observable
+  regioScores: observable,
+  setImgKortrijk: action,
+  setImgTournai: action,
+  setImgValenciennes: action,
+  setImgLille: action,
+
+  imgKortrijk: observable,
+  imgValenciennes: observable,
+  imgLille: observable,
+  imgTournai: observable
 });
 
 const store = new Store();
