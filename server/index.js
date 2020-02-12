@@ -44,15 +44,16 @@ app.get("/api/data", (req, res) => {
   res.send({ message: "ok", secret: process.env.SECRET });
 });
 
-io.set("origins", "*:*");
+// io.set("origins", "*:*");
 
-const users = {};
+// const users = {};
+let connectionCounter = 0;
 
-io.set("origins", "*:*");
+// io.set("origins", "*:*");
 io.on("connection", socket => {
-  users[socket.id] = {
-    peers: {}
-  };
+  // users[socket.id] = {
+  //   peers: {}
+  // };
 
   // console.log("users socket.id: ", users[socket.id]);
   console.log("new connection - socket id:", socket.id);
@@ -139,6 +140,25 @@ io.on("connection", socket => {
       io.to(room).emit("leaderboard");
       console.log("leaderboard", room);
     });
+
+    socket.on("gametutorial", () => {
+      io.to(room).emit("gametutorial");
+      console.log("gametutorial", room);
+    });
+  });
+
+  socket.on("playerInputNameFinished", () => {
+    console.log("input finishes");
+    console.log("counter", connectionCounter);
+    connectionCounter++;
+    console.log("counter", connectionCounter);
+
+    if (io.sockets.adapter.rooms["kortrijk"]) {
+      playerCounter++;
+      console.log(playerCounter);
+    }
+    //   console.log(io.sockets.adapter.rooms["kortrijk"]);
+    // console.log(io.sockets.adapter.rooms["valenciennes"]);
   });
 
   socket.on("stopCarousel", () => {

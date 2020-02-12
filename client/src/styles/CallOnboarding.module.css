@@ -3,7 +3,9 @@
   height: 192rem;
   display: flex;
   align-items: flex-end;
-  background-image: url("../assets/img/ss.jpg");
+  position: absolute;
+  top: 1rem;
+  z-index: 100;
 }
 
 .component_wrapper {
