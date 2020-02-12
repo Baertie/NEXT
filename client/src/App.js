@@ -88,10 +88,10 @@ class App extends Component {
           <Route path="/nameoverlay" component={NameOverlay} />
           <Route path="/callonboarding" component={CallOnboarding} />
 
-          {/*<Route path="/gameInstructions" component={ NEW COMPONENT } />
-
+          {/* <Route path="/gameInstructions" component={ NEW COMPONENT } />
         <Route path="/endGame" component={ NEW COMPONENT } />
-        <Route path="/scorebord" component={ NEW COMPONENT } />*/}
+        <Route path="/scorebord" component={ NEW COMPONENT } /> */}
+
           <Route path="/tablet" component={TabletWrapper}></Route>
         </Switch>
       </div>

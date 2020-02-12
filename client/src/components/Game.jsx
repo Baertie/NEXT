@@ -3,6 +3,8 @@ import * as faceapi from "face-api.js";
 
 import { inject, observer } from "mobx-react";
 import Loader from "./Loader";
+import CallOnboarding from "./CallOnboarding";
+import NameOverlay from "./NameOverlay";
 
 // https://github.com/chanind/curve-matcher
 import { shapeSimilarity } from "curve-matcher";
@@ -42,10 +44,9 @@ Landmark point structure
 */
 
 import styles from "../styles/Game.module.css";
+import basicStyles from "../styles/Touch.module.css";
 
 import { socket } from "../App.js";
-
-// let socket;
 
 class Game extends Component {
   _isMounted = false;
@@ -106,6 +107,9 @@ class Game extends Component {
       player3name: null,
       player4name: null,
 
+      startTutorial: false,
+      inputName: true,
+
       player2score: 0,
       player3score: 0,
       player4score: 0
@@ -150,6 +154,13 @@ class Game extends Component {
       this.setRoundImg(img, "valenciennes");
     });
 
+    socket.on("gametutorial", () => {
+      console.log("tutorial triggeren");
+      this.setState({ startTutorial: true });
+      this.setState({ inputName: false });
+  });
+
+      // this,setState
     socket.on("scoreKortrijk", score => {
       this.setRoundScore(score, "kortrijk");
     });
@@ -167,7 +178,7 @@ class Game extends Component {
 
     // INIT SOCKET
     // this.initSocket();
-  }
+
 
   setRoundScore = (score, location) => {
     // score en loc
@@ -485,12 +496,6 @@ class Game extends Component {
     }
   };
 
-  // initSocket = () => {
-  //   socket = io.connect(`/`);
-  //   socket.on(`connect`, () => console.log(socket.id));
-  //   console.log(`direct test zo`);
-  // };
-
   componentWillUnmount() {
     this._isMounted = false;
   }
@@ -526,24 +531,26 @@ class Game extends Component {
         const type = "reference";
         this.addPointsToState(landMarkPoints, type);
 
-        faceapi.draw.drawFaceLandmarks(canvasTag, detectionsWithLandmarks);
+        // faceapi.draw.drawFaceLandmarks(canvasTag, detectionsWithLandmarks);
         this.setState({ _isLoaded: true });
         //console.log("alles geladen");
         // this.startGameTimer();
-        this.startGameTimer = setInterval(() => {
-          if (!this.state.roundEnded) {
-            if (this.state.gameTimer > 0) {
-              this.setState({ gameTimer: this.state.gameTimer - 1 });
-              socket.emit("gameTimer", this.state.gameTimer);
-            } else {
-              // TIMER IS 0 GEWORDEN!
-              this.screenShot();
-              this.setState({ roundEnded: true });
-            }
-          } else {
-            clearInterval(this.startGameTimer);
-          }
-        }, 1000);
+
+        // GAME TIMER DISABLED OM TE TESTEN
+        // this.startGameTimer = setInterval(() => {
+        //   if (!this.state.roundEnded) {
+        //     if (this.state.gameTimer > 0) {
+        //       this.setState({ gameTimer: this.state.gameTimer - 1 });
+        //     } else {
+        //       // TIMER IS 0 GEWORDEN!
+        //       this.screenShot();
+        //       this.setState({ roundEnded: true });
+        //     }
+        //   } else {
+        //     clearInterval(this.startGameTimer);
+        //   }
+        // }, 1000);
+
       };
 
       //referenceImage.crossOrigin = "anonymous";
@@ -957,19 +964,25 @@ class Game extends Component {
 
   render() {
     // const { store } = this.props;
-    if (this.state.currentRound > 3) {
+    if (this.state.currentRound > this.state.maxRounds) {
       console.log("STOP");
       // store.setGameEnded();
+      socket.emit("regioinput");
       // Eerst nog score die je krijgt tonen, daarna (na x seconden) scorebord
     }
 
     return (
       <>
-        {!this.state._isLoaded ? <Loader /> : null}
+        {/* {!this.state._isLoaded ? <Loader /> : null}
         <div
           style={{ display: !this.state._isLoaded ? "none" : "" }}
           className={styles.full_game_wrapper}
-        >
+        > */}
+        <div className={`${styles.full_game_wrapper} ${basicStyles.container}`}>
+          {this.state.inputName ? <NameOverlay /> : null}
+
+          {this.state.startTutorial ? <CallOnboarding /> : null}
+          {/* <CallOnboarding /> */}
           <div className={styles.red_background}></div>
           <div className={styles.logo_next_white}></div>
           <div className={styles.game_top_view}>

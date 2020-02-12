@@ -24,6 +24,8 @@ class TouchNameInput extends Component {
   handleSubmit(event) {
     event.preventDefault();
     socket.emit("gametutorial");
+
+    socket.emit("playerInputNameFinished");
   }
 
   render() {
