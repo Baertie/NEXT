@@ -6,6 +6,7 @@ import buttonStyles from "../styles/TouchOnboarding.module.css";
 import basicStyles from "../styles/Touch.module.css";
 
 import LogoOverlayTablet from "../components/LogoOverlayTablet";
+import { socket } from "../App";
 
 class TouchGDPR extends Component {
   constructor(props) {
@@ -20,7 +21,8 @@ class TouchGDPR extends Component {
     // console.log(this.props.store);
     // console.log(props.store);
     // this.props.store.addPlayerScoreToDatabase();
-    this.props.store.addPlayerScoreToDatabase();
+    socket.emit("addtodatabase");
+    // this.props.store.addPlayerScoreToDatabase();
   }
   render() {
     return (

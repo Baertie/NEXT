@@ -34,13 +34,6 @@ class Store {
   nameValenciennes = "";
   unsortedPlayers = [];
 
-  // sortedScores = [
-  //   { installationLocation: "kortrijk", score: 210 },
-  //   { installationLocation: "valenciennes", score: 230 },
-  //   { installationLocation: "tournai", score: 180 },
-  //   { installationLocation: "lille", score: 30 }
-  // ];
-
   // Regio model
   // kortrijkScore = {
   //   _id: "5e42bba51c9d440000a9126e",
@@ -59,6 +52,14 @@ class Store {
   setPicture = picture => {
     console.log(picture);
     this.currentPicture = picture;
+  };
+  setName = name => {
+    console.log(name);
+    this.currentName = name;
+  };
+  setScore = score => {
+    console.log(score);
+    this.currentScore = score;
   };
 
   getAll = () => {
@@ -161,7 +162,7 @@ class Store {
     //   { installationLocation: "lille", score: 30 }
     // ];
 
-    if (this.nameKortrijk != "") {
+    if (this.nameKortrijk !== "") {
       this.unsortedPlayers.push({
         installationLocation: "kortrijk",
         score: this.scoreKortrijk,
@@ -170,7 +171,7 @@ class Store {
       });
     }
 
-    if (this.nameLille != "") {
+    if (this.nameLille !== "") {
       this.unsortedPlayers.push({
         installationLocation: "lille",
         score: this.scoreLille,
@@ -179,7 +180,7 @@ class Store {
       });
     }
 
-    if (this.nameTournai != "") {
+    if (this.nameTournai !== "") {
       this.unsortedPlayers.push({
         installationLocation: "tournai",
         score: this.scoreTournai,
@@ -188,7 +189,7 @@ class Store {
       });
     }
 
-    if (this.nameValenciennes != "") {
+    if (this.nameValenciennes !== "") {
       this.unsortedPlayers.push({
         installationLocation: "valenciennes",
         score: this.scoreValenciennes,
@@ -218,6 +219,9 @@ decorate(Store, {
   addScoresToArray: action,
   addRegioScoresToArray: action,
   setRegio: action,
+  setScore: action,
+  setName: action,
+  setPicture: action,
   updateRegioScore: action,
 
   // flowStatus: observable,
