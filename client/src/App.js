@@ -37,10 +37,10 @@ class App extends Component {
     this.state = {};
 
     // socket for deployment
-    socket = socketIOClient("/");
+    // socket = socketIOClient("/");
 
     // socket for dev
-    // socket = socketIOClient(":8080");
+    socket = socketIOClient(":8080");
   }
 
   componentDidMount() {
@@ -88,10 +88,10 @@ class App extends Component {
           <Route path="/nameoverlay" component={NameOverlay} />
           <Route path="/callonboarding" component={CallOnboarding} />
 
-          {/*<Route path="/gameInstructions" component={ NEW COMPONENT } />
-
+          {/* <Route path="/gameInstructions" component={ NEW COMPONENT } />
         <Route path="/endGame" component={ NEW COMPONENT } />
-        <Route path="/scorebord" component={ NEW COMPONENT } />*/}
+        <Route path="/scorebord" component={ NEW COMPONENT } /> */}
+
           <Route path="/tablet" component={TabletWrapper}></Route>
         </Switch>
       </div>

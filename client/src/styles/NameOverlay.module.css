@@ -2,14 +2,17 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  position: absolute;
   width: 100vw;
-  height: 164rem;
+  height: 162rem;
+  z-index: 100;
+  top: 30rem;
   background-color: rgba(255, 255, 255, 0.97);
 }
 
 .full_wrapper {
-  width: 108rem;
-  height: 192rem;
+  width: 100vw;
+  height: 162rem;
   display: flex;
   align-items: flex-end;
 }
@@ -39,5 +42,5 @@
 .arrow {
   position: absolute;
   left: 52.8rem;
-  top: 177rem;
+  bottom: 6.4rem;
 }
