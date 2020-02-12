@@ -46,30 +46,24 @@ class Socket extends Component {
     socket.emit("banaan");
 
     socket.on("joinGame", location => {
-      console.log("iemand uit ", location, " joint de game");
       this.sendImg();
     });
 
     socket.on("sendImg", ({ location, image }) => {
-      console.log("iemand uit ", location, " stuurt je een foto: ", image);
       this.checkNewPlayerLocation(location);
       this.setNewPlayerImg(location, image);
     });
 
     socket.on("imgKortrijk", img => {
-      console.log("socket on imgKortrijk, set store img: ", img);
       this.props.store.setImgKortrijk(img);
     });
     socket.on("imgTournai", img => {
-      console.log("socket on imgTournai, set store img: ", img);
       this.props.store.setImgTournai(img);
     });
     socket.on("imgLille", img => {
-      console.log("socket on imgLille, set store img: ", img);
       this.props.store.setImgLille(img);
     });
     socket.on("imgValenciennes", img => {
-      console.log("socket on imgValenciennes, set store img: ", img);
       this.props.store.setImgValenciennes(img);
     });
 

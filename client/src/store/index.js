@@ -24,6 +24,11 @@ class Store {
   imgLille = null;
   imgValenciennes = null;
   imgTournai = null;
+  scoreKortrijk = 0;
+  scoreLille = 0;
+  scoreValenciennes = 0;
+  scoreTournai = 0;
+
   // flowStatus = "Socket";
   //   constructor() {}
 
@@ -121,20 +126,29 @@ class Store {
   };
 
   setImgKortrijk = img => {
-    console.log("set img kortrijk store: ", img);
     this.imgKortrijk = img;
   };
   setImgLille = img => {
-    console.log("set img lille store: ", img);
     this.imgLille = img;
   };
   setImgTournai = img => {
-    console.log("set img tournai store: ", img);
     this.imgTournai = img;
   };
   setImgValenciennes = img => {
-    console.log("set img valenciennes store: ", img);
     this.imgValenciennes = img;
+  };
+
+  setScoreKortrijk = score => {
+    this.scoreKortrijk = score;
+  };
+  setScoreLille = score => {
+    this.scoreLille = score;
+  };
+  setScoreTournai = score => {
+    this.scoreTournai = score;
+  };
+  setScoreValenciennes = score => {
+    this.scoreValenciennes = score;
   };
 }
 
@@ -165,11 +179,19 @@ decorate(Store, {
   setImgTournai: action,
   setImgValenciennes: action,
   setImgLille: action,
+  setScoreKortrijk: action,
+  setScoreTournai: action,
+  setScoreValenciennes: action,
+  setScoreLille: action,
 
   imgKortrijk: observable,
   imgValenciennes: observable,
   imgLille: observable,
-  imgTournai: observable
+  imgTournai: observable,
+  scoreKortrijk: observable,
+  scoreValenciennes: observable,
+  scoreLille: observable,
+  scoreTournai: observable
 });
 
 const store = new Store();
