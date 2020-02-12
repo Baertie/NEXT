@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { PropTypes, inject, observer } from "mobx-react";
+
 import person from "../assets/img/testPerson.png";
 
 import styles from "../styles/Scoreboard.module.css";
@@ -6,6 +8,35 @@ import styles from "../styles/Scoreboard.module.css";
 class Scoreboard extends Component {
   constructor(props) {
     super(props);
+  }
+
+  componentDidMount() {
+    // const playerItems = this.props.store.scores.map(
+    //   (
+    //     {
+    //       playerName,
+    //       playerRegion,
+    //       playerPicture,
+    //       playerScore,
+    //       installationLocation
+    //     },
+    //     index
+    //   ) => (
+    //     <div className={styles.board_item} key={`player_${index}`}>
+    //       <p className={styles.score_position}>{index + 1}</p>
+    //       <img className={styles.score_image} src={person} />
+    //       <div className={styles.score_person}>
+    //         <p className={styles.score_person_name}>{playerName}</p>
+    //         <p className={`${styles.score_person_location} ${styles.kortrijk}`}>
+    //           {playerRegion}
+    //         </p>
+    //       </div>
+    //       <p className={styles.score_points}>{playerScore}</p>
+    //     </div>
+    //   )
+    // );
+    // console.log(playerItems);
+    // if ()
   }
   render() {
     return (
@@ -21,7 +52,13 @@ class Scoreboard extends Component {
                 <img className={styles.score_image} src={person} />
                 <div className={styles.score_person}>
                   <p className={styles.score_person_name}>Arno</p>
-                  <p className={styles.score_person_location}>Orroir</p>
+                  <p
+                    className={`${styles.score_person_location} ${
+                      styles[this.props.store.currentLocation]
+                    }`}
+                  >
+                    {this.props.store.currentRegio}
+                  </p>
                 </div>
                 <p className={styles.score_points}>220</p>
               </div>
@@ -30,72 +67,48 @@ class Scoreboard extends Component {
           <div className={styles.board_background}>
             <h2 className={styles.board_title}>De beste Nexters</h2>
             <div>
-              <div className={styles.board_item}>
-                <p className={styles.score_position}>19</p>
-                <img className={styles.score_image} src={person} />
-                <div className={styles.score_person}>
-                  <p className={styles.score_person_name}>Arno</p>
-                  <p className={styles.score_person_location}>Orroir</p>
-                </div>
-                <p className={styles.score_points}>220</p>
-              </div>
-              <div className={styles.board_item}>
-                <p className={styles.score_position}>19</p>
-                <img className={styles.score_image} src={person} />
-                <div className={styles.score_person}>
-                  <p className={styles.score_person_name}>Arno</p>
-                  <p className={styles.score_person_location}>Orroir</p>
-                </div>
-                <p className={styles.score_points}>220</p>
-              </div>
-              <div className={styles.board_item}>
-                <p className={styles.score_position}>19</p>
-                <img className={styles.score_image} src={person} />
-                <div className={styles.score_person}>
-                  <p className={styles.score_person_name}>Arno</p>
-                  <p className={styles.score_person_location}>Orroir</p>
-                </div>
-                <p className={styles.score_points}>220</p>
-              </div>
-              <div className={styles.board_item}>
-                <p className={styles.score_position}>19</p>
-                <img className={styles.score_image} src={person} />
-                <div className={styles.score_person}>
-                  <p className={styles.score_person_name}>Arno</p>
-                  <p className={styles.score_person_location}>Orroir</p>
-                </div>
-                <p className={styles.score_points}>220</p>
-              </div>
-              <div className={styles.board_item}>
-                <p className={styles.score_position}>19</p>
-                <img className={styles.score_image} src={person} />
-                <div className={styles.score_person}>
-                  <p className={styles.score_person_name}>Arno</p>
-                  <p className={styles.score_person_location}>Orroir</p>
-                </div>
-                <p className={styles.score_points}>220</p>
-              </div>
+              {this.props.store.scores.map(
+                (
+                  {
+                    playerName,
+                    playerRegion,
+                    playerPicture,
+                    playerScore,
+                    installationLocation
+                  },
+                  index
+                ) => (
+                  <div className={styles.board_item} key={`player_${index}`}>
+                    <p className={styles.score_position}>{index + 1}</p>
+                    <img className={styles.score_image} src={person} />
+                    <div className={styles.score_person}>
+                      <p className={styles.score_person_name}>{playerName}</p>
+
+                      <p
+                        className={`${styles.score_person_location} ${styles[installationLocation]}`}
+                      >
+                        {playerRegion}
+                      </p>
+                    </div>
+                    <p className={styles.score_points}>{playerScore}</p>
+                  </div>
+                )
+              )}
             </div>
           </div>
           <div className={styles.regional}>
             <h2 className={styles.regional_title}>Regionale tussenstand</h2>
             <div className={styles.regional_grid}>
-              <div className={styles.regional_item}>
-                <p className={styles.regional_item_region}>Valenciennes</p>
-                <p className={styles.regional_item_points}>9011</p>
-              </div>
-              <div className={styles.regional_item}>
-                <p className={styles.regional_item_region}>Kortrijk</p>
-                <p className={styles.regional_item_points}>9011</p>
-              </div>
-              <div className={styles.regional_item}>
-                <p className={styles.regional_item_region}>Kortrijk</p>
-                <p className={styles.regional_item_points}>9011</p>
-              </div>
-              <div className={styles.regional_item}>
-                <p className={styles.regional_item_region}>Kortrijk</p>
-                <p className={styles.regional_item_points}>9011</p>
-              </div>
+              {this.props.store.regioScores.map(({ regio, score }, index) => (
+                <div className={styles.regional_item} key={`player_${index}`}>
+                  <p
+                    className={`${styles.regional_item_region} ${styles[regio]}`}
+                  >
+                    {regio}
+                  </p>
+                  <p className={styles.regional_item_points}>{score}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -104,4 +117,4 @@ class Scoreboard extends Component {
   }
 }
 
-export default Scoreboard;
+export default inject(`store`)(observer(Scoreboard));

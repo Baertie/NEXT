@@ -23,34 +23,42 @@ class TabletWrapper extends Component {
 
   componentDidMount() {
     socket.on("onboarding", () => {
+      console.log("onboarding");
       this.setState({ currentPage: "onboarding" });
     });
 
-    socket.on("connecting", () => {
+    socket.on("banaan", () => {
+      console.log("banaan");
       this.setState({ currentPage: "connecting" });
     });
 
     socket.on("called", () => {
+      console.log("called");
       this.setState({ currentPage: "called" });
     });
 
     socket.on("nameinput", () => {
+      console.log("nameinput");
       this.setState({ currentPage: "nameinput" });
     });
 
     socket.on("game", () => {
+      console.log("game");
       this.setState({ currentPage: "game" });
     });
 
     socket.on("regioinput", () => {
+      console.log("regioinput");
       this.setState({ currentPage: "regioinput" });
     });
 
     socket.on("gdpr", () => {
+      console.log("gdpr");
       this.setState({ currentPage: "gdpr" });
     });
 
     socket.on("leaderboard", () => {
+      console.log("leaderboard");
       this.setState({ currentPage: "leaderboard" });
     });
   }

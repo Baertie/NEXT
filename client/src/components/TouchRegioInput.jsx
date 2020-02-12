@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { inject, observer } from "mobx-react";
+
 import styles from "../styles/TouchNameInput.module.css";
 import basicStyles from "../styles/Touch.module.css";
 
@@ -7,13 +9,27 @@ import LogoOverlayTablet from "../components/LogoOverlayTablet";
 class TouchRegioInput extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.regioInput = React.createRef();
+    this.state = { value: "" };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    console.log(event.target.value);
+    this.setState({ value: event.target.value });
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    this.props.store.setRegio(this.state.value);
+    console.log("regio gezet");
   }
   render() {
     return (
       <div className={basicStyles.container}>
         <LogoOverlayTablet />
-        <form action="" className={styles.formContainer}>
+        <form onSubmit={this.handleSubmit} className={styles.formContainer}>
           <div className={styles.inputContainer}>
             <label htmlFor="regioInput" className={styles.label}>
               Regio
@@ -23,6 +39,10 @@ class TouchRegioInput extends Component {
               type="text"
               placeholder="Vul hier jouw regio in"
               id="regioInput"
+              autoFocus
+              ref={this.regioInput}
+              onChange={this.handleChange}
+              value={this.state.value}
             />
           </div>
           <input className={styles.submit} type="submit" value="Toevoegen" />
@@ -32,4 +52,4 @@ class TouchRegioInput extends Component {
   }
 }
 
-export default TouchRegioInput;
+export default inject(`store`)(observer(TouchRegioInput));

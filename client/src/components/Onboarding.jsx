@@ -12,6 +12,7 @@ class Onboarding extends Component {
   }
   componentDidMount() {
     socket.emit("onboarding");
+    console.log("socket sent");
 
     socket.on("prevOnboardingPage", () => {
       this.handlePrevClick();

@@ -1,11 +1,50 @@
-var app = require("express")();
-var http = require("http").createServer(app);
-var io = require("socket.io")(http);
+const express = require("express");
+const path = require("path");
+const bodyParser = require("body-parser");
+
+const app = express();
+const mongoose = require("mongoose");
+
+const http = require("http").createServer(app);
+const io = require("socket.io")(http);
 const port = process.env.PORT || 8080;
 
-app.get("/", function(req, res) {
-  res.sendFile(__dirname + "/index.html");
+require("dotenv").config();
+
+// app.get("/", function(req, res) {
+//   res.sendFile(__dirname + "/index.html");
+// });
+
+mongoose
+  .connect(process.env.DB_URL, {
+    useNewUrlParser: true,
+    useFindAndModify: false,
+    useCreateIndex: true,
+    useUnifiedTopology: true
+  })
+  .then(() => console.log("db connected"))
+  .catch(e => {
+    console.log("Error, exiting", e);
+    process.exit();
+  });
+
+app.use(express.static(path.resolve(__dirname, "../client/build")));
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+require("./app/routes/scores.routes.js")(app);
+require("./app/routes/regioscores.routes.js")(app);
+
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
 });
+
+app.get("/api/data", (req, res) => {
+  res.send({ message: "ok", secret: process.env.SECRET });
+});
+
+io.set("origins", "*:*");
 
 const users = {};
 
@@ -26,7 +65,7 @@ io.on("connection", socket => {
     // trigger onboarding page
     socket.on("onboarding", () => {
       io.to(room).emit("onboarding");
-      console.log("onboarding");
+      console.log("onboarding", room);
     });
 
     // flip through the onboarding pages
@@ -34,9 +73,10 @@ io.on("connection", socket => {
       io.to(room).emit("nextOnboardingPage");
       console.log("next page");
     });
+
     socket.on("startGame", () => {
       io.to(room).emit("startGame");
-      console.log("start game");
+      console.log("start game", room);
     });
 
     socket.on("prevOnboardingPage", () => {
@@ -45,39 +85,49 @@ io.on("connection", socket => {
     });
 
     // trigger connecting page
-    socket.on("connecting", () => {
-      io.to(room).emit("connecting");
-      console.log("connecting");
+    socket.on("banaan", () => {
+      io.to(room).emit("banaan");
+      console.log("banaan", room);
+    });
+
+    // socket.on("namechange", namevalue => {
+    //   io.to(room).emit("namechange", namevalue);
+    //   console.log("namevalue", namvevalue);
+    // });
+
+    socket.on("namechange", namevalue => {
+      io.to(room).emit("namechange", namevalue);
+      //   console.log("namevalue", namvevalue);
     });
 
     // trigger called page
     socket.on("called", () => {
       io.to(room).emit("called");
-      console.log("called");
+      console.log("called", room);
     });
 
     // trigger nameinput page
     socket.on("nameinput", () => {
       io.to(room).emit("nameinput");
-      console.log("nameinput");
+      console.log("nameinput", room);
     });
 
     // trigger game page
     socket.on("game", () => {
       io.to(room).emit("game");
-      console.log("game");
+      console.log("game", room);
     });
 
     // trigger regioinput page
     socket.on("regioinput", () => {
       io.to(room).emit("regioinput");
-      console.log("regioinput");
+      console.log("regioinput", room);
     });
 
     // trigger gdpr page
     socket.on("gdpr", () => {
       io.to(room).emit("gdpr");
-      console.log("gdpr");
+      console.log("gdpr", room);
     });
 
     socket.on("gameTimer", time => {
@@ -87,7 +137,7 @@ io.on("connection", socket => {
     // trigger leaderboard page
     socket.on("leaderboard", () => {
       io.to(room).emit("leaderboard");
-      console.log("leaderboard");
+      console.log("leaderboard", room);
     });
   });
 

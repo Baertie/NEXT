@@ -18,7 +18,7 @@ class Socket extends Component {
         audio: false,
         video: { width: 480, height: 720 }
       },
-      searchTimer: 50,
+      searchTimer: 30,
       fotoTimer: 3,
       playerJoined: false,
       ownVideoStyle: null,
@@ -43,6 +43,7 @@ class Socket extends Component {
 
     socket.emit("stopCarousel", "einde carousel");
     socket.emit("searchTimer", this.state.searchTimer);
+    socket.emit("banaan");
 
     socket.on("joinGame", location => {
       console.log("iemand uit ", location, " joint de game");

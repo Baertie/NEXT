@@ -46,7 +46,7 @@ class SocketTest extends Component {
       ],
       iceServers: [
         {
-          url: "stun:stun.l.google.com:19302"
+          urls: "stun:stun.l.google.com:19302"
         }
       ],
       optional: [
@@ -75,6 +75,7 @@ class SocketTest extends Component {
     // Not needed
   };
   mediaStreamConnected = () => {
+    console.log("mediastreamconnected");
     // Not needed
   };
   mediaStreamRemoved = () => {
@@ -84,12 +85,17 @@ class SocketTest extends Component {
     // Not needed
   };
   datachannelOpen = channel => {
+    console.log("open", channel);
     // Not needed
   };
   datachannelMessage = (channel, message) => {
+    console.log("channelmessage", channel);
+
+    console.log("channelmessage", message);
     // Not needed
   };
   datachannelError = channel => {
+    console.log("channelerror", channel);
     // Not needed
   };
   datachannelClose = channel => {
@@ -113,8 +119,6 @@ class SocketTest extends Component {
   };
 
   componentDidMount() {
-    //const signalingChannel = new SignalingChannel(remoteClientId);
-    // const signalingChannel = new SignalingChannel(remoteClientId);
     this.getCamera();
   }
 
@@ -131,6 +135,8 @@ class SocketTest extends Component {
   };
 
   startCamera = () => {
+    this.rtc.connect();
+    this.rtc.checkConnection();
     // This sends your video
     // start this when other player joins
     this.rtc.media("start");
