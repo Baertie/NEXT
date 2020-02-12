@@ -5,6 +5,7 @@ import styles from "../styles/TouchNameInput.module.css";
 import basicStyles from "../styles/Touch.module.css";
 
 import LogoOverlayTablet from "../components/LogoOverlayTablet";
+import { socket } from "../App";
 
 class TouchRegioInput extends Component {
   constructor(props) {
@@ -22,7 +23,7 @@ class TouchRegioInput extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.props.store.setRegio(this.state.value);
+    socket.emit("setRegio", this.state.value);
     console.log("regio gezet");
   }
   render() {

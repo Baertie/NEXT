@@ -216,6 +216,7 @@ class Socket extends Component {
       location: this.props.store.currentLocation,
       image: this.state.imgToSend
     });
+    this.props.store.setPicture(this.state.imgToSend);
   };
 
   getCamera = async () => {

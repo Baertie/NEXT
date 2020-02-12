@@ -29,9 +29,8 @@ mongoose
   });
 
 app.use(express.static(path.resolve(__dirname, "../client/build")));
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
+app.use(bodyParser.json({ extended: true, limit: "50mb" }));
 
 require("./app/routes/scores.routes.js")(app);
 require("./app/routes/regioscores.routes.js")(app);
@@ -163,6 +162,16 @@ io.on("connection", socket => {
     socket.on("gametutorial", () => {
       io.to(room).emit("gametutorial");
       console.log("gametutorial", room);
+    });
+
+    socket.on("setRegio", regio => {
+      io.to(room).emit("setRegio", regio);
+      console.log("setRegio", room);
+    });
+
+    socket.on("addtodatabase", () => {
+      io.to(room).emit("addtodatabase");
+      console.log("addtodatabase", room);
     });
   });
 
