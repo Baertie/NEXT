@@ -39,3 +39,15 @@
   width: 49.6rem;
   height: 8rem;
 }
+
+.alreadySubmit {
+  background-color: var(--primary-color);
+  -webkit-appearance: none;
+  font-family: "Heavitas";
+  font-size: 2.8rem;
+  color: var(--white);
+  border: none;
+  width: 49.6rem;
+  height: 8rem;
+  opacity: 50%;
+}

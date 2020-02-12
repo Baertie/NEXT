@@ -89,7 +89,7 @@ class Game extends Component {
       hideCanvas: true,
       showScore: false,
       gameTimer: 5,
-      onboardingTimer: 30,
+      onboardingTimer: 15,
       tutorialTimer: 3,
       roundEnded: false,
       ownLocation: this.props.store.currentLocation,
@@ -801,7 +801,6 @@ class Game extends Component {
       if (this.state.onboardingTimer > 0) {
         this.setState({ onboardingTimer: this.state.onboardingTimer - 1 });
       } else {
-        console.log("onboarding stopt", this.state.onboardingTimer);
         this.setState({ startTutorial: false, startSecondTutorial: true });
         clearInterval(this.onboardingTimer);
         this.getOponentNames();
@@ -1279,8 +1278,11 @@ class Game extends Component {
         <div className={`${styles.full_game_wrapper} ${basicStyles.container}`}>
           {this.state.inputName ? <NameOverlay /> : null}
 
-          {this.state.startTutorial ? <CallOnboarding /> : null}
-          {this.state.startSecondTutorial ? <GameTutorial /> : null}
+          {this.state.startTutorial ? (
+            <CallOnboarding />
+          ) : this.state.startSecondTutorial ? (
+            <GameTutorial />
+          ) : null}
           {this.state.gameEnded ? <TeamBoard /> : null}
 
           {/* <CallOnboarding /> */}
