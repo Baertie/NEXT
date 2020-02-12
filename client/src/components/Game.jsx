@@ -87,7 +87,7 @@ class Game extends Component {
       hideCanvas: true,
       showScore: false,
       gameTimer: 5,
-      onboardingTimer: 15,
+      onboardingTimer: 30,
       roundEnded: false,
       ownLocation: this.props.store.currentLocation,
       ownScore: 0,
@@ -745,6 +745,8 @@ class Game extends Component {
   };
 
   startGameTimer = () => {
+    // this.clearInterval(this.onboardingTimer);
+    // clearInterval(this.onboardintTimer);
     this.gameTimer = setInterval(() => {
       if (!this.state.roundEnded) {
         if (this.state.gameTimer > 0) {
@@ -765,9 +767,11 @@ class Game extends Component {
       if (this.state.onboardingTimer > 0) {
         this.setState({ onboardingTimer: this.state.onboardingTimer - 1 });
       } else {
-        console.log("onboarding stopt");
+        console.log("onboarding stopt", this.state.onboardingTimer);
         this.setState({ startTutorial: false, onboardingEnded: true });
         clearInterval(this.onboardingTimer);
+        // this.clearInterval(this.onboardingTimer);
+
         this.getOponentNames();
         this.getOwnName();
         this.startGameTimer();
@@ -1178,12 +1182,12 @@ class Game extends Component {
 
   render() {
     // const { store } = this.props;
-    if (this.state.currentRound > this.state.maxRounds) {
-      console.log("STOP");
-      // store.setGameEnded();
-      socket.emit("regioinput");
-      // Eerst nog score die je krijgt tonen, daarna (na x seconden) scorebord
-    }
+    // if (this.state.currentRound > this.state.maxRounds) {
+    //   console.log("STOP");
+    // store.setGameEnded();
+    // socket.emit("regioinput");
+    // Eerst nog score die je krijgt tonen, daarna (na x seconden) scorebord
+    // }
 
     return (
       <>
