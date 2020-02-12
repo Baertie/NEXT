@@ -81,7 +81,7 @@ class Scoreboard extends Component {
             <h2 className={styles.regional_title}>Regionale tussenstand</h2>
             <div className={styles.regional_grid}>
               <div className={styles.regional_item}>
-                <p className={styles.regional_item_region}>Kortrijk</p>
+                <p className={styles.regional_item_region}>Valenciennes</p>
                 <p className={styles.regional_item_points}>9011</p>
               </div>
               <div className={styles.regional_item}>

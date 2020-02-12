@@ -8,8 +8,8 @@
 }
 
 .full_wrapper {
-  width: 1080px;
-  height: 1920px;
+  width: 108rem;
+  height: 192rem;
   display: flex;
   align-items: flex-end;
 }
@@ -38,6 +38,6 @@
 }
 .arrow {
   position: absolute;
-  left: 528px;
-  top: 1770px;
+  left: 52.8rem;
+  top: 177rem;
 }

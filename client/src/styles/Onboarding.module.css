@@ -23,15 +23,15 @@
 
 .test {
   position: absolute;
-  top: 50px;
+  top: 5rem;
   z-index: 50;
-  left: 100px;
+  left: 10rem;
 }
 .test2 {
   position: absolute;
-  top: 50px;
+  top: 5rem;
   z-index: 50;
-  left: 200px;
+  left: 20rem;
 }
 
 .white_content_background {
@@ -117,7 +117,7 @@
   margin: 3.5rem auto 0 auto;
   max-width: 20rem;
   background: var(--primary-color);
-  border-radius: 15px;
+  border-radius: 1.6rem;
   padding: 2rem 4rem 1rem 4rem;
   font-family: "Heavitas";
   font-style: normal;
