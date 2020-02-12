@@ -47,8 +47,8 @@ app.get("/api/data", (req, res) => {
 // io.set("origins", "*:*");
 
 // const users = {};
-let connectionCounter = 0;
-let playerCount = 0;
+var connectionCounter = 0;
+var playerCount = 0;
 
 // io.set("origins", "*:*");
 io.on("connection", socket => {
