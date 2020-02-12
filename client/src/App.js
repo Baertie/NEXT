@@ -37,10 +37,10 @@ class App extends Component {
     this.state = {};
 
     // socket for deployment
-    // socket = socketIOClient("/");
+    socket = socketIOClient("/");
 
     // socket for dev
-    socket = socketIOClient(":8080");
+    // socket = socketIOClient(":8080");
   }
 
   componentDidMount() {
