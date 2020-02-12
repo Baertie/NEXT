@@ -49,6 +49,7 @@ app.get("/api/data", (req, res) => {
 // const users = {};
 var connectionCounter = 0;
 // var playerCount = 0;
+var timerStarted = false;
 
 // io.set("origins", "*:*");
 io.on("connection", socket => {
@@ -165,32 +166,42 @@ io.on("connection", socket => {
     });
   });
 
-  socket.on("resetPlayerCount", () => {
-    var playerCount = 0;
-    console.log("RESET totalplayers wordt ", playerCount);
+  // socket.on("resetPlayerCount", () => {
+  //   var playerCount = 0;
+  //   console.log("RESET totalplayers wordt ", playerCount);
 
-    socket.broadcast.emit("resetPlayerCount", 0);
-  });
+  //   socket.broadcast.emit("resetPlayerCount", 0);
+  // });
 
-  socket.on("totalPlayers", players => {
-    console.log("OUD totalplayers wordt ", players);
-    playerCount = players;
-  });
+  // socket.on("totalPlayers", players => {
+  //   console.log("OUD totalplayers wordt ", players);
+  //   playerCount = players;
+  // });
 
   socket.on("startOnboardingTimer", () => {
-    socket.emit("startOnboardingTimer");
+    if (timerStarted === false) {
+      socket.emit("startOnboardingTimer");
+      timerStarted = true;
+    } else {
+      console.log("timer al gestart");
+    }
   });
 
   socket.on("playerInputNameFinished", () => {
-    console.log("input finishes");
-    console.log("counter voor", connectionCounter);
-    connectionCounter++;
-    console.log("counter na", connectionCounter);
-    console.log("playercount:", playerCount);
-    if (playerCount === connectionCounter) {
+    // console.log("input finishes");
+    // console.log("counter voor", connectionCounter);
+    // connectionCounter++;
+    // console.log("counter na", connectionCounter);
+    // console.log("playercount:", playerCount);
+    // if (playerCount === connectionCounter) {
+    if (timerStarted === false) {
       socket.broadcast.emit("startOnboardingTimer");
-      console.log("wow in de if count: ", playerCount);
+      timerStarted = true;
+    } else {
+      console.log("timer al gestart");
     }
+    console.log("wow in de if count: ");
+    // }
     //   console.log(io.sockets.adapter.rooms["kortrijk"]);
     // console.log(io.sockets.adapter.rooms["valenciennes"]);
   });

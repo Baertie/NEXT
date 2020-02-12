@@ -5,6 +5,7 @@ import { inject, observer } from "mobx-react";
 import Loader from "./Loader";
 import CallOnboarding from "./CallOnboarding";
 import NameOverlay from "./NameOverlay";
+import TeamBoard from "./TeamBoard";
 
 // https://github.com/chanind/curve-matcher
 import { shapeSimilarity } from "curve-matcher";
@@ -87,7 +88,7 @@ class Game extends Component {
       hideCanvas: true,
       showScore: false,
       gameTimer: 5,
-      onboardingTimer: 15,
+      onboardingTimer: 30,
       roundEnded: false,
       ownLocation: this.props.store.currentLocation,
       ownScore: 0,
@@ -101,7 +102,6 @@ class Game extends Component {
       tournaiName: "",
       lilleName: "",
       valenciennesName: "",
-
       onboardingEnded: false,
 
       player2img: null,
@@ -116,8 +116,10 @@ class Game extends Component {
       player3name: "",
       player4name: "",
 
+      // render variables 3 screens
       startTutorial: false,
       inputName: true,
+      gameEnded: false,
 
       player2score: 0,
       player3score: 0,
@@ -200,16 +202,23 @@ class Game extends Component {
 
     // this,setState
     socket.on("scoreKortrijk", score => {
+      this.props.store.setScoreKortrijk(score);
       this.setRoundScore(score, "kortrijk");
+      console.log("score kortrijk ontvangen");
     });
     socket.on("scoreTournai", score => {
+      this.props.store.setScoreTournai(score);
       this.setRoundScore(score, "tournai");
+      console.log("score tournai ontvangen");
     });
     socket.on("scoreLille", score => {
+      this.props.store.setScoreLille(score);
       this.setRoundScore(score, "lille");
+      console.log("score lille ontvangen");
     });
     socket.on("scoreValenciennes", score => {
       this.setRoundScore(score, "valenciennes");
+      console.log("score valenciennes ontvangen");
     });
   }
 
@@ -745,6 +754,8 @@ class Game extends Component {
   };
 
   startGameTimer = () => {
+    // this.clearInterval(this.onboardingTimer);
+    // clearInterval(this.onboardintTimer);
     this.gameTimer = setInterval(() => {
       if (!this.state.roundEnded) {
         if (this.state.gameTimer > 0) {
@@ -765,9 +776,11 @@ class Game extends Component {
       if (this.state.onboardingTimer > 0) {
         this.setState({ onboardingTimer: this.state.onboardingTimer - 1 });
       } else {
-        console.log("onboarding stopt");
+        console.log("onboarding stopt", this.state.onboardingTimer);
         this.setState({ startTutorial: false, onboardingEnded: true });
         clearInterval(this.onboardingTimer);
+        // this.clearInterval(this.onboardingTimer);
+
         this.getOponentNames();
         this.getOwnName();
         this.startGameTimer();
@@ -811,7 +824,9 @@ class Game extends Component {
       this.addPointsToState(landMarkPoints, type);
     }
 
-    this.addSharpenEffect(videoTag, canvas, ctx);
+    // MARK
+
+    // this.addSharpenEffect(videoTag, canvas, ctx);
     this.addVisualEffects(canvas, ctx);
     this.calculateDistance();
 
@@ -833,13 +848,26 @@ class Game extends Component {
     setTimeout(() => {
       this.setState({ showScore: true });
     }, 2000);
+    //
+
+    if (this.state.currentRound === this.state.maxRounds) {
+      console.log("game gedaan in setTimeout");
+      this.props.store.createPlayerArray();
+    }
+
+    // MARK
     setTimeout(() => {
-      this.clearCreatedCanvas();
-      this.goToNextRound();
-      this.setState({
-        roundEnded: false,
-        gameTimer: 5
-      });
+      if (this.state.currentRound === this.state.maxRounds) {
+        console.log("game gedaan in setTimeout");
+        this.setState({ gameEnded: true });
+      } else {
+        this.clearCreatedCanvas();
+        this.goToNextRound();
+        this.setState({
+          roundEnded: false,
+          gameTimer: 5
+        });
+      }
     }, 5000);
   };
 
@@ -1167,23 +1195,29 @@ class Game extends Component {
   };
 
   goToNextRound = () => {
-    this.setState(prevState => {
-      return {
-        currentRound: prevState.currentRound + 1
-      };
-    });
+    if (this.state.currentRound === this.state.maxRounds) {
+      console.log("game gedaan");
+      // this.setState({ gameEnded: true });
+      // this.props.store.createPlayerArray();
+    } else {
+      this.setState(prevState => {
+        return {
+          currentRound: prevState.currentRound + 1
+        };
+      });
 
-    this.getReferenceData();
+      this.getReferenceData();
+    }
   };
 
   render() {
     // const { store } = this.props;
-    if (this.state.currentRound > this.state.maxRounds) {
-      console.log("STOP");
-      // store.setGameEnded();
-      socket.emit("regioinput");
-      // Eerst nog score die je krijgt tonen, daarna (na x seconden) scorebord
-    }
+    // if (this.state.currentRound > this.state.maxRounds) {
+    //   console.log("STOP");
+    // store.setGameEnded();
+    // socket.emit("regioinput");
+    // Eerst nog score die je krijgt tonen, daarna (na x seconden) scorebord
+    // }
 
     return (
       <>
@@ -1196,6 +1230,8 @@ class Game extends Component {
           {this.state.inputName ? <NameOverlay /> : null}
 
           {this.state.startTutorial ? <CallOnboarding /> : null}
+          {this.state.gameEnded ? <TeamBoard /> : null}
+
           {/* <CallOnboarding /> */}
           <div className={styles.red_background}></div>
           <div className={styles.logo_next_white}></div>

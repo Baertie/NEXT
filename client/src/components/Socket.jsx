@@ -49,9 +49,10 @@ class Socket extends Component {
 
     socket.on("joinGame", () => {
       this.sendImg();
-      // add to total player count every time someone joins
-      socket.emit("totalPlayers", this.state.playerCount + 1);
-      this.setState({ playerCount: this.playerCount + 1 });
+      // console.log("playercount in joingame", this.state.playerCount);
+      // // add to total player count every time someone joins
+      // socket.emit("totalPlayers", this.state.playerCount + 1);
+      // this.setState({ playerCount: this.playerCount + 1 });
     });
 
     socket.on("sendImg", ({ location, image }) => {
