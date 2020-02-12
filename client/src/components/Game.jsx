@@ -85,7 +85,7 @@ class Game extends Component {
       _isLoaded: false,
       hideCanvas: true,
       showScore: false,
-      gameTimer: 20,
+      gameTimer: 5,
       roundEnded: false,
       ownLocation: this.props.store.currentLocation,
       kortrijkImg: null,
@@ -164,7 +164,7 @@ class Game extends Component {
         ) {
           this.setState({ player3img: img });
           break;
-        } else {
+        } else if (this.state.player4img != null) {
           this.setState({ player4img: img });
           break;
         }
@@ -181,7 +181,7 @@ class Game extends Component {
         ) {
           this.setState({ player3img: img });
           break;
-        } else {
+        } else if (this.state.player4img != null) {
           this.setState({ player4img: img });
           break;
         }
@@ -198,7 +198,7 @@ class Game extends Component {
         ) {
           this.setState({ player3img: img });
           break;
-        } else {
+        } else if (this.state.player4img != null) {
           this.setState({ player4img: img });
           break;
         }
@@ -215,7 +215,7 @@ class Game extends Component {
         ) {
           this.setState({ player3img: img });
           break;
-        } else {
+        } else if (this.state.player4img != null) {
           this.setState({ player4img: img });
           break;
         }
@@ -422,6 +422,7 @@ class Game extends Component {
           if (!this.state.roundEnded) {
             if (this.state.gameTimer > 0) {
               this.setState({ gameTimer: this.state.gameTimer - 1 });
+              socket.emit("gameTimer", this.state.gameTimer);
             } else {
               // TIMER IS 0 GEWORDEN!
               this.screenShot();
