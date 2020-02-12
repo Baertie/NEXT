@@ -250,17 +250,10 @@ class Socket extends Component {
   render() {
     return (
       <>
-        <p
-          style={{
-            position: "absolute",
-            fontSize: 25,
-            zIndex: 50,
-            left: "40%",
-            top: 150
-          }}
-        >
-          Foto wordt genomen binnen: {this.state.fotoTimer}
-        </p>
+        <div className={styles.fotoTimerWrapper}>
+          <p className={styles.fotoTimerText}>We nemen een foto over</p>
+          <p className={styles.fotoTimer}>{this.state.fotoTimer}</p>
+        </div>
         <div className={styles.red_background}></div>
         <div className={styles.logo_next_white}></div>
         <div className={styles.search_timer}>

@@ -34,10 +34,9 @@ class CallOnboarding extends Component {
             <div className={styles.text_column}>
               <h2 className={styles.call_subtitle}>2. Foto</h2>
               <p className={styles.call_text}>
-                <span className={styles.call_text_bold}>Beeld</span> dit affiche
-                zo goed mogelijk{" "}
-                <span className={styles.call_text_bold}>uit.</span>
-                Wanneer de{" "}
+                <span className={styles.call_text_bold}>Beeld</span> deze
+                affiche zo goed mogelijk{" "}
+                <span className={styles.call_text_bold}>uit.</span> Wanneer de{" "}
                 <span className={styles.call_text_bold}>tijd op</span> is, wordt
                 er een <span className={styles.call_text_bold}>foto</span>{" "}
                 gemaakt.
@@ -54,11 +53,9 @@ class CallOnboarding extends Component {
               <p className={styles.call_text}>
                 Hoe <span className={styles.call_text_bold}>beter</span> je de
                 affiche{" "}
-                <span className={styles.call_text_bold}>uitbeeldt,</span>
-                Hoe <span className={styles.call_text_bold}>
-                  meer punten
-                </span>{" "}
-                je verdient.
+                <span className={styles.call_text_bold}>uitbeeldt,</span> hoe{" "}
+                <span className={styles.call_text_bold}>meer punten</span> je
+                verdient.
               </p>
             </div>
             <div className={styles.image_grid}>
