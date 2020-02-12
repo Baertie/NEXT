@@ -154,8 +154,8 @@ io.on("connection", socket => {
     socket.broadcast.emit("playerCalled", time);
   });
 
-  socket.on("joinGame", location => {
-    socket.broadcast.emit("joinGame", location);
+  socket.on("joinGame", () => {
+    socket.broadcast.emit("joinGame");
   });
 
   socket.on("sendImg", ({ location, image }) => {

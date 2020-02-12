@@ -20,7 +20,6 @@ class Socket extends Component {
       },
       searchTimer: 30,
       fotoTimer: 3,
-      playerJoined: false,
       ownVideoStyle: null,
       kortrijkPlayer: false,
       kortrijkImg: null,
@@ -45,8 +44,9 @@ class Socket extends Component {
     socket.emit("searchTimer", this.state.searchTimer);
     socket.emit("banaan");
 
-    socket.on("joinGame", location => {
+    socket.on("joinGame", () => {
       this.sendImg();
+      // add to total player count
     });
 
     socket.on("sendImg", ({ location, image }) => {
@@ -227,11 +227,6 @@ class Socket extends Component {
       socket.emit("searchTimer", this.state.searchTimer);
     } else {
       this.props.history.push("/game");
-    }
-    if (this.state.playerJoined === true) {
-      // GO TO GAME
-    } else {
-      // NO OPPONENT FOUND
     }
   }, 1000);
 
