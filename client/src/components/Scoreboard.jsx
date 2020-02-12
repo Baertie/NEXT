@@ -34,7 +34,13 @@ class Scoreboard extends Component {
             <div>
               {this.props.store.scores.map(
                 (
-                  { playerName, playerRegion, playerPicture, playerScore },
+                  {
+                    playerName,
+                    playerRegion,
+                    playerPicture,
+                    playerScore,
+                    installationLocation
+                  },
                   index
                 ) => (
                   <div className={styles.board_item} key={`player_${index}`}>
