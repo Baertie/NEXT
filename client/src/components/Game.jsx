@@ -5,6 +5,7 @@ import { inject, observer } from "mobx-react";
 import Loader from "./Loader";
 import CallOnboarding from "./CallOnboarding";
 import NameOverlay from "./NameOverlay";
+import TeamBoard from "./TeamBoard";
 
 // https://github.com/chanind/curve-matcher
 import { shapeSimilarity } from "curve-matcher";
@@ -101,7 +102,6 @@ class Game extends Component {
       tournaiName: "",
       lilleName: "",
       valenciennesName: "",
-
       onboardingEnded: false,
 
       player2img: null,
@@ -116,8 +116,10 @@ class Game extends Component {
       player3name: "",
       player4name: "",
 
+      // render variables 3 screens
       startTutorial: false,
       inputName: true,
+      gameEnded: false,
 
       player2score: 0,
       player3score: 0,
@@ -1171,13 +1173,18 @@ class Game extends Component {
   };
 
   goToNextRound = () => {
-    this.setState(prevState => {
-      return {
-        currentRound: prevState.currentRound + 1
-      };
-    });
+    if (this.state.currentRound === this.state.maxRounds) {
+      console.log("game gedaan");
+      this.setState({ gameEnded: true });
+    } else {
+      this.setState(prevState => {
+        return {
+          currentRound: prevState.currentRound + 1
+        };
+      });
 
-    this.getReferenceData();
+      this.getReferenceData();
+    }
   };
 
   render() {
@@ -1200,6 +1207,8 @@ class Game extends Component {
           {this.state.inputName ? <NameOverlay /> : null}
 
           {this.state.startTutorial ? <CallOnboarding /> : null}
+          {this.state.gameEnded ? <TeamBoard /> : null}
+
           {/* <CallOnboarding /> */}
           <div className={styles.red_background}></div>
           <div className={styles.logo_next_white}></div>

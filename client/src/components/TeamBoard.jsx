@@ -4,6 +4,7 @@ import Person from "../assets/img/testPerson.png";
 import Arrow from "../assets/img/pijl.svg";
 
 import styles from "../styles/TeamBoard.module.css";
+import { socket } from "../App";
 
 class TeamBoard extends Component {
   constructor(props) {
@@ -15,18 +16,20 @@ class TeamBoard extends Component {
     };
   }
   componentDidMount() {
+    socket.emit("regioinput");
+
     const unsortedScores = this.props.store.sortedScores;
 
-    this.setSortedScores(unsortedScores);
+    // this.setSortedScores(unsortedScores);
   }
 
-  setSortedScores = unsortedScores => {
-    this.setState({
-      sortedPlayerScores: unsortedScores.sort((a, b) => {
-        return b.score - a.score;
-      })
-    });
-  };
+  // setSortedScores = unsortedScores => {
+  //   this.setState({
+  //     sortedPlayerScores: unsortedScores.sort((a, b) => {
+  //       return b.score - a.score;
+  //     })
+  //   });
+  // };
   render() {
     return (
       <div className={styles.full_wrapper}>
