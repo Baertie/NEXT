@@ -205,16 +205,23 @@ class Game extends Component {
 
     // this,setState
     socket.on("scoreKortrijk", score => {
+      this.props.store.setScoreKortrijk(score);
       this.setRoundScore(score, "kortrijk");
+      console.log("score kortrijk ontvangen");
     });
     socket.on("scoreTournai", score => {
+      this.props.store.setScoreTournai(score);
       this.setRoundScore(score, "tournai");
+      console.log("score tournai ontvangen");
     });
     socket.on("scoreLille", score => {
+      this.props.store.setScoreLille(score);
       this.setRoundScore(score, "lille");
+      console.log("score lille ontvangen");
     });
     socket.on("scoreValenciennes", score => {
       this.setRoundScore(score, "valenciennes");
+      console.log("score valenciennes ontvangen");
     });
   }
 
@@ -834,7 +841,9 @@ class Game extends Component {
       this.addPointsToState(landMarkPoints, type);
     }
 
-    this.addSharpenEffect(videoTag, canvas, ctx);
+    // MARK
+
+    // this.addSharpenEffect(videoTag, canvas, ctx);
     this.addVisualEffects(canvas, ctx);
     this.calculateDistance();
 
@@ -856,13 +865,26 @@ class Game extends Component {
     setTimeout(() => {
       this.setState({ showScore: true });
     }, 2000);
+    //
+
+    if (this.state.currentRound === this.state.maxRounds) {
+      console.log("game gedaan in setTimeout");
+      this.props.store.createPlayerArray();
+    }
+
+    // MARK
     setTimeout(() => {
-      this.clearCreatedCanvas();
-      this.goToNextRound();
-      this.setState({
-        roundEnded: false,
-        gameTimer: 5
-      });
+      if (this.state.currentRound === this.state.maxRounds) {
+        console.log("game gedaan in setTimeout");
+        this.setState({ gameEnded: true });
+      } else {
+        this.clearCreatedCanvas();
+        this.goToNextRound();
+        this.setState({
+          roundEnded: false,
+          gameTimer: 5
+        });
+      }
     }, 5000);
   };
 
@@ -1203,6 +1225,19 @@ class Game extends Component {
         });
         this.getReferenceData();
       }
+
+      //     if (this.state.currentRound === this.state.maxRounds) {
+      //       console.log("game gedaan");
+      //       // this.setState({ gameEnded: true });
+      //       // this.props.store.createPlayerArray();
+      //     } else {
+      //       this.setState(prevState => {
+      //         return {
+      //           currentRound: prevState.currentRound + 1
+      //         };
+      //       });
+
+      //       this.getReferenceData();
     }
   };
 

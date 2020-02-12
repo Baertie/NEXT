@@ -18,18 +18,20 @@ class TeamBoard extends Component {
   componentDidMount() {
     socket.emit("regioinput");
 
-    const unsortedScores = this.props.store.sortedScores;
+    const unsortedScores = this.props.store.unsortedPlayers;
+    console.log("in teamboard", unsortedScores);
 
-    // this.setSortedScores(unsortedScores);
+    this.setSortedScores(unsortedScores);
   }
 
-  // setSortedScores = unsortedScores => {
-  //   this.setState({
-  //     sortedPlayerScores: unsortedScores.sort((a, b) => {
-  //       return b.score - a.score;
-  //     })
-  //   });
-  // };
+  setSortedScores = unsortedScores => {
+    this.setState({
+      sortedPlayerScores: unsortedScores.sort((a, b) => {
+        return b.score - a.score;
+      })
+    });
+  };
+
   render() {
     return (
       <div className={styles.full_wrapper}>
@@ -42,7 +44,10 @@ class TeamBoard extends Component {
             <h2 className={styles.board_title}>Jullie scoorden:</h2>
             <div>
               {this.state.sortedPlayerScores.map(
-                ({ installationLocation, score }, index) => (
+                (
+                  { installationLocation, score, playerName, playerImage },
+                  index
+                ) => (
                   <div
                     className={`${styles.board_item} ${
                       this.state.ownLocation === installationLocation
@@ -52,9 +57,9 @@ class TeamBoard extends Component {
                     key={`player_${index}`}
                   >
                     <p className={styles.score_position}>{index + 1}</p>
-                    <img className={styles.score_image} src={Person} />
+                    <img className={styles.score_image} src={playerImage} />
                     <div className={styles.score_person}>
-                      <p className={styles.score_person_name}>Arno</p>
+                      <p className={styles.score_person_name}>{playerName}</p>
                       <p
                         className={`${styles.score_person_location} ${styles[installationLocation]}`}
                       >

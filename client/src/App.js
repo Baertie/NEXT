@@ -27,6 +27,7 @@ import Scoreboard from "./components/Scoreboard";
 import TeamBoard from "./components/TeamBoard";
 import NameOverlay from "./components/NameOverlay";
 import CallOnboarding from "./components/CallOnboarding";
+import TouchNameInput from "./components/TouchNameInput";
 import socketIOClient from "socket.io-client";
 
 var socket;
@@ -87,6 +88,7 @@ class App extends Component {
           <Route path="/teamboard" component={TeamBoard} />
           <Route path="/nameoverlay" component={NameOverlay} />
           <Route path="/callonboarding" component={CallOnboarding} />
+          <Route path="/touchnameinput" component={TouchNameInput} />
 
           {/* <Route path="/gameInstructions" component={ NEW COMPONENT } />
         <Route path="/endGame" component={ NEW COMPONENT } />
