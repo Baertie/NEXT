@@ -81,7 +81,7 @@ class TouchNameInput extends Component {
               value={this.state.value}
             />
           </div>
-          {this.state.submitted ? (
+          {this.state.submitted || this.state.value === "" ? (
             <input
               className={styles.alreadySubmit}
               type="submit"
