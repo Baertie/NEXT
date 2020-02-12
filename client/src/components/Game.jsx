@@ -190,6 +190,7 @@ class Game extends Component {
     });
 
     socket.on("gametutorial", () => {
+      this.getOwnName();
       console.log("tutorial triggeren");
       this.setState({ startTutorial: true });
       this.setState({ inputName: false });
@@ -199,6 +200,7 @@ class Game extends Component {
       console.log("startOnboardingTimer letsgo");
       this.setState({ showTimer: true });
       this.startOnboardingTimer();
+      this.getOwnName();
     });
 
     socket.emit("nameinput");
@@ -543,15 +545,19 @@ class Game extends Component {
   getOwnName = () => {
     switch (this.state.ownLocation) {
       case "kortrijk":
+        console.log("set own name");
         this.setState({ ownName: this.props.store.nameKortrijk });
         break;
       case "lille":
+        console.log("set own name");
         this.setState({ ownName: this.props.store.nameLille });
         break;
       case "tournai":
+        console.log("set own name");
         this.setState({ ownName: this.props.store.nameTournai });
         break;
       case "valenciennes":
+        console.log("set own name");
         this.setState({ ownName: this.props.store.nameValenciennes });
         break;
     }
@@ -786,7 +792,7 @@ class Game extends Component {
         this.setState({ startTutorial: false, startSecondTutorial: true });
         clearInterval(this.onboardingTimer);
         this.getOponentNames();
-        this.getOwnName();
+        // this.getOwnName();
         this.startTutorialTimer();
       }
     }, 1000);
@@ -1285,24 +1291,26 @@ class Game extends Component {
             </div> */}
             <div className={styles.game_timer}>
               {this.state.gameEnded ? null : this.state.showTimer ? (
-                <>
-                  <div className={styles.game_timer_text}>
-                    {!this.state.startTutorial
-                      ? !this.state.startSecondTutorial
-                        ? this.state.gameTimer
-                        : this.state.tutorialTimer
-                      : this.state.onboardingTimer}
-                  </div>
+                this.state.ownName === "" ? null : (
+                  <>
+                    <div className={styles.game_timer_text}>
+                      {!this.state.startTutorial
+                        ? !this.state.startSecondTutorial
+                          ? this.state.gameTimer
+                          : this.state.tutorialTimer
+                        : this.state.onboardingTimer}
+                    </div>
 
-                  <div className={styles.timer_wrapper}>
-                    <div className={styles.timer_dot}></div>
-                    <div className={styles.timer_dot}></div>
-                    <div className={styles.timer_dot}></div>
-                    <div className={styles.timer_dot}></div>
-                    <div className={styles.timer_dot}></div>
-                    <div className={styles.timer_dot}></div>
-                  </div>
-                </>
+                    <div className={styles.timer_wrapper}>
+                      <div className={styles.timer_dot}></div>
+                      <div className={styles.timer_dot}></div>
+                      <div className={styles.timer_dot}></div>
+                      <div className={styles.timer_dot}></div>
+                      <div className={styles.timer_dot}></div>
+                      <div className={styles.timer_dot}></div>
+                    </div>
+                  </>
+                )
               ) : null}
             </div>
             {this.state.onboardingEnded ? (

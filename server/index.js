@@ -179,6 +179,7 @@ io.on("connection", socket => {
   // });
 
   socket.on("startOnboardingTimer", () => {
+    console.log("in start onboardingtimer");
     if (timerStarted === false) {
       socket.emit("startOnboardingTimer");
       timerStarted = true;
@@ -224,7 +225,10 @@ io.on("connection", socket => {
   });
 
   socket.on("sendImg", ({ location, image }) => {
-    socket.broadcast.emit("sendImg", { location, image });
+    socket.broadcast.emit("sendImg", {
+      location,
+      image
+    });
   });
 
   socket.on("imgKortrijk", img => {
