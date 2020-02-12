@@ -85,10 +85,22 @@ class Game extends Component {
       _isLoaded: false,
       hideCanvas: true,
       showScore: false,
-      gameTimer: 5,
+      gameTimer: 20,
       roundEnded: false,
       ownLocation: this.props.store.currentLocation,
-      player2img: null
+      kortrijkImg: null,
+      tournaiImg: null,
+      lilleImg: null,
+      valenciennesImg: null,
+      player2img: null,
+      player3img: null,
+      player4img: null,
+      player2Location: null,
+      player3Location: null,
+      player4Location: null,
+      player2name: null,
+      player3name: null,
+      player4name: null
     };
   }
 
@@ -117,9 +129,249 @@ class Game extends Component {
       state.referenceImageArray.push(reference3);
     });
 
+    socket.on("imgKortrijk", img => {
+      this.setRoundImg(img, "kortrijk");
+    });
+    socket.on("imgTournai", img => {
+      this.setRoundImg(img, "tournai");
+    });
+    socket.on("imgLille", img => {
+      this.setRoundImg(img, "lille");
+    });
+    socket.on("imgValenciennes", img => {
+      this.setRoundImg(img, "valenciennes");
+    });
+
+    this.getOponentImg();
+
     // INIT SOCKET
     // this.initSocket();
   }
+
+  setRoundImg = (img, location) => {
+    // img en loc
+    switch (location) {
+      case "kortrijk":
+        if (
+          this.state.player2Location === location &&
+          this.state.player2img != null
+        ) {
+          this.setState({ player2img: img });
+          break;
+        } else if (
+          this.state.player3Location === location &&
+          this.state.player3img != null
+        ) {
+          this.setState({ player3img: img });
+          break;
+        } else {
+          this.setState({ player4img: img });
+          break;
+        }
+      case "tournai":
+        if (
+          this.state.player2Location === location &&
+          this.state.player2img != null
+        ) {
+          this.setState({ player2img: img });
+          break;
+        } else if (
+          this.state.player3Location === location &&
+          this.state.player3img != null
+        ) {
+          this.setState({ player3img: img });
+          break;
+        } else {
+          this.setState({ player4img: img });
+          break;
+        }
+      case "lille":
+        if (
+          this.state.player2Location === location &&
+          this.state.player2img != null
+        ) {
+          this.setState({ player2img: img });
+          break;
+        } else if (
+          this.state.player3Location === location &&
+          this.state.player3img != null
+        ) {
+          this.setState({ player3img: img });
+          break;
+        } else {
+          this.setState({ player4img: img });
+          break;
+        }
+      case "valenciennes":
+        if (
+          this.state.player2Location === location &&
+          this.state.player2img != null
+        ) {
+          this.setState({ player2img: img });
+          break;
+        } else if (
+          this.state.player3Location === location &&
+          this.state.player3img != null
+        ) {
+          this.setState({ player3img: img });
+          break;
+        } else {
+          this.setState({ player4img: img });
+          break;
+        }
+    }
+  };
+
+  getOponentImg = () => {
+    let players = 0;
+    let locations = [];
+
+    if (
+      this.props.store.imgKortrijk !== null &&
+      this.props.store.currentLocation !== "kortrijk"
+    ) {
+      this.setState({ kortrijkImg: this.props.store.imgKortrijk });
+      players++;
+      locations.push("kortrijk");
+    }
+    if (
+      this.props.store.imgTournai !== null &&
+      this.props.store.currentLocation !== "tournai"
+    ) {
+      this.setState({ tournaiImg: this.props.store.imgTournai });
+      players++;
+      locations.push("tournai");
+    }
+    if (
+      this.props.store.imgLille !== null &&
+      this.props.store.currentLocation !== "lille"
+    ) {
+      this.setState({ lilleImg: this.props.store.imgLille });
+      players++;
+      locations.push("lille");
+    }
+    if (
+      this.props.store.imgValenciennes !== null &&
+      this.props.store.currentLocation !== "valenciennes"
+    ) {
+      this.setState({ valenciennesImg: this.props.store.imgValenciennes });
+      players++;
+      locations.push("valenciennes");
+    }
+
+    let player2imgFree = true;
+    let player3imgFree = true;
+
+    for (let index = 0; index < players; index++) {
+      const locationToAdd = locations[index];
+      switch (locationToAdd) {
+        case "kortrijk":
+          if (player2imgFree && this.state.player2img === null) {
+            this.setState({
+              player2img: this.props.store.imgKortrijk,
+              player2Location: "kortrijk"
+            });
+
+            player2imgFree = false;
+            break;
+          } else if (player3imgFree && this.state.player3img === null) {
+            this.setState({
+              player3img: this.props.store.imgKortrijk,
+              player3Location: "kortrijk"
+            });
+
+            player3imgFree = false;
+            break;
+          } else {
+            this.setState({
+              player4img: this.props.store.imgKortrijk,
+              player4Location: "kortrijk"
+            });
+
+            break;
+          }
+
+        case "tournai":
+          if (player2imgFree && this.state.player2img === null) {
+            this.setState({
+              player2img: this.props.store.imgTournai,
+              player2Location: "tournai"
+            });
+
+            player2imgFree = false;
+            break;
+          } else if (player3imgFree && this.state.player3img === null) {
+            this.setState({
+              player3img: this.props.store.imgTournai,
+              player3Location: "tournai"
+            });
+
+            player3imgFree = false;
+            break;
+          } else {
+            this.setState({
+              player4img: this.props.store.imgTournai,
+              player4Location: "tournai"
+            });
+
+            break;
+          }
+
+        case "lille":
+          if (player2imgFree && this.state.player2img === null) {
+            this.setState({
+              player2img: this.props.store.imgLille,
+              player2Location: "lille"
+            });
+
+            player2imgFree = false;
+            break;
+          } else if (player3imgFree && this.state.player3img === null) {
+            this.setState({
+              player3img: this.props.store.imgLille,
+              player3Location: "lille"
+            });
+
+            player3imgFree = false;
+            break;
+          } else {
+            this.setState({
+              player4img: this.props.store.imgLille,
+              player4Location: "lille"
+            });
+
+            break;
+          }
+
+        case "valenciennes":
+          if (player2imgFree) {
+            this.setState({
+              player2img: this.props.store.imgValenciennes,
+              player2Location: "valenciennes"
+            });
+
+            player2imgFree = false;
+
+            break;
+          } else if (player3imgFree) {
+            this.setState({
+              player3img: this.props.store.imgValenciennes,
+              player3Location: "valenciennes"
+            });
+
+            player3imgFree = false;
+            break;
+          } else {
+            this.setState({
+              player4img: this.props.store.imgValenciennes,
+              player4Location: "valenciennes"
+            });
+
+            break;
+          }
+      }
+    }
+  };
 
   // initSocket = () => {
   //   socket = io.connect(`/`);
@@ -211,12 +463,6 @@ class Game extends Component {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(videoTag, 0, 0, canvas.width, canvas.height);
 
-    // how to get dataurl for img
-    console.log("dataurl: ", canvas.toDataURL());
-    this.setState({
-      player2img: canvas.toDataURL()
-    });
-
     // Run landmarkdetection (tiny) with faceapi
     const useTinyModel = true;
     const detectionsWithLandmarks = await faceapi
@@ -229,19 +475,26 @@ class Game extends Component {
       const landMarkPoints = detectionsWithLandmarks.landmarks.positions;
       const type = "player";
       this.addPointsToState(landMarkPoints, type);
-
-      // const resizedDetections = faceapi.resizeResults(
-      //   detectionsWithLandmarks,
-      //   displaySize
-      // );
-
-      // Draw landmarks on canvas
-      //faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
     }
 
     this.addSharpenEffect(videoTag, canvas, ctx);
     this.addVisualEffects(canvas, ctx);
     this.calculateDistance();
+
+    switch (this.props.store.currentLocation) {
+      case "kortrijk":
+        socket.emit("imgKortrijk", canvas.toDataURL());
+        break;
+      case "tournai":
+        socket.emit("imgTournai", canvas.toDataURL());
+        break;
+      case "lille":
+        socket.emit("imgLille", canvas.toDataURL());
+        break;
+      case "valenciennes":
+        socket.emit("imgValenciennes", canvas.toDataURL());
+        break;
+    }
 
     setTimeout(() => {
       this.setState({ showScore: true });
@@ -675,7 +928,6 @@ class Game extends Component {
                   <img
                     src={this.state.player2img}
                     alt="Player 2"
-                    ref={this.imgTag1}
                     className={styles.oponent_img}
                   />
                   <p
@@ -683,7 +935,7 @@ class Game extends Component {
                       `${styles.location_tag} ${styles.location_tag_2}` /*INSERT LOCATIE TAG VOOR KLEUR*/
                     }
                   >
-                    Kortrijk{/*INSERT LOCATIE*/}
+                    {this.state.player2Location}
                   </p>
                 </div>
               </div>
@@ -696,7 +948,7 @@ class Game extends Component {
                 </div>
                 <div className={styles.player_video_wrapper}>
                   <img
-                    src="PLAYER3"
+                    src={this.state.player3img}
                     alt="Player 3"
                     ref={this.imgTag2}
                     className={styles.oponent_img}
@@ -706,7 +958,7 @@ class Game extends Component {
                       `${styles.location_tag} ${styles.location_tag_3}` /*INSERT LOCATIE TAG VOOR KLEUR*/
                     }
                   >
-                    Kortrijk{/*INSERT LOCATIE*/}
+                    {this.state.player3Location}
                   </p>
                 </div>
               </div>
@@ -719,9 +971,8 @@ class Game extends Component {
                 </div>
                 <div className={styles.player_video_wrapper}>
                   <img
-                    src="PLAYER4"
+                    src={this.state.player4img}
                     alt="Player 4"
-                    ref={this.imgTag3}
                     className={styles.oponent_img}
                   />
                   <p
@@ -729,7 +980,7 @@ class Game extends Component {
                       `${styles.location_tag} ${styles.location_tag_4}` /*INSERT LOCATIE TAG VOOR KLEUR*/
                     }
                   >
-                    Kortrijk{/*INSERT LOCATIE*/}
+                    {this.state.player4Location}
                   </p>
                 </div>
               </div>

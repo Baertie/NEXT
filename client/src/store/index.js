@@ -5,6 +5,10 @@ configure({ enforceActions: `observed` });
 class Store {
   flowStatus = "";
   currentLocation = "";
+  imgKortrijk = null;
+  imgLille = null;
+  imgValenciennes = null;
+  imgTournai = null;
   // flowStatus = "Socket";
   //   constructor() {}
 
@@ -36,6 +40,23 @@ class Store {
     console.log(location);
     this.currentLocation = location;
   };
+
+  setImgKortrijk = img => {
+    console.log("set img kortrijk store: ", img);
+    this.imgKortrijk = img;
+  };
+  setImgLille = img => {
+    console.log("set img lille store: ", img);
+    this.imgLille = img;
+  };
+  setImgTournai = img => {
+    console.log("set img tournai store: ", img);
+    this.imgTournai = img;
+  };
+  setImgValenciennes = img => {
+    console.log("set img valenciennes store: ", img);
+    this.imgValenciennes = img;
+  };
 }
 
 decorate(Store, {
@@ -48,9 +69,17 @@ decorate(Store, {
   setGameEnded: action,
   startSocket: action,
   setLocation: action,
+  setImgKortrijk: action,
+  setImgTournai: action,
+  setImgValenciennes: action,
+  setImgLille: action,
 
   flowStatus: observable,
-  currentLocation: observable
+  currentLocation: observable,
+  imgKortrijk: observable,
+  imgValenciennes: observable,
+  imgLille: observable,
+  imgTournai: observable
 });
 
 const store = new Store();
