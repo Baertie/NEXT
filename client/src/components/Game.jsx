@@ -559,18 +559,22 @@ class Game extends Component {
       case "kortrijk":
         console.log("set own name");
         this.setState({ ownName: this.props.store.nameKortrijk });
+        this.props.store.setName(this.props.store.nameKortrijk);
         break;
       case "lille":
         console.log("set own name");
         this.setState({ ownName: this.props.store.nameLille });
+        this.props.store.setName(this.props.store.nameLille);
         break;
       case "tournai":
         console.log("set own name");
         this.setState({ ownName: this.props.store.nameTournai });
+        this.props.store.setName(this.props.store.nameTournai);
         break;
       case "valenciennes":
         console.log("set own name");
         this.setState({ ownName: this.props.store.nameValenciennes });
+        this.props.store.setName(this.props.store.nameValenciennes);
         break;
     }
   };
