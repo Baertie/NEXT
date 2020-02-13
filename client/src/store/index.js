@@ -1,4 +1,12 @@
-import { decorate, observable, configure, action, runInAction } from "mobx";
+import {
+  decorate,
+  observable,
+  configure,
+  action,
+  computed,
+  runInAction,
+  toJS
+} from "mobx";
 import Api from "../api";
 import Score from "../models/Score";
 import Regioscore from "../models/Regioscore";
@@ -33,13 +41,13 @@ class Store {
   nameTournai = "";
   nameValenciennes = "";
   unsortedPlayers = [];
-
-  // Regio model
-  // kortrijkScore = {
-  //   _id: "5e42bba51c9d440000a9126e",
-  //   regio: "kortrijk",
-  //   score: "10000"
-  // };
+  // sortedPlayers = [];
+  // regioIds = [
+  //   { location: "kortrijk", _id: "5e42bba51c9d440000a9126e" },
+  //   { location: "lille", _id: "5e42bbba1c9d440000a9126f" },
+  //   { location: "tournai", _id: "5e42bbc61c9d440000a91270" },
+  //   { location: "valenciennes", _id: "5e42bbdc1c9d440000a91271" }
+  // ];
 
   setLocation = location => {
     console.log(location);
@@ -88,9 +96,12 @@ class Store {
     this.api
       .create(newScore)
       .then(scoreValues => newScore.updateFromServer(scoreValues));
+
+    this.updateRegioScore();
   };
 
   getRegioScores = () => {
+    this.regioScores = [];
     this.regioApi.getAll().then(d => d.forEach(this.addRegioScoresToArray));
   };
 
@@ -99,16 +110,45 @@ class Store {
     console.log(this.regioScores);
   };
 
-  updateRegioScore = regio => {
-    console.log(regio);
+  // Regio model
+  // kortrijkScore = {
+  //   _id: "5e42bba51c9d440000a9126e",
+  //   regio: "kortrijk",
+  //   score: "10000"
+  // };
 
-    let data = this.kortrijkScore;
+  updateRegioScore = () => {
+    let findRegio = this.regioScores.find(
+      o => o.regio === this.currentLocation
+    );
+    let regioToUpdate = toJS(findRegio);
+
+    console.log(regioToUpdate);
+
+    console.log("score", regioToUpdate.score);
+
+    let newScore = regioToUpdate.score + this.currentScore;
+    regioToUpdate.score = newScore;
+    console.log("new score", regioToUpdate.score);
+
+    // let findInArray = regioIds.find(o => o.location === regio);
+    // let regioId = findInArray._id;
+
+    // let newScore = this.currentScore + currentRegioScore;
+
+    // this.regioScore._id = regioId;
+    // this.regioScore.regio = regio;
+    // this.regioScore.score = newScore;
+
+    let data = regioToUpdate;
+    console.log("data log", regioToUpdate);
     const newRegioscore = new Regioscore();
     newRegioscore.updateFromServer(data);
 
     this.regioApi
       .update(newRegioscore)
-      .then(scoreValues => newRegioscore.updateFromServer(scoreValues));
+      .then(scoreValues => newRegioscore.updateFromServer(scoreValues))
+      .then(this.getRegioScores());
   };
 
   setImgKortrijk = img => {
@@ -124,17 +164,29 @@ class Store {
     this.imgValenciennes = img;
   };
 
-  setScoreKortrijk = score => {
+  setScoreKortrijk = (score, round) => {
     this.scoreKortrijk = score;
+    if (round === 3) {
+      this.createPlayerArray("kortrijk");
+    }
   };
-  setScoreLille = score => {
+  setScoreLille = (score, round) => {
     this.scoreLille = score;
+    if (round === 3) {
+      this.createPlayerArray("lille");
+    }
   };
-  setScoreTournai = score => {
+  setScoreTournai = (score, round) => {
     this.scoreTournai = score;
+    if (round === 3) {
+      this.createPlayerArray("tournai");
+    }
   };
-  setScoreValenciennes = score => {
+  setScoreValenciennes = (score, round) => {
     this.scoreValenciennes = score;
+    if (round === 3) {
+      this.createPlayerArray("valenciennes");
+    }
   };
 
   setNameKortrijk = name => {
@@ -154,7 +206,25 @@ class Store {
     this.nameValenciennes = name;
   };
 
-  createPlayerArray = () => {
+  // setSortedScores = () => {
+  //   // this.setState({
+  //   // observableArray.replace(observableArray.slice().sort());
+  //   this.sortedPlayers = this.unsortedPlayers.sort((a, b) => {
+  //     return b.score - a.score;
+  //   });
+  //   // });
+  // };
+
+  get sortedPlayers() {
+    return this.unsortedPlayers.sort((a, b) => b.score - a.score);
+  }
+
+  set sortedPlayers(sortedPlayers) {
+    sortedPlayers = sortedPlayers;
+  }
+
+  createPlayerArray = regio => {
+    console.log("creating player array: ", regio);
     // sortedScores = [
     //   { installationLocation: "kortrijk", score: 210 },
     //   { installationLocation: "valenciennes", score: 230 },
@@ -162,40 +232,51 @@ class Store {
     //   { installationLocation: "lille", score: 30 }
     // ];
 
-    if (this.nameKortrijk !== "") {
+    if (regio === "kortrijk") {
+      console.log("creating array kortrijk");
       this.unsortedPlayers.push({
         installationLocation: "kortrijk",
         score: this.scoreKortrijk,
         playerName: this.nameKortrijk,
         playerImage: this.imgKortrijk
       });
+      // this.setSortedScores();
     }
 
-    if (this.nameLille !== "") {
+    if (regio === "lille") {
+      console.log("creating array lille");
+
       this.unsortedPlayers.push({
         installationLocation: "lille",
         score: this.scoreLille,
         playerName: this.nameLille,
         playerImage: this.imgLille
       });
+      // this.setSortedScores();
     }
 
-    if (this.nameTournai !== "") {
+    if (regio === "tournai") {
+      console.log("creating array tournai");
+
       this.unsortedPlayers.push({
         installationLocation: "tournai",
         score: this.scoreTournai,
         playerName: this.nameTournai,
         playerImage: this.imgTournai
       });
+      // this.setSortedScores();
     }
 
-    if (this.nameValenciennes !== "") {
+    if (regio === "valenciennes") {
+      console.log("creating array valenciennes");
+
       this.unsortedPlayers.push({
         installationLocation: "valenciennes",
         score: this.scoreValenciennes,
         playerName: this.nameValenciennes,
         playerImage: this.imgValenciennes
       });
+      // this.setSortedScores();
     }
     // this.unsortedPlayers = [
     //   ,
@@ -223,8 +304,12 @@ decorate(Store, {
   setName: action,
   setPicture: action,
   updateRegioScore: action,
+  createPlayerArray: action,
+  getRegioScores: action,
 
   // flowStatus: observable,
+  unsortedPlayers: observable,
+  // sortedPlayers: observable,
   currentLocation: observable,
   currentRegio: observable,
   currentPicture: observable,
@@ -245,7 +330,7 @@ decorate(Store, {
   setNameTournai: action,
   setNameValenciennes: action,
   setNameLille: action,
-  setSortedScores: action,
+  // setSortedScores: action,
 
   imgKortrijk: observable,
   imgValenciennes: observable,
@@ -259,7 +344,9 @@ decorate(Store, {
   nameValenciennes: observable,
   nameLille: observable,
   nameTournai: observable,
-  sortedScores: observable
+  // sortedScores: observable,
+
+  sortedPlayers: computed
 });
 
 const store = new Store();
