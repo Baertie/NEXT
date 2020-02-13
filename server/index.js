@@ -207,6 +207,10 @@ io.on("connection", socket => {
     }
   });
 
+  socket.on("standardName", () => {
+    socket.emit("standardGame");
+  });
+
   socket.on("playerInputNameFinished", () => {
     // console.log("input finishes");
     // console.log("counter voor", connectionCounter);
@@ -224,6 +228,10 @@ io.on("connection", socket => {
     // }
     //   console.log(io.sockets.adapter.rooms["kortrijk"]);
     // console.log(io.sockets.adapter.rooms["valenciennes"]);
+  });
+
+  socket.on("playerInputTimerEnded", () => {
+    socket.broadcast.emit("startSecondTutorialTimer");
   });
 
   socket.on("stopCarousel", () => {
