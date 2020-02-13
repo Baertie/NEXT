@@ -507,7 +507,7 @@ class Game extends Component {
       this.props.store.nameValenciennes !== "" &&
       this.props.store.currentLocation !== "valenciennes"
     ) {
-      console.log("add valencienens");
+      console.log("add valenciennes");
       this.setState({ valenciennesName: this.props.store.nameValenciennes });
       players++;
       locations.push("valenciennes");

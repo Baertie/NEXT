@@ -120,9 +120,9 @@ class SocketJoin extends Component {
 
   componentDidUpdate() {
     if (this.state.fotoTimer === 0 && !this.state.gotFoto) {
+      clearInterval(this.fotoInterval);
       this.getImgToSend();
       this.setState({ gotFoto: true });
-      clearInterval(this.fotoInterval);
     }
   }
 
@@ -191,7 +191,7 @@ class SocketJoin extends Component {
           this.setState({ lillePlayer: true });
           break;
         case "valenciennes":
-          this.setState({ valenciennes: true });
+          this.setState({ valenciennesPlayer: true });
           break;
       }
     }

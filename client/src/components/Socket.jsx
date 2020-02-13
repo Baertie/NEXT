@@ -86,9 +86,9 @@ class Socket extends Component {
 
   componentDidUpdate() {
     if (this.state.fotoTimer === 0 && !this.state.gotFoto) {
+      clearInterval(this.fotoInterval);
       this.getImgToSend();
       this.setState({ gotFoto: true });
-      clearInterval(this.fotoInterval);
     }
   }
 
