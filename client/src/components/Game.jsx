@@ -174,19 +174,35 @@ class Game extends Component {
 
     socket.on("setNameKortrijk", name => {
       console.log("setNameKortrijk", name);
-      this.props.store.setNameKortrijk(name);
+      if (name === "") {
+        this.props.store.setNameKortrijk("NEXTER");
+      } else {
+        this.props.store.setNameKortrijk(name);
+      }
     });
     socket.on("setNameLille", name => {
       console.log("setNameLille", name);
-      this.props.store.setNameLille(name);
+      if (name === "") {
+        this.props.store.setNameLille("NEXTER");
+      } else {
+        this.props.store.setNameLille(name);
+      }
     });
     socket.on("setNameTournai", name => {
       console.log("setNameTournai", name);
-      this.props.store.setNameTournai(name);
+      if (name === "") {
+        this.props.store.setNameTournai("NEXTER");
+      } else {
+        this.props.store.setNameTournai(name);
+      }
     });
     socket.on("setNameValenciennes", name => {
       console.log("setNameValenciennes", name);
-      this.props.store.setNameValenciennes(name);
+      if (name === "") {
+        this.props.store.setNameValenciennes("NEXTER");
+      } else {
+        this.props.store.setNameValenciennes(name);
+      }
     });
 
     socket.on("gametutorial", () => {
@@ -416,6 +432,19 @@ class Game extends Component {
     console.log("nameTournai", this.props.store.nameTournai);
     console.log("nameValenciennes", this.props.store.nameValenciennes);
 
+    // if (this.props.store.nameKortrijk === "") {
+    //   this.props.store.nameKortrijk = "NEXTER";
+    // }
+    // if (this.props.store.nameTournai === "") {
+    //   this.props.store.nameTournai = "NEXTER";
+    // }
+    // if (this.props.store.nameLille === "") {
+    //   this.props.store.nameLille = "NEXTER";
+    // }
+    // if (this.props.store.nameValenciennes === "") {
+    //   this.props.store.nameValenciennes = "NEXTER";
+    // }
+
     if (
       this.props.store.nameKortrijk !== "" &&
       this.props.store.currentLocation !== "kortrijk"
@@ -555,6 +584,19 @@ class Game extends Component {
   };
 
   getOwnName = () => {
+    // if (this.props.store.nameKortrijk === "") {
+    //   this.props.store.nameKortrijk = "NEXTER";
+    // }
+    // if (this.props.store.nameTournai === "") {
+    //   this.props.store.nameTournai = "NEXTER";
+    // }
+    // if (this.props.store.nameLille === "") {
+    //   this.props.store.nameLille = "NEXTER";
+    // }
+    // if (this.props.store.nameValenciennes === "") {
+    //   this.props.store.nameValenciennes = "NEXTER";
+    // }
+
     switch (this.state.ownLocation) {
       case "kortrijk":
         console.log("set own name");
