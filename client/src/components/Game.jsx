@@ -1301,7 +1301,7 @@ class Game extends Component {
           break;
         case "valenciennes":
           console.log("emit score valenciennes:", this.state.ownScore);
-          socket.emit("scoreValencienness", this.state.ownScore);
+          socket.emit("scoreValenciennes", this.state.ownScore);
           this.props.store.setScoreValenciennes(
             this.state.ownScore,
             this.state.currentRound
