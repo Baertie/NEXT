@@ -18,14 +18,14 @@ class TouchGameTimer extends Component {
       console.log("gametimer");
       this.setState({ gameTimer: timer });
     });
-    socket.on("onboardingTimer", timer => {
-      console.log("onboardingtimer");
-      this.setState({ gameTimer: timer });
-    });
-    socket.on("tutorialTimer", timer => {
-      console.log("tutorialtimer");
-      this.setState({ gameTimer: timer });
-    });
+    // socket.on("onboardingTimer", timer => {
+    //   console.log("onboardingtimer");
+    //   this.setState({ gameTimer: timer });
+    // });
+    // socket.on("tutorialTimer", timer => {
+    //   console.log("tutorialtimer");
+    //   this.setState({ gameTimer: timer });
+    // });
 
     // socket.on("startTabletTimer", () => {
     //   this.timer = setInterval(() => {
