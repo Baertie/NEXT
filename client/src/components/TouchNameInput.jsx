@@ -76,6 +76,7 @@ class TouchNameInput extends Component {
       console.log("foutje");
     } else {
       this.setState({ submitted: true });
+      this.clearInterval(this.autoSubmit);
     }
 
     const currentLocation = this.props.store.currentLocation;
