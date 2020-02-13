@@ -225,17 +225,6 @@ class Game extends Component {
       this.setRoundScore(score, "valenciennes");
       console.log("score valenciennes ontvangen");
     });
-
-    socket.on("setRegio", regio => {
-      this.props.store.setRegio(regio);
-      socket.emit("gdpr");
-    });
-
-    socket.on("addtodatabase", () => {
-      this.props.store.addPlayerScoreToDatabase();
-      socket.emit("leaderboard");
-      this.props.history.push("/game");
-    });
   }
 
   // INIT SOCKET
@@ -558,25 +547,18 @@ class Game extends Component {
       case "kortrijk":
         console.log("set own name");
         this.setState({ ownName: this.props.store.nameKortrijk });
-        this.props.store.setName(this.props.store.nameKortrijk);
         break;
       case "lille":
         console.log("set own name");
         this.setState({ ownName: this.props.store.nameLille });
-        this.props.store.setName(this.props.store.nameLille);
-
         break;
       case "tournai":
         console.log("set own name");
         this.setState({ ownName: this.props.store.nameTournai });
-        this.props.store.setName(this.props.store.nameTournai);
-
         break;
       case "valenciennes":
         console.log("set own name");
         this.setState({ ownName: this.props.store.nameValenciennes });
-        this.props.store.setName(this.props.store.nameValenciennes);
-
         break;
     }
   };
@@ -893,7 +875,6 @@ class Game extends Component {
     if (this.state.currentRound === this.state.maxRounds) {
       console.log("game gedaan in setTimeout");
       this.props.store.createPlayerArray();
-      this.props.store.setScore(this.state.ownScore);
     }
 
     // MARK
@@ -1320,14 +1301,14 @@ class Game extends Component {
                         : this.state.onboardingTimer}
                     </div>
 
-                    <div className={styles.timer_wrapper}>
+                    {/* <div className={styles.timer_wrapper}>
                       <div className={styles.timer_dot}></div>
                       <div className={styles.timer_dot}></div>
                       <div className={styles.timer_dot}></div>
                       <div className={styles.timer_dot}></div>
                       <div className={styles.timer_dot}></div>
                       <div className={styles.timer_dot}></div>
-                    </div>
+                    </div> */}
                   </>
                 )
               ) : null}
