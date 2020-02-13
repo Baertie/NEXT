@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import * as faceapi from "face-api.js";
 import Postercarousel from "./Postercarousel";
-// import { inject, PropTypes, observer } from "mobx-react";
+import { inject, observer } from "mobx-react";
 
 import { socket } from "../App.js";
 
@@ -33,6 +33,7 @@ class Carousel extends Component {
 
   componentDidMount() {
     this._isMounted = true;
+    this.props.store.resetEverything();
     this.timerPoster = setInterval(() => this.tick(), 3000);
     socket.on("stopCarousel", () => {
       console.log("stop carousel er wordt gebeld POSTERCAROUSEL");
@@ -161,5 +162,5 @@ class Carousel extends Component {
     );
   }
 }
-// export default inject(`store`)(observer(Carousel));
-export default Carousel;
+export default inject(`store`)(observer(Carousel));
+// export default Carousel;

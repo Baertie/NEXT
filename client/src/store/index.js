@@ -239,7 +239,29 @@ class Store {
   // };
 
   resetSortedPlayers = () => {
-    this.sortedPlayers = [];
+    this.unsortedPlayers = [];
+  };
+
+  resetEverything = () => {
+    this.unsortedPlayers = [];
+    this.currentRegio = "";
+    this.currentPicture = "";
+    this.currentScore = "";
+    this.currentName = "";
+    this.allScores = [];
+
+    this.imgKortrijk = null;
+    this.imgLille = null;
+    this.imgValenciennes = null;
+    this.imgTournai = null;
+    this.scoreKortrijk = 0;
+    this.scoreLille = 0;
+    this.scoreValenciennes = 0;
+    this.scoreTournai = 0;
+    this.nameKortrijk = "";
+    this.nameLille = "";
+    this.nameTournai = "";
+    this.nameValenciennes = "";
   };
 
   get sortedPlayers() {
@@ -320,7 +342,6 @@ decorate(Store, {
   startConnecting: action,
   startGame: action,
   getCalled: action,
-  resetEverything: action,
   setGameEnded: action,
   startSocket: action,
   setLocation: action,
@@ -336,10 +357,7 @@ decorate(Store, {
   calculatePosition: action,
   resetSortedPlayers: action,
 
-  // flowStatus: observable,
   unsortedPlayers: observable,
-  allPlayers: observable,
-  // sortedPlayers: observable,
   currentLocation: observable,
   currentRegio: observable,
   currentPicture: observable,
