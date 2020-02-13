@@ -432,18 +432,18 @@ class Game extends Component {
     console.log("nameTournai", this.props.store.nameTournai);
     console.log("nameValenciennes", this.props.store.nameValenciennes);
 
-    if (this.props.store.nameKortrijk === "") {
-      this.props.store.nameKortrijk = "NEXTER";
-    }
-    if (this.props.store.nameTournai === "") {
-      this.props.store.nameTournai = "NEXTER";
-    }
-    if (this.props.store.nameLille === "") {
-      this.props.store.nameLille = "NEXTER";
-    }
-    if (this.props.store.nameValenciennes === "") {
-      this.props.store.nameValenciennes = "NEXTER";
-    }
+    // if (this.props.store.nameKortrijk === "") {
+    //   this.props.store.nameKortrijk = "NEXTER";
+    // }
+    // if (this.props.store.nameTournai === "") {
+    //   this.props.store.nameTournai = "NEXTER";
+    // }
+    // if (this.props.store.nameLille === "") {
+    //   this.props.store.nameLille = "NEXTER";
+    // }
+    // if (this.props.store.nameValenciennes === "") {
+    //   this.props.store.nameValenciennes = "NEXTER";
+    // }
 
     if (
       this.props.store.nameKortrijk !== "" &&
@@ -584,18 +584,18 @@ class Game extends Component {
   };
 
   getOwnName = () => {
-    if (this.props.store.nameKortrijk === "") {
-      this.props.store.nameKortrijk = "NEXTER";
-    }
-    if (this.props.store.nameTournai === "") {
-      this.props.store.nameTournai = "NEXTER";
-    }
-    if (this.props.store.nameLille === "") {
-      this.props.store.nameLille = "NEXTER";
-    }
-    if (this.props.store.nameValenciennes === "") {
-      this.props.store.nameValenciennes = "NEXTER";
-    }
+    // if (this.props.store.nameKortrijk === "") {
+    //   this.props.store.nameKortrijk = "NEXTER";
+    // }
+    // if (this.props.store.nameTournai === "") {
+    //   this.props.store.nameTournai = "NEXTER";
+    // }
+    // if (this.props.store.nameLille === "") {
+    //   this.props.store.nameLille = "NEXTER";
+    // }
+    // if (this.props.store.nameValenciennes === "") {
+    //   this.props.store.nameValenciennes = "NEXTER";
+    // }
 
     switch (this.state.ownLocation) {
       case "kortrijk":
