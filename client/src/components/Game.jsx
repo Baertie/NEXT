@@ -89,7 +89,7 @@ class Game extends Component {
       hideCanvas: true,
       showScore: false,
       gameTimer: 5,
-      onboardingTimer: 15,
+      onboardingTimer: 25,
       tutorialTimer: 3,
       roundEnded: false,
       ownLocation: this.props.store.currentLocation,
@@ -507,7 +507,7 @@ class Game extends Component {
       this.props.store.nameValenciennes !== "" &&
       this.props.store.currentLocation !== "valenciennes"
     ) {
-      console.log("add valencienens");
+      console.log("add valenciennes");
       this.setState({ valenciennesName: this.props.store.nameValenciennes });
       players++;
       locations.push("valenciennes");

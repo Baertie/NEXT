@@ -217,9 +217,9 @@ io.on("connection", socket => {
     }
   });
 
-  socket.on("standardName", () => {
-    socket.emit("standardGame");
-  });
+  // socket.on("standardName", () => {
+  //   socket.emit("standardGame");
+  // });
 
   socket.on("playerInputNameFinished", () => {
     // console.log("input finishes");

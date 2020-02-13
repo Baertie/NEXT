@@ -18,7 +18,7 @@ class Socket extends Component {
         audio: false,
         video: { width: 480, height: 720 }
       },
-      searchTimer: 30,
+      searchTimer: 45,
       fotoTimer: 3,
       ownVideoStyle: null,
       kortrijkPlayer: false,
@@ -86,9 +86,9 @@ class Socket extends Component {
 
   componentDidUpdate() {
     if (this.state.fotoTimer === 0 && !this.state.gotFoto) {
+      clearInterval(this.fotoInterval);
       this.getImgToSend();
       this.setState({ gotFoto: true });
-      clearInterval(this.fotoInterval);
     }
   }
 
