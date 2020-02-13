@@ -124,7 +124,7 @@ class Socket extends Component {
           this.setState({ lillePlayer: true });
           break;
         case "valenciennes":
-          this.setState({ valenciennes: true });
+          this.setState({ valenciennesPlayer: true });
           break;
       }
     }

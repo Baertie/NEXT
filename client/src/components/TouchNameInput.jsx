@@ -16,19 +16,19 @@ class TouchNameInput extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidMount() {
-    socket.on("startOnboardingTimer", () => {
-      this.autoSubmit = setInterval(() => {
-        if (this.state.gameTimer > 0) {
-          this.setState({ gameTimer: this.state.gameTimer - 1 });
-        } else {
-          socket.emit("standardName");
-          clearInterval(this.autoSubmit);
-          this.handleAutoSubmit();
-        }
-      }, 1000);
-    });
-  }
+  // componentDidMount() {
+  //   socket.on("startOnboardingTimer", () => {
+  //     this.autoSubmit = setInterval(() => {
+  //       if (this.state.gameTimer > 0) {
+  //         this.setState({ gameTimer: this.state.gameTimer - 1 });
+  //       } else {
+  //         socket.emit("standardName");
+  //         clearInterval(this.autoSubmit);
+  //         this.handleAutoSubmit();
+  //       }
+  //     }, 1000);
+  //   });
+  // }
 
   handleChange(event) {
     console.log(event.target.value);
@@ -37,38 +37,38 @@ class TouchNameInput extends Component {
     socket.emit("namechange", event.target.value);
   }
 
-  handleAutoSubmit() {
-    this.setState({ value: "NEXTER" });
+  // handleAutoSubmit() {
+  //   this.setState({ value: "NEXTER" });
 
-    const currentLocation = this.props.store.currentLocation;
+  //   const currentLocation = this.props.store.currentLocation;
 
-    switch (currentLocation) {
-      case "kortrijk":
-        console.log("set name voor kortrijk");
-        socket.emit("setNameKortrijk", this.state.value);
-        socket.emit("gametutorial");
-        socket.emit("playerInputTimerEnded");
-        break;
-      case "tournai":
-        console.log("set name voor tournai");
-        socket.emit("setNameTournai", this.state.value);
-        socket.emit("gametutorial");
-        socket.emit("playerInputTimerEnded");
-        break;
-      case "lille":
-        console.log("set name voor lille");
-        socket.emit("setNameLille", this.state.value);
-        socket.emit("gametutorial");
-        socket.emit("playerInputTimerEnded");
-        break;
-      case "valenciennes":
-        console.log("set name voor valenciennes");
-        socket.emit("setNameValenciennes", this.state.value);
-        socket.emit("gametutorial");
-        socket.emit("playerInputTimerEnded");
-        break;
-    }
-  }
+  //   switch (currentLocation) {
+  //     case "kortrijk":
+  //       console.log("set name voor kortrijk");
+  //       socket.emit("setNameKortrijk", this.state.value);
+  //       socket.emit("gametutorial");
+  //       socket.emit("playerInputTimerEnded");
+  //       break;
+  //     case "tournai":
+  //       console.log("set name voor tournai");
+  //       socket.emit("setNameTournai", this.state.value);
+  //       socket.emit("gametutorial");
+  //       socket.emit("playerInputTimerEnded");
+  //       break;
+  //     case "lille":
+  //       console.log("set name voor lille");
+  //       socket.emit("setNameLille", this.state.value);
+  //       socket.emit("gametutorial");
+  //       socket.emit("playerInputTimerEnded");
+  //       break;
+  //     case "valenciennes":
+  //       console.log("set name voor valenciennes");
+  //       socket.emit("setNameValenciennes", this.state.value);
+  //       socket.emit("gametutorial");
+  //       socket.emit("playerInputTimerEnded");
+  //       break;
+  //   }
+  // }
 
   handleSubmit(event) {
     event.preventDefault();
@@ -76,6 +76,7 @@ class TouchNameInput extends Component {
       console.log("foutje");
     } else {
       this.setState({ submitted: true });
+      // clearInterval(this.autoSubmit);
     }
 
     const currentLocation = this.props.store.currentLocation;

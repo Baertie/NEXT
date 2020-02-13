@@ -969,13 +969,13 @@ class Game extends Component {
       console.log("game gedaan in setTimeout");
       // this.props.store.createPlayerArray();
       this.props.store.setScore(this.state.ownScore);
-      this.setState({ gameEnded: true });
     }
 
     // MARK
     setTimeout(() => {
       if (this.state.currentRound === this.state.maxRounds) {
         console.log("game gedaan in setTimeout");
+        this.setState({ gameEnded: true });
       } else {
         this.clearCreatedCanvas();
         this.goToNextRound();
