@@ -63,6 +63,12 @@ io.on("connection", socket => {
     console.log("joined the room in: ", room);
     console.log("room count: ", io.sockets.adapter.rooms[room].length);
 
+    // trigger landing page
+    socket.on("landing", () => {
+      io.to(room).emit("landing");
+      console.log("landing", room);
+    });
+
     // trigger onboarding page
     socket.on("onboarding", () => {
       io.to(room).emit("onboarding");

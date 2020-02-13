@@ -39,7 +39,7 @@ class Carousel extends Component {
       // this.state.isBeingCalled = true;
       this.props.history.push("/called");
     });
-
+    socket.emit("landing");
     socket.emit("resetSocketVariables");
     // getting access to webcam
     // navigator.mediaDevices
