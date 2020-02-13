@@ -89,7 +89,7 @@ class Game extends Component {
       hideCanvas: true,
       showScore: false,
       gameTimer: 5,
-      onboardingTimer: 15,
+      onboardingTimer: 25,
       tutorialTimer: 3,
       roundEnded: false,
       ownLocation: this.props.store.currentLocation,

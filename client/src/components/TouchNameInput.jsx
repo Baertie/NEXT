@@ -11,7 +11,7 @@ class TouchNameInput extends Component {
   constructor(props) {
     super(props);
     this.nameInput = React.createRef();
-    this.state = { value: "", submitted: false, gameTimer: 15 };
+    this.state = { value: "", submitted: false, gameTimer: 25 };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
