@@ -85,6 +85,16 @@ io.on("connection", socket => {
       console.log("previous page");
     });
 
+    socket.on("gameTimer", () => {
+      io.to(room).emit("gameTimer");
+    });
+    socket.on("onboardingTimer", () => {
+      io.to(room).emit("onboardingTimer");
+    });
+    socket.on("tutorialTimer", () => {
+      io.to(room).emit("tutorialTimer");
+    });
+
     // trigger connecting page
     socket.on("banaan", () => {
       io.to(room).emit("banaan");

@@ -135,7 +135,6 @@ class Game extends Component {
   componentDidMount() {
     this._isMounted = true;
 
-    socket.emit("game");
     console.log(
       "this.props.store.currentLocation",
       this.props.store.currentLocation
@@ -213,6 +212,8 @@ class Game extends Component {
     });
 
     socket.on("startOnboardingTimer", () => {
+      socket.emit("game");
+      socket.emit("startTabletTimer");
       console.log("startOnboardingTimer letsgo");
       this.setState({ showTimer: true });
       this.startOnboardingTimer();
@@ -824,6 +825,7 @@ class Game extends Component {
         if (!this.state.roundEnded) {
           if (this.state.gameTimer > 0) {
             this.setState({ gameTimer: this.state.gameTimer - 1 });
+            socket.emit("gameTimer", this.state.gameTimer);
           } else {
             // TIMER IS 0 GEWORDEN!
             this.screenShot();
@@ -842,6 +844,7 @@ class Game extends Component {
     this.onboardingTimer = setInterval(() => {
       if (this.state.onboardingTimer > 0) {
         this.setState({ onboardingTimer: this.state.onboardingTimer - 1 });
+        socket.emit("onboardingTimer", this.state.onboardingTimer);
       } else {
         this.setState({ startTutorial: false, startSecondTutorial: true });
         clearInterval(this.onboardingTimer);
@@ -856,6 +859,7 @@ class Game extends Component {
     this.tutorialTimer = setInterval(() => {
       if (this.state.tutorialTimer > 0) {
         this.setState({ tutorialTimer: this.state.tutorialTimer - 1 });
+        socket.emit("tutorialTimer", this.state.tutorialTimer);
       } else {
         this.setState({ startSecondTutorial: false, onboardingEnded: true });
         clearInterval(this.tutorialTimer);
