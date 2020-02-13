@@ -45,7 +45,7 @@ class Called extends Component {
   render() {
     return (
       <>
-        <button
+        {/* <button
           style={{
             position: "absolute",
             left: 100,
@@ -56,7 +56,7 @@ class Called extends Component {
           onClick={this.joinGame}
         >
           Start game bro
-        </button>
+        </button> */}
         <div className={styles.red_background}></div>
         <div className={styles.logo_next_white}></div>
         <div className={styles.search_timer}>

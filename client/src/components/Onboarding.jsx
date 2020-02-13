@@ -78,12 +78,12 @@ class Onboarding extends Component {
                 <div className={styles.page_number}></div>
               </div>
             </div>
-            <button className={styles.test} onClick={this.handlePrevClick}>
+            {/* <button className={styles.test} onClick={this.handlePrevClick}>
               Previous step
             </button>
             <button className={styles.test2} onClick={this.handleNextClick}>
               Next step
-            </button>
+            </button> */}
           </>
         );
       case 1:
@@ -119,12 +119,12 @@ class Onboarding extends Component {
                 <div className={styles.page_number}></div>
               </div>
             </div>
-            <button className={styles.test} onClick={this.handlePrevClick}>
+            {/* <button className={styles.test} onClick={this.handlePrevClick}>
               Previous step
             </button>
             <button className={styles.test2} onClick={this.handleNextClick}>
               Next step
-            </button>
+            </button> */}
           </>
         );
       case 2:
@@ -172,12 +172,12 @@ class Onboarding extends Component {
                 <div className={styles.page_number_active}></div>
               </div>
             </div>
-            <button className={styles.test} onClick={this.handlePrevClick}>
+            {/* <button className={styles.test} onClick={this.handlePrevClick}>
               Previous step
             </button>
             <button className={styles.test2} onClick={this.handleStartClick}>
               Start game
-            </button>
+            </button> */}
           </>
         );
       default:

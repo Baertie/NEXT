@@ -22,6 +22,10 @@ class TabletWrapper extends Component {
   }
 
   componentDidMount() {
+    socket.on("landing", () => {
+      console.log("landing");
+      this.setState({ currentPage: "" });
+    });
     socket.on("onboarding", () => {
       console.log("onboarding");
       this.setState({ currentPage: "onboarding" });
