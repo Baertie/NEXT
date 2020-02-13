@@ -22,8 +22,9 @@ class TouchNameInput extends Component {
         if (this.state.gameTimer > 0) {
           this.setState({ gameTimer: this.state.gameTimer - 1 });
         } else {
+          socket.emit("standardName");
           clearInterval(this.autoSubmit);
-          this.handleSubmit();
+          this.handleAutoSubmit();
         }
       }, 1000);
     });
@@ -34,6 +35,39 @@ class TouchNameInput extends Component {
     this.setState({ value: event.target.value });
     // console.log(this.state.value);
     socket.emit("namechange", event.target.value);
+  }
+
+  handleAutoSubmit() {
+    this.setState({ value: "NEXTER" });
+
+    const currentLocation = this.props.store.currentLocation;
+
+    switch (currentLocation) {
+      case "kortrijk":
+        console.log("set name voor kortrijk");
+        socket.emit("setNameKortrijk", this.state.value);
+        socket.emit("gametutorial");
+        socket.emit("playerInputNameFinished");
+        break;
+      case "tournai":
+        console.log("set name voor tournai");
+        socket.emit("setNameTournai", this.state.value);
+        socket.emit("gametutorial");
+        socket.emit("playerInputNameFinished");
+        break;
+      case "lille":
+        console.log("set name voor lille");
+        socket.emit("setNameLille", this.state.value);
+        socket.emit("gametutorial");
+        socket.emit("playerInputNameFinished");
+        break;
+      case "valenciennes":
+        console.log("set name voor valenciennes");
+        socket.emit("setNameValenciennes", this.state.value);
+        socket.emit("gametutorial");
+        socket.emit("playerInputNameFinished");
+        break;
+    }
   }
 
   handleSubmit(event) {

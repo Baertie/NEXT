@@ -201,6 +201,10 @@ io.on("connection", socket => {
     }
   });
 
+  socket.on("standardName", () => {
+    socket.emit("standardGame");
+  });
+
   socket.on("playerInputNameFinished", () => {
     // console.log("input finishes");
     // console.log("counter voor", connectionCounter);
