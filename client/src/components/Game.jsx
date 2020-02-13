@@ -207,23 +207,35 @@ class Game extends Component {
 
     // this,setState
     socket.on("scoreKortrijk", score => {
-      this.props.store.setScoreKortrijk(score);
+      this.props.store.setScoreKortrijk(score, this.state.currentRound);
       this.setRoundScore(score, "kortrijk");
       console.log("score kortrijk ontvangen");
     });
     socket.on("scoreTournai", score => {
-      this.props.store.setScoreTournai(score);
+      this.props.store.setScoreTournai(score, this.state.currentRound);
       this.setRoundScore(score, "tournai");
       console.log("score tournai ontvangen");
     });
     socket.on("scoreLille", score => {
-      this.props.store.setScoreLille(score);
+      this.props.store.setScoreLille(score, this.state.currentRound);
       this.setRoundScore(score, "lille");
       console.log("score lille ontvangen");
     });
     socket.on("scoreValenciennes", score => {
+      this.props.store.setScoreValenciennes(score, this.state.currentRound);
       this.setRoundScore(score, "valenciennes");
       console.log("score valenciennes ontvangen");
+    });
+
+    socket.on("setRegio", regio => {
+      this.props.store.setRegio(regio);
+      socket.emit("gdpr");
+    });
+
+    socket.on("addtodatabase", () => {
+      this.props.store.addPlayerScoreToDatabase();
+      socket.emit("leaderboard");
+      this.props.history.push("/scoreboard");
     });
   }
 
@@ -874,14 +886,15 @@ class Game extends Component {
 
     if (this.state.currentRound === this.state.maxRounds) {
       console.log("game gedaan in setTimeout");
-      this.props.store.createPlayerArray();
+      // this.props.store.createPlayerArray();
+      this.props.store.setScore(this.state.ownScore);
+      this.setState({ gameEnded: true });
     }
 
     // MARK
     setTimeout(() => {
       if (this.state.currentRound === this.state.maxRounds) {
         console.log("game gedaan in setTimeout");
-        this.setState({ gameEnded: true });
       } else {
         this.clearCreatedCanvas();
         this.goToNextRound();
@@ -1183,22 +1196,35 @@ class Game extends Component {
         case "kortrijk":
           console.log("emit score kortrijk:", this.state.ownScore);
           socket.emit("scoreKortrijk", this.state.ownScore);
-          this.props.store.setScoreKortrijk(this.state.ownScore);
+          this.props.store.setScoreKortrijk(
+            this.state.ownScore,
+            this.state.currentRound
+          );
           break;
         case "tournai":
           console.log("emit score tournai:", this.state.ownScore);
           socket.emit("scoreTournai", this.state.ownScore);
-          this.props.store.setScoreTournai(this.state.ownScore);
+          this.props.store.setScoreTournai(
+            this.state.ownScore,
+            this.state.currentRound
+          );
           break;
         case "lille":
           console.log("emit score lille:", this.state.ownScore);
           socket.emit("scoreLille", this.state.ownScore);
-          this.props.store.setScoreLille(this.state.ownScore);
+          this.props.store.setScoreLille(
+            this.state.ownScore,
+            this.state.currentRound
+          );
+
           break;
         case "valenciennes":
           console.log("emit score valenciennes:", this.state.ownScore);
           socket.emit("scoreValencienness", this.state.ownScore);
-          this.props.store.setScoreValenciennes(this.state.ownScore);
+          this.props.store.setScoreValenciennes(
+            this.state.ownScore,
+            this.state.currentRound
+          );
           break;
       }
 

@@ -10,7 +10,7 @@ class TouchConnecting extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchTimer: 45
+      searchTimer: 30
     };
   }
 

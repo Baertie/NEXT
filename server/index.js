@@ -46,8 +46,7 @@ app.get("/api/data", (req, res) => {
 // io.set("origins", "*:*");
 
 // const users = {};
-var connectionCounter = 0;
-// var playerCount = 0;
+// var connectionCounter = 0;
 var timerStarted = false;
 
 // io.set("origins", "*:*");
@@ -173,6 +172,11 @@ io.on("connection", socket => {
       io.to(room).emit("addtodatabase");
       console.log("addtodatabase", room);
     });
+  });
+
+  socket.on("resetSocketVariables", () => {
+    timerStarted = false;
+    console.log("reset socket timer", timerStarted);
   });
 
   // socket.on("resetPlayerCount", () => {
