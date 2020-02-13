@@ -235,7 +235,7 @@ class Game extends Component {
     });
 
     socket.on("startOnboardingTimer", () => {
-      socket.emit("game");
+      // socket.emit("game");
       socket.emit("startTabletTimer");
       console.log("startOnboardingTimer letsgo");
       this.setState({ showTimer: true });
@@ -897,6 +897,7 @@ class Game extends Component {
       } else {
         this.setState({ startSecondTutorial: false, onboardingEnded: true });
         clearInterval(this.tutorialTimer);
+        socket.emit("game");
         this.startGameTimer();
       }
     }, 1000);

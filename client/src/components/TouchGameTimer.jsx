@@ -15,12 +15,15 @@ class TouchGameTimer extends Component {
 
   componentDidMount() {
     socket.on("gameTimer", timer => {
+      console.log("gametimer");
       this.setState({ gameTimer: timer });
     });
     socket.on("onboardingTimer", timer => {
+      console.log("onboardingtimer");
       this.setState({ gameTimer: timer });
     });
     socket.on("tutorialTimer", timer => {
+      console.log("tutorialtimer");
       this.setState({ gameTimer: timer });
     });
 
@@ -40,8 +43,8 @@ class TouchGameTimer extends Component {
       <div className={basicStyles.container}>
         <TouchBackground />
         <div className={styles.timerContainer}>
-          <p className={styles.bodytext}>De game start over</p>
-          <div className={styles.timer}>{this.state.timer}</div>
+          {/* <p className={styles.bodytext}>De game start over</p> */}
+          <div className={styles.timer}>{this.state.gameTimer}</div>
         </div>
       </div>
     );
