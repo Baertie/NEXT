@@ -76,7 +76,7 @@ class TeamBoard extends Component {
           </div>
           <div>
             <p className={styles.board_text}>
-              Voer jouw regio hieronder in om jouw plaats op het globale
+              Voer jouw stad/gemeente hieronder in om jouw plaats op het globale
               scoreboard te zien.
             </p>
             <img className={styles.arrow} src={Arrow} />

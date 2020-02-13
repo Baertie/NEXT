@@ -49,6 +49,7 @@
   background-color: var(--white);
   height: 20rem;
   width: 16rem;
+  transform: scaleX(-1);
 }
 .player_1_img {
   position: absolute;
