@@ -10,7 +10,14 @@ class Scoreboard extends Component {
     super(props);
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    let location = this.props.store.currentLocation;
+    let fullQuery = `/?loc=${location}`;
+    setTimeout(() => {
+      console.log("redirect");
+      this.props.history.push(fullQuery);
+    }, 10000);
+  }
   render() {
     return (
       <>
