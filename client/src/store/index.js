@@ -26,6 +26,7 @@ class Store {
   currentScore = "";
   currentName = "";
   scores = [];
+  allScores = [];
   regioScores = [];
   currentLocation = "";
   imgKortrijk = null;
@@ -41,6 +42,7 @@ class Store {
   nameTournai = "";
   nameValenciennes = "";
   unsortedPlayers = [];
+  calculatedPosition = 0;
   // sortedPlayers = [];
   // regioIds = [
   //   { location: "kortrijk", _id: "5e42bba51c9d440000a9126e" },
@@ -71,15 +73,34 @@ class Store {
   };
 
   getAll = () => {
-    //this.api.getAll().then(d => d.forEach(this.addScoresToArray));
+    this.api.getAll().then(d => d.forEach(this.addAllScoresToArray));
+    this.calculatePosition();
+  };
+
+  calculatePosition = () => {
+    // haal eigen score op, kijk op welke index alle scores het staat
+    console.log("calculate position");
+    console.log(this.allScores);
+    let currentPosition = this.allScores.indexOf(this.currentPicture);
+    console.log(currentPosition);
+
+    this.calculatedPosition = currentPosition + 1;
+    // let findRegio = this.regioScores.find(
+    //   o => o.regio === this.currentLocation
+    // );
   };
 
   getLimited = () => {
+    this.scores = [];
     this.api.getLimited(5).then(d => d.forEach(this.addScoresToArray));
   };
 
   addScoresToArray = data => {
     this.scores.push(data);
+  };
+
+  addAllScoresToArray = data => {
+    this.allScores.push(data);
   };
 
   addPlayerScoreToDatabase = () => {
@@ -95,7 +116,9 @@ class Store {
 
     this.api
       .create(newScore)
-      .then(scoreValues => newScore.updateFromServer(scoreValues));
+      .then(scoreValues => newScore.updateFromServer(scoreValues))
+      .then(this.getLimited())
+      .then(this.getAll());
 
     this.updateRegioScore();
   };
@@ -306,9 +329,11 @@ decorate(Store, {
   updateRegioScore: action,
   createPlayerArray: action,
   getRegioScores: action,
+  calculatePosition: action,
 
   // flowStatus: observable,
   unsortedPlayers: observable,
+  allPlayers: observable,
   // sortedPlayers: observable,
   currentLocation: observable,
   currentRegio: observable,

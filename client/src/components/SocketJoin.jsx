@@ -131,18 +131,26 @@ class SocketJoin extends Component {
       case "kortrijk":
         socket.emit("imgKortrijk", this.state.imgToSend);
         this.props.store.setImgKortrijk(this.state.imgToSend);
+        this.props.store.setPicture(this.state.imgToSend);
+
         break;
       case "tournai":
         socket.emit("imgTournai", this.state.imgToSend);
         this.props.store.setImgTournai(this.state.imgToSend);
+        this.props.store.setPicture(this.state.imgToSend);
+
         break;
       case "lille":
         socket.emit("imgLille", this.state.imgToSend);
         this.props.store.setImgLille(this.state.imgToSend);
+        this.props.store.setPicture(this.state.imgToSend);
+
         break;
       case "valenciennes":
         socket.emit("imgValenciennes", this.state.imgToSend);
         this.props.store.setImgValenciennes(this.state.imgToSend);
+        this.props.store.setPicture(this.state.imgToSend);
+
         break;
     }
     socket.emit("sendImg", {
