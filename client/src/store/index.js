@@ -238,6 +238,10 @@ class Store {
   //   // });
   // };
 
+  resetSortedPlayers = () => {
+    this.sortedPlayers = [];
+  };
+
   get sortedPlayers() {
     return this.unsortedPlayers.sort((a, b) => b.score - a.score);
   }
@@ -330,6 +334,7 @@ decorate(Store, {
   createPlayerArray: action,
   getRegioScores: action,
   calculatePosition: action,
+  resetSortedPlayers: action,
 
   // flowStatus: observable,
   unsortedPlayers: observable,

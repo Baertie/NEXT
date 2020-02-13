@@ -141,6 +141,8 @@ class Game extends Component {
       this.props.store.currentLocation
     );
 
+    this.props.store.resetSortedPlayers();
+
     // console.log(this.state.constraints);
     // console.log(navigator.mediaDevices);
     navigator.mediaDevices
