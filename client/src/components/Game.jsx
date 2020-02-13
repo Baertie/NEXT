@@ -23,7 +23,7 @@ import botMagSoft from "../assets/effects/bm/botMag-softLight.png";
 import botBlueSoft from "../assets/effects/bm/botBlue-softLight.png";
 
 // import blackOverlay from "../assets/effects/overlay/blackOverlay.png";
-import whiteOverlay from "../assets/effects/overlay/whiteOverlay.png";
+import whiteOverlay from "../assets/effects/overlay/whiteOverlayResized.png";
 
 // import happyMan from "../assets/referenceImages/happyMan.jpg";
 import reference1 from "../assets/referenceImages/reference_1.jpg";
