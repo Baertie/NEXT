@@ -230,6 +230,10 @@ io.on("connection", socket => {
     // console.log(io.sockets.adapter.rooms["valenciennes"]);
   });
 
+  socket.on("playerInputTimerEnded", () => {
+    socket.broadcast.emit("startSecondTutorialTimer");
+  });
+
   socket.on("stopCarousel", () => {
     // socket.to("BAPNEXT").emit("newPeerConnection");
     socket.broadcast.emit("stopCarousel");

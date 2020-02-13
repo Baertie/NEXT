@@ -242,13 +242,12 @@ class Game extends Component {
 
     socket.emit("nameinput");
 
-    // socket.on("standardName", () => {
-    //   this.setState({
-    //     startTutorial: false,
-    //     startSecondTutorial: false,
-    //     onboardingEnded: true
-    //   });
-    // });
+    socket.on("startSecondTutorialTimer", () => {
+      this.setState({
+        startTutorial: false,
+        startSecondTutorial: true
+      });
+    });
 
     // this,setState
     socket.on("scoreKortrijk", score => {

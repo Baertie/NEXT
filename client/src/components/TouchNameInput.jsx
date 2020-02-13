@@ -47,25 +47,25 @@ class TouchNameInput extends Component {
         console.log("set name voor kortrijk");
         socket.emit("setNameKortrijk", this.state.value);
         socket.emit("gametutorial");
-        socket.emit("playerInputNameFinished");
+        socket.emit("playerInputTimerEnded");
         break;
       case "tournai":
         console.log("set name voor tournai");
         socket.emit("setNameTournai", this.state.value);
         socket.emit("gametutorial");
-        socket.emit("playerInputNameFinished");
+        socket.emit("playerInputTimerEnded");
         break;
       case "lille":
         console.log("set name voor lille");
         socket.emit("setNameLille", this.state.value);
         socket.emit("gametutorial");
-        socket.emit("playerInputNameFinished");
+        socket.emit("playerInputTimerEnded");
         break;
       case "valenciennes":
         console.log("set name voor valenciennes");
         socket.emit("setNameValenciennes", this.state.value);
         socket.emit("gametutorial");
-        socket.emit("playerInputNameFinished");
+        socket.emit("playerInputTimerEnded");
         break;
     }
   }
