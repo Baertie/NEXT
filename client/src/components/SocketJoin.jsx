@@ -266,14 +266,14 @@ class SocketJoin extends Component {
           <div className={styles.search_timer_text}>
             {this.state.searchTimer}
           </div>
-          <div className={styles.timer_wrapper}>
+          {/* <div className={styles.timer_wrapper}>
             <div className={styles.timer_dot}></div>
             <div className={styles.timer_dot}></div>
             <div className={styles.timer_dot}></div>
             <div className={styles.timer_dot}></div>
             <div className={styles.timer_dot}></div>
             <div className={styles.timer_dot}></div>
-          </div>
+          </div> */}
         </div>
         <div className={styles.front_content}>
           <div className={styles.white_content_background}>

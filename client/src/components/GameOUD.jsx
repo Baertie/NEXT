@@ -677,14 +677,14 @@ class Game extends Component {
               <div className={styles.game_timer_text}>
                 {this.state.gameTimer}
               </div>
-              <div className={styles.timer_wrapper}>
+              {/* <div className={styles.timer_wrapper}>
                 <div className={styles.timer_dot}></div>
                 <div className={styles.timer_dot}></div>
                 <div className={styles.timer_dot}></div>
                 <div className={styles.timer_dot}></div>
                 <div className={styles.timer_dot}></div>
                 <div className={styles.timer_dot}></div>
-              </div>
+              </div> */}
             </div>
             <div className={styles.game_round}>
               <p className={styles.game_round_top}>Ronde</p>

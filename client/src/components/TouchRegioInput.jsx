@@ -33,12 +33,12 @@ class TouchRegioInput extends Component {
         <form onSubmit={this.handleSubmit} className={styles.formContainer}>
           <div className={styles.inputContainer}>
             <label htmlFor="regioInput" className={styles.label}>
-              Regio
+              Woonplaats
             </label>
             <input
               className={styles.input}
               type="text"
-              placeholder="Vul hier jouw regio in"
+              placeholder="Vul hier jouw stad/gemeente in"
               id="regioInput"
               autoFocus
               ref={this.regioInput}
