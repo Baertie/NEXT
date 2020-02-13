@@ -171,37 +171,58 @@ class Game extends Component {
       this.setRoundImg(img, "valenciennes");
     });
 
+    // socket.on("setNameKortrijk", name => {
+    //   console.log("setNameKortrijk", name);
+    //   if (name === "") {
+    //     this.props.store.setNameKortrijk("NEXTER");
+    //   } else {
+    //     this.props.store.setNameKortrijk(name);
+    //   }
+    // });
+    // socket.on("setNameLille", name => {
+    //   console.log("setNameLille", name);
+    //   if (name === "") {
+    //     this.props.store.setNameLille("NEXTER");
+    //   } else {
+    //     this.props.store.setNameLille(name);
+    //   }
+    // });
+    // socket.on("setNameTournai", name => {
+    //   console.log("setNameTournai", name);
+    //   if (name === "") {
+    //     this.props.store.setNameTournai("NEXTER");
+    //   } else {
+    //     this.props.store.setNameTournai(name);
+    //   }
+    // });
+    // socket.on("setNameValenciennes", name => {
+    //   console.log("setNameValenciennes", name);
+    //   if (name === "") {
+    //     this.props.store.setNameValenciennes("NEXTER");
+    //   } else {
+    //     this.props.store.setNameValenciennes(name);
+    //   }
+    // });
+
     socket.on("setNameKortrijk", name => {
       console.log("setNameKortrijk", name);
-      if (name === "") {
-        this.props.store.setNameKortrijk("NEXTER");
-      } else {
-        this.props.store.setNameKortrijk(name);
-      }
+
+      this.props.store.setNameKortrijk(name);
     });
     socket.on("setNameLille", name => {
       console.log("setNameLille", name);
-      if (name === "") {
-        this.props.store.setNameLille("NEXTER");
-      } else {
-        this.props.store.setNameLille(name);
-      }
+
+      this.props.store.setNameLille(name);
     });
     socket.on("setNameTournai", name => {
       console.log("setNameTournai", name);
-      if (name === "") {
-        this.props.store.setNameTournai("NEXTER");
-      } else {
-        this.props.store.setNameTournai(name);
-      }
+
+      this.props.store.setNameTournai(name);
     });
     socket.on("setNameValenciennes", name => {
       console.log("setNameValenciennes", name);
-      if (name === "") {
-        this.props.store.setNameValenciennes("NEXTER");
-      } else {
-        this.props.store.setNameValenciennes(name);
-      }
+
+      this.props.store.setNameValenciennes(name);
     });
 
     socket.on("gametutorial", () => {
@@ -221,6 +242,13 @@ class Game extends Component {
     });
 
     socket.emit("nameinput");
+
+    socket.on("startSecondTutorialTimer", () => {
+      this.setState({
+        startTutorial: false,
+        startSecondTutorial: true
+      });
+    });
 
     // this,setState
     socket.on("scoreKortrijk", score => {
@@ -602,18 +630,22 @@ class Game extends Component {
       case "kortrijk":
         console.log("set own name");
         this.setState({ ownName: this.props.store.nameKortrijk });
+        this.props.store.setName(this.props.store.nameKortrijk);
         break;
       case "lille":
         console.log("set own name");
         this.setState({ ownName: this.props.store.nameLille });
+        this.props.store.setName(this.props.store.nameLille);
         break;
       case "tournai":
         console.log("set own name");
         this.setState({ ownName: this.props.store.nameTournai });
+        this.props.store.setName(this.props.store.nameTournai);
         break;
       case "valenciennes":
         console.log("set own name");
         this.setState({ ownName: this.props.store.nameValenciennes });
+        this.props.store.setName(this.props.store.nameValenciennes);
         break;
     }
   };

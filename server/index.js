@@ -63,6 +63,12 @@ io.on("connection", socket => {
     console.log("joined the room in: ", room);
     console.log("room count: ", io.sockets.adapter.rooms[room].length);
 
+    // trigger landing page
+    socket.on("landing", () => {
+      io.to(room).emit("landing");
+      console.log("landing", room);
+    });
+
     // trigger onboarding page
     socket.on("onboarding", () => {
       io.to(room).emit("onboarding");
@@ -211,6 +217,10 @@ io.on("connection", socket => {
     }
   });
 
+  socket.on("standardName", () => {
+    socket.emit("standardGame");
+  });
+
   socket.on("playerInputNameFinished", () => {
     // console.log("input finishes");
     // console.log("counter voor", connectionCounter);
@@ -228,6 +238,10 @@ io.on("connection", socket => {
     // }
     //   console.log(io.sockets.adapter.rooms["kortrijk"]);
     // console.log(io.sockets.adapter.rooms["valenciennes"]);
+  });
+
+  socket.on("playerInputTimerEnded", () => {
+    socket.broadcast.emit("startSecondTutorialTimer");
   });
 
   socket.on("stopCarousel", () => {
