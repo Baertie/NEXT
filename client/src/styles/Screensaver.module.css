@@ -1,0 +1,12 @@
+.nextText {
+  position: absolute;
+  width: 75%;
+  left: 12.5%;
+  text-align: center;
+  z-index: 100;
+  font-family: "Heavitas";
+  font-size: 6rem;
+  color: var(--white);
+  top: 10rem;
+  line-height: 150%;
+}

@@ -131,18 +131,26 @@ class SocketJoin extends Component {
       case "kortrijk":
         socket.emit("imgKortrijk", this.state.imgToSend);
         this.props.store.setImgKortrijk(this.state.imgToSend);
+        this.props.store.setPicture(this.state.imgToSend);
+
         break;
       case "tournai":
         socket.emit("imgTournai", this.state.imgToSend);
         this.props.store.setImgTournai(this.state.imgToSend);
+        this.props.store.setPicture(this.state.imgToSend);
+
         break;
       case "lille":
         socket.emit("imgLille", this.state.imgToSend);
         this.props.store.setImgLille(this.state.imgToSend);
+        this.props.store.setPicture(this.state.imgToSend);
+
         break;
       case "valenciennes":
         socket.emit("imgValenciennes", this.state.imgToSend);
         this.props.store.setImgValenciennes(this.state.imgToSend);
+        this.props.store.setPicture(this.state.imgToSend);
+
         break;
     }
     socket.emit("sendImg", {
@@ -258,14 +266,14 @@ class SocketJoin extends Component {
           <div className={styles.search_timer_text}>
             {this.state.searchTimer}
           </div>
-          <div className={styles.timer_wrapper}>
+          {/* <div className={styles.timer_wrapper}>
             <div className={styles.timer_dot}></div>
             <div className={styles.timer_dot}></div>
             <div className={styles.timer_dot}></div>
             <div className={styles.timer_dot}></div>
             <div className={styles.timer_dot}></div>
             <div className={styles.timer_dot}></div>
-          </div>
+          </div> */}
         </div>
         <div className={styles.front_content}>
           <div className={styles.white_content_background}>

@@ -18,19 +18,21 @@ class TeamBoard extends Component {
   componentDidMount() {
     socket.emit("regioinput");
 
-    const unsortedScores = this.props.store.unsortedPlayers;
-    console.log("in teamboard", unsortedScores);
+    // const unsortedScores = this.props.store.unsortedPlayers;
+    // console.log("in teamboard", unsortedScores);
 
-    this.setSortedScores(unsortedScores);
+    // this.setSortedScores(unsortedScores);
+
+    this.setState({ sortedPlayerScores: this.props.store.sortedPlayers });
   }
 
-  setSortedScores = unsortedScores => {
-    this.setState({
-      sortedPlayerScores: unsortedScores.sort((a, b) => {
-        return b.score - a.score;
-      })
-    });
-  };
+  // setSortedScores = unsortedScores => {
+  //   this.setState({
+  //     sortedPlayerScores: unsortedScores.sort((a, b) => {
+  //       return b.score - a.score;
+  //     })
+  //   });
+  // };
 
   render() {
     return (
@@ -43,7 +45,7 @@ class TeamBoard extends Component {
           <div className={styles.board_background}>
             <h2 className={styles.board_title}>Jullie scoorden:</h2>
             <div>
-              {this.state.sortedPlayerScores.map(
+              {this.props.store.sortedPlayers.map(
                 (
                   { installationLocation, score, playerName, playerImage },
                   index
@@ -74,7 +76,7 @@ class TeamBoard extends Component {
           </div>
           <div>
             <p className={styles.board_text}>
-              Voer jouw regio hieronder in om jouw plaats op het globale
+              Voer jouw stad/gemeente hieronder in om jouw plaats op het globale
               scoreboard te zien.
             </p>
             <img className={styles.arrow} src={Arrow} />

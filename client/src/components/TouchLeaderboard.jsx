@@ -14,8 +14,10 @@ const TouchLeaderboard = () => {
         <p className={styles.bodytext}>Je hebt het eerste level uitgespeeld.</p>
       </div>
 
-      <div>
-        <p className={styles.smalltext}>Next nodigt jou uit voor</p>
+      <div className={styles.nextinvite}>
+        <p className={`${styles.smalltext} ${styles.margintop}`}>
+          Next nodigt jou uit voor
+        </p>
         <p className={styles.bigtext}>'The next level'</p>
       </div>
       <p className={styles.smalltext}>

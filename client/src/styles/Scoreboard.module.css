@@ -73,6 +73,7 @@
   height: 8rem;
   border-radius: 1.6rem;
   grid-area: image;
+  object-fit: cover;
 }
 
 .score_person {

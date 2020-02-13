@@ -5,6 +5,8 @@ import * as faceapi from "face-api.js";
 // import socketIOClient from "socket.io-client";
 import { socket } from "../App.js";
 
+import styles from "../styles/Screensaver.module.css";
+
 import topMagLighten from "../assets/effects/bm/topMag-lighten.png";
 import topBlueLighten from "../assets/effects/bm/topBlue-lighten.png";
 import botMagSoft from "../assets/effects/bm/botMag-softLight.png";
@@ -128,6 +130,7 @@ class Screensaver extends Component {
       <>
         {/* <p>Screensaver</p>
         <button onClick={this.handleStartButton}>Start onboarding</button> */}
+        <p className={styles.nextText}>Word het gezicht van NEXT</p>
         <div
           style={{
             position: "relative",
@@ -148,7 +151,8 @@ class Screensaver extends Component {
               objectFit: "cover",
               maxWidth: "1080px",
               maxHeight: "1920px",
-              zIndex: 1
+              zIndex: 1,
+              transform: "scaleX(-1)"
             }}
             id="ownVideoFeed"
             ref={this.ownVideoFeed}
