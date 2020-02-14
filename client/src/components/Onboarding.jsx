@@ -94,7 +94,7 @@ class Onboarding extends Component {
             <div className={styles.front_content}>
               <div className={styles.white_content_background}>
                 <h1 className={styles.onboarding_title}>
-                  Maak de beste poster
+                  Maak de beste affiche
                 </h1>
                 <div className={styles.score_wrapper}>
                   <div>
