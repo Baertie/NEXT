@@ -941,7 +941,7 @@ class Game extends Component {
 
     // MARK
 
-    // this.addSharpenEffect(videoTag, canvas, ctx);
+    this.addSharpenEffect(videoTag, canvas, ctx);
     this.addVisualEffects(canvas, ctx);
     this.calculateDistance();
 

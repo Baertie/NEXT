@@ -41,7 +41,7 @@ const Regioscore = require("../models/regioscore.model.js");
 
 exports.findAll = async (req, res) => {
   try {
-    const regioscores = await Regioscore.find();
+    const regioscores = await Regioscore.find().sort({ score: -1 });
     res.send(regioscores);
   } catch (err) {
     res.status(500).send({ err: err.regioscore || "Error" });
