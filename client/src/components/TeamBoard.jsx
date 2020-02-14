@@ -17,22 +17,8 @@ class TeamBoard extends Component {
   }
   componentDidMount() {
     socket.emit("regioinput");
-
-    // const unsortedScores = this.props.store.unsortedPlayers;
-    // console.log("in teamboard", unsortedScores);
-
-    // this.setSortedScores(unsortedScores);
-
     this.setState({ sortedPlayerScores: this.props.store.sortedPlayers });
   }
-
-  // setSortedScores = unsortedScores => {
-  //   this.setState({
-  //     sortedPlayerScores: unsortedScores.sort((a, b) => {
-  //       return b.score - a.score;
-  //     })
-  //   });
-  // };
 
   render() {
     return (

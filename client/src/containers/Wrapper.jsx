@@ -31,21 +31,9 @@ const Wrapper = ({ store }) => {
       return <SocketTest />;
     case "Socket":
       return <Socket />;
-    // case "SocketTest":
-    //   return <SocketTest />;
     default:
       return <Carousel />;
   }
-
-  //   if (detected === false) {
-  //     // Poster carousel + face detection
-  //     return <Camera />;
-  //   }
-
-  //   if (detected === true) {
-  //     // Onboarding (installation)
-  //     return <Onboarding />;
-  //   }
 };
 
 export default inject(`store`)(observer(Wrapper));

@@ -1,13 +1,10 @@
 import React, { Component } from "react";
-// import { inject, observer } from "mobx-react";
-// import socketIOClient from "socket.io-client";
 import { socket } from "../App.js";
 import { join, signaling, send } from "./SocketVideo";
 import NeatRTC from "neat-rtc";
 
 import styles from "../styles/Socket.module.css";
 
-// import { socket } from "../api/Api";
 class SocketJoin extends Component {
   _isMounted = false;
   constructor(props) {

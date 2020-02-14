@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { PropTypes, inject, observer } from "mobx-react";
 
-// import person from "../assets/img/testPerson.png";
-
 import styles from "../styles/Scoreboard.module.css";
 
 class Scoreboard extends Component {

@@ -12,20 +12,14 @@ import TeamBoard from "./TeamBoard";
 import { shapeSimilarity } from "curve-matcher";
 // https://www.npmjs.com/package/stackblur
 import stackblur from "stackblur";
-// import topRedLighten from "../assets/effects/br/topRed-lighten.png";
-// import topBlackLighten from "../assets/effects/br/topBlack-lighten.png";
-// import botRedSoft from "../assets/effects/br/botRed-softLight.png";
-// import botBlackSoft from "../assets/effects/br/botBlack-softLight.png";
 
 import topMagLighten from "../assets/effects/bm/topMag-lighten.png";
 import topBlueLighten from "../assets/effects/bm/topBlue-lighten.png";
 import botMagSoft from "../assets/effects/bm/botMag-softLight.png";
 import botBlueSoft from "../assets/effects/bm/botBlue-softLight.png";
 
-// import blackOverlay from "../assets/effects/overlay/blackOverlay.png";
 import whiteOverlay from "../assets/effects/overlay/whiteOverlayResized.png";
 
-// import happyMan from "../assets/referenceImages/happyMan.jpg";
 import reference1 from "../assets/referenceImages/reference_1.jpg";
 import reference2 from "../assets/referenceImages/reference_2.jpg";
 import reference3 from "../assets/referenceImages/reference_3.jpg";
@@ -142,8 +136,6 @@ class Game extends Component {
 
     this.props.store.resetSortedPlayers();
 
-    // console.log(this.state.constraints);
-    // console.log(navigator.mediaDevices);
     navigator.mediaDevices
       .getUserMedia(this.state.constraints)
       .then(
@@ -172,39 +164,6 @@ class Game extends Component {
     socket.on("imgValenciennes", img => {
       this.setRoundImg(img, "valenciennes");
     });
-
-    // socket.on("setNameKortrijk", name => {
-    //   console.log("setNameKortrijk", name);
-    //   if (name === "") {
-    //     this.props.store.setNameKortrijk("NEXTER");
-    //   } else {
-    //     this.props.store.setNameKortrijk(name);
-    //   }
-    // });
-    // socket.on("setNameLille", name => {
-    //   console.log("setNameLille", name);
-    //   if (name === "") {
-    //     this.props.store.setNameLille("NEXTER");
-    //   } else {
-    //     this.props.store.setNameLille(name);
-    //   }
-    // });
-    // socket.on("setNameTournai", name => {
-    //   console.log("setNameTournai", name);
-    //   if (name === "") {
-    //     this.props.store.setNameTournai("NEXTER");
-    //   } else {
-    //     this.props.store.setNameTournai(name);
-    //   }
-    // });
-    // socket.on("setNameValenciennes", name => {
-    //   console.log("setNameValenciennes", name);
-    //   if (name === "") {
-    //     this.props.store.setNameValenciennes("NEXTER");
-    //   } else {
-    //     this.props.store.setNameValenciennes(name);
-    //   }
-    // });
 
     socket.on("setNameKortrijk", name => {
       console.log("setNameKortrijk", name);
@@ -235,7 +194,6 @@ class Game extends Component {
     });
 
     socket.on("startOnboardingTimer", () => {
-      // socket.emit("game");
       socket.emit("startTabletTimer");
       console.log("startOnboardingTimer letsgo");
       this.setState({ showTimer: true });
@@ -252,7 +210,6 @@ class Game extends Component {
       });
     });
 
-    // this,setState
     socket.on("scoreKortrijk", score => {
       this.props.store.setScoreKortrijk(score, this.state.currentRound);
       this.setRoundScore(score, "kortrijk");
@@ -285,9 +242,6 @@ class Game extends Component {
       this.props.history.push("/scoreboard");
     });
   }
-
-  // INIT SOCKET
-  // this.initSocket();
 
   setRoundScore = (score, location) => {
     // score en loc
@@ -458,24 +412,6 @@ class Game extends Component {
     let players = 0;
     let locations = [];
 
-    console.log("nameKortrijk", this.props.store.nameKortrijk);
-    console.log("nameLille", this.props.store.nameLille);
-    console.log("nameTournai", this.props.store.nameTournai);
-    console.log("nameValenciennes", this.props.store.nameValenciennes);
-
-    // if (this.props.store.nameKortrijk === "") {
-    //   this.props.store.nameKortrijk = "NEXTER";
-    // }
-    // if (this.props.store.nameTournai === "") {
-    //   this.props.store.nameTournai = "NEXTER";
-    // }
-    // if (this.props.store.nameLille === "") {
-    //   this.props.store.nameLille = "NEXTER";
-    // }
-    // if (this.props.store.nameValenciennes === "") {
-    //   this.props.store.nameValenciennes = "NEXTER";
-    // }
-
     if (
       this.props.store.nameKortrijk !== "" &&
       this.props.store.currentLocation !== "kortrijk"
@@ -615,19 +551,6 @@ class Game extends Component {
   };
 
   getOwnName = () => {
-    // if (this.props.store.nameKortrijk === "") {
-    //   this.props.store.nameKortrijk = "NEXTER";
-    // }
-    // if (this.props.store.nameTournai === "") {
-    //   this.props.store.nameTournai = "NEXTER";
-    // }
-    // if (this.props.store.nameLille === "") {
-    //   this.props.store.nameLille = "NEXTER";
-    // }
-    // if (this.props.store.nameValenciennes === "") {
-    //   this.props.store.nameValenciennes = "NEXTER";
-    // }
-
     switch (this.state.ownLocation) {
       case "kortrijk":
         console.log("set own name");
@@ -815,7 +738,6 @@ class Game extends Component {
   };
 
   getReferenceData = async () => {
-    // const imageTag = this.referenceImageTag;
     if (this._isMounted) {
       const canvasTag = this.referenceCanvasTag.current;
       const ctx = canvasTag.getContext("2d");
@@ -832,17 +754,17 @@ class Game extends Component {
           .detectSingleFace(referenceImage)
           .withFaceLandmarks(useTinyModel);
 
-        // console.log(detectionsWithLandmarks);
-
         const landMarkPoints = detectionsWithLandmarks.landmarks.positions;
         const type = "reference";
         this.addPointsToState(landMarkPoints, type);
 
+        // enable to view face landmarks
         // faceapi.draw.drawFaceLandmarks(canvasTag, detectionsWithLandmarks);
         this.setState({ _isLoaded: true });
         //console.log("alles geladen");
       };
 
+      // enable when using online images
       //referenceImage.crossOrigin = "anonymous";
 
       referenceImage.src = this.state.referenceImageArray[
@@ -852,8 +774,6 @@ class Game extends Component {
   };
 
   startGameTimer = () => {
-    // this.clearInterval(this.onboardingTimer);
-    // clearInterval(this.onboardintTimer);
     if (!this.state.gameEnded) {
       this.gameTimer = setInterval(() => {
         if (!this.state.roundEnded) {
@@ -883,7 +803,6 @@ class Game extends Component {
         this.setState({ startTutorial: false, startSecondTutorial: true });
         clearInterval(this.onboardingTimer);
         this.getOponentNames();
-        // this.getOwnName();
         this.startTutorialTimer();
       }
     }, 1000);
@@ -939,8 +858,6 @@ class Game extends Component {
       this.addPointsToState(landMarkPoints, type);
     }
 
-    // MARK
-
     this.addSharpenEffect(videoTag, canvas, ctx);
     this.addVisualEffects(canvas, ctx);
     this.calculateDistance();
@@ -967,7 +884,6 @@ class Game extends Component {
 
     if (this.state.currentRound === this.state.maxRounds) {
       console.log("game gedaan in setTimeout");
-      // this.props.store.createPlayerArray();
       this.props.store.setScore(this.state.ownScore);
     }
 
@@ -1090,9 +1006,6 @@ class Game extends Component {
     topBlueLightenImg.src = topBlueLighten;
     topMagLightenImg.src = topMagLighten;
     whiteOverlayImg.src = whiteOverlay;
-
-    // console.log(topMagLightenImg);
-    // console.log(whiteOverlayImg);
   };
 
   addPointsToState = (points, type) => {
@@ -1173,19 +1086,6 @@ class Game extends Component {
         state.iMouthCurves[0] = iMouthCurveArr;
       });
     }
-
-    // this.setState(state => {
-    //   state.curves.push(points);
-    //   state.faceCurves.push(faceCurveArr);
-    //   state.lEyebrowCurves.push(lEyebrowCurveArr);
-    //   state.rEyebrowCurves.push(rEyebrowCurveArr);
-    //   state.noseBridgeCurves.push(noseBridgeCurveArr);
-    //   state.noseBotCurves.push(noseBotCurveArr);
-    //   state.lEyeCurves.push(lEyeCurveArr);
-    //   state.rEyeCurves.push(rEyeCurveArr);
-    //   state.oMouthCurves.push(oMouthCurveArr);
-    //   state.iMouthCurves.push(iMouthCurveArr);
-    // });
   };
 
   calculateDistance = () => {
@@ -1195,67 +1095,46 @@ class Game extends Component {
         this.state.faceCurves[0],
         this.state.faceCurves[1]
       );
-      // console.log("similarity face:", similarityFace);
 
       const similarityLEyeBrow = shapeSimilarity(
         this.state.lEyebrowCurves[0],
         this.state.lEyebrowCurves[1]
       );
-      // console.log("similarity LEyeBrow:", similarityLEyeBrow);
 
       const similarityREyeBrow = shapeSimilarity(
         this.state.rEyebrowCurves[0],
         this.state.rEyebrowCurves[1]
       );
-      // console.log("similarity REyeBrow:", similarityREyeBrow);
 
       const similarityNoseBridge = shapeSimilarity(
         this.state.noseBridgeCurves[0],
         this.state.noseBridgeCurves[1]
       );
-      // console.log("similarity NoseBridge:", similarityNoseBridge);
 
       const similarityNoseBot = shapeSimilarity(
         this.state.noseBotCurves[0],
         this.state.noseBotCurves[1]
       );
-      // console.log("similarity NoseBot:", similarityNoseBot);
 
       const similarityLEye = shapeSimilarity(
         this.state.lEyeCurves[0],
         this.state.lEyeCurves[1]
       );
-      // console.log("similarity LEye:", similarityLEye);
 
       const similarityREye = shapeSimilarity(
         this.state.rEyeCurves[0],
         this.state.rEyeCurves[1]
       );
-      // console.log("similarity REye:", similarityREye);
 
       const similarityOMouth = shapeSimilarity(
         this.state.oMouthCurves[0],
         this.state.oMouthCurves[1]
       );
-      // console.log("similarity OMouth:", similarityOMouth);
 
       const similarityIMouth = shapeSimilarity(
         this.state.iMouthCurves[0],
         this.state.iMouthCurves[1]
       );
-      // console.log("similarity i mouth:", similarityIMouth);
-
-      // const averageSimilarity =
-      //   (similarityFace +
-      //     similarityLEyeBrow +
-      //     similarityREyeBrow +
-      //     similarityNoseBridge +
-      //     similarityNoseBot +
-      //     similarityLEye +
-      //     similarityREye +
-      //     similarityOMouth +
-      //     similarityIMouth) /
-      //   9;
 
       const averageSimilarity =
         (similarityFace +
@@ -1308,12 +1187,6 @@ class Game extends Component {
           );
           break;
       }
-
-      // const curvesSim = shapeSimilarity(
-      //   this.state.curves[0],
-      //   this.state.curves[1]
-      // );
-      // console.log("similarity whole thing:", curvesSim);
     } else {
       console.log("geen curves in state momenteel");
     }
@@ -1337,38 +1210,12 @@ class Game extends Component {
         });
         this.getReferenceData();
       }
-
-      //     if (this.state.currentRound === this.state.maxRounds) {
-      //       console.log("game gedaan");
-      //       // this.setState({ gameEnded: true });
-      //       // this.props.store.createPlayerArray();
-      //     } else {
-      //       this.setState(prevState => {
-      //         return {
-      //           currentRound: prevState.currentRound + 1
-      //         };
-      //       });
-
-      //       this.getReferenceData();
     }
   };
 
   render() {
-    // const { store } = this.props;
-    // if (this.state.currentRound > this.state.maxRounds) {
-    //   console.log("STOP");
-    // store.setGameEnded();
-    // socket.emit("regioinput");
-    // Eerst nog score die je krijgt tonen, daarna (na x seconden) scorebord
-    // }
-
     return (
       <>
-        {/* {!this.state._isLoaded ? <Loader /> : null}
-        <div
-          style={{ display: !this.state._isLoaded ? "none" : "" }}
-          className={styles.full_game_wrapper}
-        > */}
         <div className={`${styles.full_game_wrapper} ${basicStyles.container}`}>
           {this.state.inputName ? <NameOverlay /> : null}
 
@@ -1379,23 +1226,9 @@ class Game extends Component {
           ) : null}
           {this.state.gameEnded ? <TeamBoard /> : null}
 
-          {/* <CallOnboarding /> */}
           <div className={styles.red_background}></div>
           <div className={styles.logo_next_white}></div>
           <div className={styles.game_top_view}>
-            {/* <div className={styles.search_timer}>
-              <div className={styles.search_timer_text}>
-                {this.state.gameTimer}
-              </div>
-              <svg className={styles.timer_svg}>
-                <circle
-                  className={styles.timer_circle}
-                  r="40"
-                  cx="50"
-                  cy="50"
-                ></circle>
-              </svg>
-            </div> */}
             <div className={styles.game_timer}>
               {this.state.gameEnded ? null : this.state.showTimer ? (
                 this.state.ownName === "" ? null : (
@@ -1407,15 +1240,6 @@ class Game extends Component {
                           : this.state.tutorialTimer
                         : this.state.onboardingTimer}
                     </div>
-
-                    {/* <div className={styles.timer_wrapper}>
-                      <div className={styles.timer_dot}></div>
-                      <div className={styles.timer_dot}></div>
-                      <div className={styles.timer_dot}></div>
-                      <div className={styles.timer_dot}></div>
-                      <div className={styles.timer_dot}></div>
-                      <div className={styles.timer_dot}></div>
-                    </div> */}
                   </>
                 )
               ) : null}
@@ -1430,11 +1254,6 @@ class Game extends Component {
             ) : null}
           </div>
           <div className={styles.game_wrapper} id="App">
-            {/* <img
-              crossorigin="anonymous"
-              ref={this.referenceImage}
-              src="https://image.freepik.com/free-photo/happy-man-shouting-screaming_23-2148221721.jpg"
-            /> */}
             <div className={styles.game_top}>
               <div>
                 <div className={styles.poster_top}>
@@ -1472,7 +1291,6 @@ class Game extends Component {
                     }
                   >
                     <p className={styles.round_score}>
-                      {/* CHECK ALS GEEN OUTLINES, BASISSCORE? */}+{" "}
                       {Math.round(this.state.similarity)}
                     </p>
                   </div>
@@ -1577,9 +1395,6 @@ class Game extends Component {
             </div>
             <canvas
               style={{
-                //   position: "absolute",
-                //   top: "0",
-                //   left: "0",
                 transform: "scaleX(-1)"
               }}
               className={
@@ -1616,21 +1431,9 @@ class Game extends Component {
             </div>
           </div>
         </div>
-
-        {/* <button
-          onClick={calculateDistance}
-          style={{
-            position: "absolute",
-            bottom: "0",
-            right: "0"
-          }}
-        >
-          Calculate distances
-        </button> */}
       </>
     );
   }
 }
 
 export default inject(`store`)(observer(Game));
-// export default Game;

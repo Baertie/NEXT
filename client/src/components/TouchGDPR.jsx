@@ -16,13 +16,7 @@ class TouchGDPR extends Component {
   }
 
   handleSubmitPlayerdata() {
-    // console.log(event.target.value);
-    // this.setState({ value: event.target.value });
-    // console.log(this.props.store);
-    // console.log(props.store);
-    // this.props.store.addPlayerScoreToDatabase();
     socket.emit("addtodatabase");
-    // this.props.store.addPlayerScoreToDatabase();
   }
   render() {
     return (

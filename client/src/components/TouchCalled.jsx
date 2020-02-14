@@ -22,7 +22,6 @@ class TouchCalled extends Component {
   handleStartClick = () => {
     socket.emit("banaan");
     console.log("start game emit");
-    // socket.to(this.props.store.currentLocation).emit("connecting");
   };
 
   componentWillUnmount() {}

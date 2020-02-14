@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
 import * as faceapi from "face-api.js";
 
-// import socketIOClient from "socket.io-client";
 import { socket } from "../App.js";
 
 import styles from "../styles/Screensaver.module.css";
@@ -31,8 +30,6 @@ class Screensaver extends Component {
 
   componentDidMount() {
     this._isMounted = true;
-    // socket = socketIOClient(":8080");
-    // When a call comes in
     socket.on("stopCarousel", () => {
       console.log("stop carousel er wordt gebeld SCREENSAVER");
       this.state.isBeingCalled = true;
@@ -73,7 +70,6 @@ class Screensaver extends Component {
   }
 
   handleStartButton = () => {
-    // this.props.store.setStartOnboarding();
     this.props.history.push("/onboarding");
   };
 
@@ -98,7 +94,6 @@ class Screensaver extends Component {
           if (!detections[0]) {
             if (this.state.timeSinceDetectedFace >= 2000) {
               console.log("3 seconden lang geen gezicht");
-              // this.state.faceGone = true;
               this.setState({ faceGone: true });
               this.props.history.push("/");
             }
@@ -128,8 +123,6 @@ class Screensaver extends Component {
   render() {
     return (
       <>
-        {/* <p>Screensaver</p>
-        <button onClick={this.handleStartButton}>Start onboarding</button> */}
         <p className={styles.nextText}>Word het gezicht van NEXT</p>
         <div
           style={{

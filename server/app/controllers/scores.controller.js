@@ -59,55 +59,6 @@ exports.getLimited = async (req, res) => {
   }
 };
 
-// exports.findOne = async (req, res) => {
-//   try {
-//     const score = await Score.findOne({
-//       _id: req.params.scoreId
-//     });
-//     if (score) {
-//       res.send(score);
-//     } else {
-//       res.status(404).send("No score found");
-//     }
-//   } catch (err) {
-//     if (err.kind === "ObjectId") {
-//       return res.status(500).send("Geen geldig ID");
-//     }
-//     return res.status(500).send(err);
-//   }
-// };
-
-// exports.update = async (req, res) => {
-//   if (!req.body.name) {
-//     return res.status(400).send("name mag niet leeg zijn");
-//   }
-
-//   try {
-//     const score = await Score.findOneAndUpdate(
-//       {
-//         _id: req.params.scoreId
-//       },
-//       {
-//         name: req.body.name,
-//         price: req.body.price
-//       },
-//       {
-//         new: true
-//       }
-//     );
-
-//     if (!score) {
-//       return res.status(404).send("No score found");
-//     }
-//     res.send(score);
-//   } catch (err) {
-//     if (err.kind === "ObjectId") {
-//       return res.status(417).send("Geen geldig ID");
-//     }
-//     return res.status(500).send(err);
-//   }
-// };
-
 exports.delete = async (req, res) => {
   try {
     const score = await Score.findOneAndRemove({

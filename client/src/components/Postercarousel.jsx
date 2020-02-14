@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-// import { inject, PropTypes, observer } from "mobx-react";
-// import socketIOClient from "socket.io-client";
 import { socket } from "../App.js";
 
 import carousel1 from "../assets/img/carousel/carousel1.jpg";
@@ -43,5 +41,4 @@ class Postercarousel extends Component {
   }
 }
 
-// export default inject(`store`)(observer(Postercarousel));
 export default Postercarousel;

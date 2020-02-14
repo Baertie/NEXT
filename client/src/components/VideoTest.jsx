@@ -66,9 +66,6 @@ class VideoTest extends Component {
     const servers = null;
     this.pc1local = new RTCPeerConnection(servers);
     this.pc1remote = new RTCPeerConnection(servers);
-    // console.log("state pc1local: ", this.pc1local.connectionState);
-    // console.log("state pc1remote: ", this.pc1remote.connectionState);
-
     this.pc1remote.ontrack = this.gotRemoteStream1;
 
     this.pc1local.onicecandidate = this.iceCallback1Local;
@@ -77,9 +74,6 @@ class VideoTest extends Component {
 
     this.pc2local = new RTCPeerConnection(servers);
     this.pc2remote = new RTCPeerConnection(servers);
-
-    // console.log("state pc2local: ", this.pc2local.connectionState);
-    // console.log("state pc2remote: ", this.pc2remote.connectionState);
 
     this.pc2remote.ontrack = this.gotRemoteStream2;
 
@@ -103,17 +97,6 @@ class VideoTest extends Component {
     this.pc1local
       .createOffer(offerOptions)
       .then(this.gotDescription1Local, this.onCreateSessionDescriptionError);
-
-    // this.video1.current.srcObject
-    //   .getTracks()
-    //   .forEach(track =>
-    //     this.pc2local.addTrack(track, this.video1.current.srcObject)
-    //   );
-    // console.log("Adding local stream to pc2local");
-
-    // this.pc2local
-    //   .createOffer(offerOptions)
-    //   .then(this.gotDescription2Local, this.onCreateSessionDescriptionError);
   };
 
   gotRemoteStream1 = e => {
@@ -225,7 +208,6 @@ class VideoTest extends Component {
         <video ref={this.video2} id="video2" playsInline autoPlay muted></video>
         <video ref={this.video3} id="video3" playsInline autoPlay muted></video>
         <div>
-          {/* <button onClick={this.startCall}>start</button> */}
           <button onClick={this.answerCall}>answer</button>
           <button onClick={this.stopCall}>stop</button>
         </div>

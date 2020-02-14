@@ -50,10 +50,6 @@ class Socket extends Component {
 
     socket.on("joinGame", () => {
       this.sendImg();
-      // console.log("playercount in joingame", this.state.playerCount);
-      // // add to total player count every time someone joins
-      // socket.emit("totalPlayers", this.state.playerCount + 1);
-      // this.setState({ playerCount: this.playerCount + 1 });
     });
 
     socket.on("sendImg", ({ location, image }) => {
@@ -267,14 +263,6 @@ class Socket extends Component {
           <div className={styles.search_timer_text}>
             {this.state.searchTimer}
           </div>
-          {/* <svg className={styles.timer_svg}>
-            <circle
-              className={styles.timer_circle}
-              r="40"
-              cx="50"
-              cy="50"
-            ></circle>
-          </svg> */}
         </div>
         <div className={styles.front_content}>
           <div className={styles.white_content_background}>
@@ -483,4 +471,3 @@ class Socket extends Component {
 }
 
 export default inject(`store`)(observer(Socket));
-// export default Socket;

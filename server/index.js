@@ -11,10 +11,6 @@ const port = process.env.PORT || 8080;
 
 require("dotenv").config();
 
-// app.get("/", function(req, res) {
-//   res.sendFile(__dirname + "/index.html");
-// });
-
 mongoose
   .connect(process.env.DB_URL, {
     useNewUrlParser: true,
@@ -43,19 +39,9 @@ app.get("/api/data", (req, res) => {
   res.send({ message: "ok", secret: process.env.SECRET });
 });
 
-// io.set("origins", "*:*");
-
-// const users = {};
-// var connectionCounter = 0;
 var timerStarted = false;
 
-// io.set("origins", "*:*");
 io.on("connection", socket => {
-  // users[socket.id] = {
-  //   peers: {}
-  // };
-
-  // console.log("users socket.id: ", users[socket.id]);
   console.log("new connection - socket id:", socket.id);
 
   socket.on("joinLocationRoom", room => {
@@ -91,26 +77,11 @@ io.on("connection", socket => {
       console.log("previous page");
     });
 
-    // socket.on("gameTimer", () => {
-    //   io.to(room).emit("gameTimer");
-    // });
-    // socket.on("onboardingTimer", () => {
-    //   io.to(room).emit("onboardingTimer");
-    // });
-    // socket.on("tutorialTimer", () => {
-    //   io.to(room).emit("tutorialTimer");
-    // });
-
     // trigger connecting page
     socket.on("banaan", () => {
       io.to(room).emit("banaan");
       console.log("banaan", room);
     });
-
-    // socket.on("namechange", namevalue => {
-    //   io.to(room).emit("namechange", namevalue);
-    //   console.log("namevalue", namvevalue);
-    // });
 
     socket.on("namechange", namevalue => {
       io.to(room).emit("namechange", namevalue);
@@ -195,18 +166,6 @@ io.on("connection", socket => {
     console.log("reset socket timer", timerStarted);
   });
 
-  // socket.on("resetPlayerCount", () => {
-  //   var playerCount = 0;
-  //   console.log("RESET totalplayers wordt ", playerCount);
-
-  //   socket.broadcast.emit("resetPlayerCount", 0);
-  // });
-
-  // socket.on("totalPlayers", players => {
-  //   console.log("OUD totalplayers wordt ", players);
-  //   playerCount = players;
-  // });
-
   socket.on("startOnboardingTimer", () => {
     console.log("in start onboardingtimer");
     if (timerStarted === false) {
@@ -217,17 +176,7 @@ io.on("connection", socket => {
     }
   });
 
-  // socket.on("standardName", () => {
-  //   socket.emit("standardGame");
-  // });
-
   socket.on("playerInputNameFinished", () => {
-    // console.log("input finishes");
-    // console.log("counter voor", connectionCounter);
-    // connectionCounter++;
-    // console.log("counter na", connectionCounter);
-    // console.log("playercount:", playerCount);
-    // if (playerCount === connectionCounter) {
     if (timerStarted === false) {
       socket.broadcast.emit("startOnboardingTimer");
       timerStarted = true;
@@ -235,9 +184,6 @@ io.on("connection", socket => {
       console.log("timer al gestart");
     }
     console.log("wow in de if count: ");
-    // }
-    //   console.log(io.sockets.adapter.rooms["kortrijk"]);
-    // console.log(io.sockets.adapter.rooms["valenciennes"]);
   });
 
   socket.on("playerInputTimerEnded", () => {
@@ -245,7 +191,6 @@ io.on("connection", socket => {
   });
 
   socket.on("stopCarousel", () => {
-    // socket.to("BAPNEXT").emit("newPeerConnection");
     socket.broadcast.emit("stopCarousel");
   });
 
@@ -293,32 +238,7 @@ io.on("connection", socket => {
   socket.on("scoreValenciennes", score => {
     socket.broadcast.emit("scoreValenciennes", score);
   });
-  // ENKEL PEER TO PEER
-  // const room = "BAPNEXT";
-  // const join = room => {
-  //   // Count clients in room
-  //   const clientCount =
-  //     typeof io.sockets.adapter.rooms[room] !== "undefined"
-  //       ? io.sockets.adapter.rooms[room].length
-  //       : 0;
-  //   // Check if client can join to the room
-  //   if (clientCount < 3) {
-  //     socket.join(room);
-  //     socket.emit("join", { clientCount: clientCount + 1 });
-  //     console.log("Joined to room!");
-  //   } else {
-  //     console.log("Room is full!");
-  //   }
-  // };
-  // join(room);
-  // socket.on("signaling", message => {
-  //   socket.to(room).emit("signaling", message);
-  // });
 });
-
-// http.listen(8080, function() {
-//   console.log("listening on *:3000");
-// });
 
 http.listen(port, () => {
   require("./get-ip-addresses")().then(ipAddresses => {
@@ -330,121 +250,3 @@ http.listen(port, () => {
     console.log(`Server running: ${connectionUrl}`);
   });
 });
-
-/* 
-io.on("connection", socket => {
-  // console.log("a user connected: ", socket.id);
-
-  // keeping track of all users
-  users[socket.id] = {
-    peers: {}
-  };
-  // console.log(users);
-  // io.sockets.clients() toont meer info over alle verbonden sockets
-  // console.log("alle clients", io.sockets.clients());
-  io.to(socket.id).emit("connectionUrl", connectionUrl);
-
-  // New connection - will be called by beamer
-  // -- Broadcast = sending to all clients except sender
-
-  // Updated
-  // When a user sends a peerconnection 1/2
-  // the server sends a new peerconnection to all users 2/2
-  socket.on("peerConnection", () => {
-    socket.broadcast.emit("newPeerConnection", socket.id);
-  });
-
-  // Sending all users, so beamer can call them (projector project)
-  // -- sending to individual socketid(private message)
-  io.to(socket.id).emit("users", users);
-
-  // NEW: beamer app wants to be called
-  socket.on("peerWantsACall", peerId => {
-    if (!users[peerId]) {
-      return;
-    }
-    io.to(peerId).emit("peerWantsACall", socket.id);
-  });
-
-  // Beamer asks to call a specific peer
-  socket.on("peerOffer", (peerId, offer = false) => {
-    if (!users[peerId]) {
-      return;
-    }
-    if (!offer) {
-      return;
-    }
-    io.to(peerId).emit("peerOffer", socket.id, offer);
-  });
-
-  // Peer sends an answer to beamer
-  socket.on("peerAnswer", (peerId, answer = false) => {
-    if (!users[peerId]) {
-      return;
-    }
-    if (!answer) {
-      return;
-    }
-    io.to(peerId).emit("peerAnswer", socket.id, answer);
-    // link these two users together
-    users[socket.id].peers[peerId] = true;
-    users[peerId].peers[socket.id] = true;
-  });
-
-  // ICE candidate arrives
-  socket.on("peerIce", (peerId, candidate = false) => {
-    if (!users[peerId]) {
-      return;
-    }
-    if (!candidate) {
-      return;
-    }
-    io.to(peerId).emit("peerIce", socket.id, candidate);
-  });
-
-  socket.on("disconnect", () => {
-    notifyPeersOfDisconnect(socket.id);
-    removeSocketIdFromUsers(socket.id);
-    io.sockets.emit("userDisconnect", socket.id);
-  });
-});
-
-const notifyPeersOfDisconnect = socketId => {
-  if (!users[socketId]) {
-    return;
-  }
-  for (let peerId in users[socketId].peers) {
-    io.to(peerId).emit("peerDisconnect", socketId);
-  }
-};
-
-const removeSocketIdFromUsers = socketId => {
-  if (!users[socketId]) {
-    return;
-  }
-  for (let peerId in users[socketId].peers) {
-    if (!users[peerId]) {
-      continue;
-    }
-    delete users[peerId].peers[socketId];
-  }
-  delete users[socketId];
-};
-
-// http.listen(4000, function() {
-//   console.log("listening on *:4000");
-// });
-
-http.listen(port, () => {
-  require("./get-ip-addresses")().then(ipAddresses => {
-    if (ipAddresses.en0) {
-      connectionUrl = `https://${ipAddresses.en0[0]}:${port}`;
-    } else {
-      connectionUrl = `http://localhost:${port}`;
-    }
-    console.log(`Server running: ${connectionUrl}`);
-  });
-});
-
-
-*/

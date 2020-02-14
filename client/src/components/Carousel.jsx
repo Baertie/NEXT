@@ -16,7 +16,6 @@ class Carousel extends Component {
   constructor(props) {
     super(props);
     this.videoTag = React.createRef();
-    // this.onCall = this.onCall.bind(this);
     this.state = {
       video: null,
       detected: false,
@@ -28,7 +27,6 @@ class Carousel extends Component {
       posterArray: [carousel1, carousel2, carousel3],
       posterIndex: 0
     };
-    // this.detect = this.detect.bind(this);
   }
 
   componentDidMount() {
@@ -37,18 +35,10 @@ class Carousel extends Component {
     this.timerPoster = setInterval(() => this.tick(), 3000);
     socket.on("stopCarousel", () => {
       console.log("stop carousel er wordt gebeld POSTERCAROUSEL");
-      // this.state.isBeingCalled = true;
       this.props.history.push("/called");
     });
     socket.emit("landing");
     socket.emit("resetSocketVariables");
-    // getting access to webcam
-    // navigator.mediaDevices
-    //   .getUserMedia({ video: true })
-    //   .then(
-    //     stream => (this.videoTag.current.srcObject = stream) /*, this.detect()*/
-    //   )
-    //   .catch(console.log("failed to get user media"));
     this.getCamera();
   }
 
@@ -96,7 +86,6 @@ class Carousel extends Component {
             console.log("eerste detectie");
             if (this.state.timeSinceDetectedFace >= 2000) {
               console.log("2 seconden lang eeen gezicht");
-              // this.state.detected = true;
               this.setState({ detected: true });
               this.props.history.push("/screensaver");
             }
@@ -116,11 +105,6 @@ class Carousel extends Component {
     }, 500);
   };
 
-  // onCall = () => {
-  //   console.log("on call postercarousel");
-  //   this.props.history.push("/called");
-  // };
-
   tick() {
     if (this.state.posterIndex < this.state.posterArray.length - 1) {
       this.setState({ posterIndex: this.state.posterIndex + 1 });
@@ -138,7 +122,6 @@ class Carousel extends Component {
             alt=""
             style={{ width: "100%", height: "auto" }}
           ></img>
-          {/* <Postercarousel onCall={this.onCall} timeOut={3000} /> */}
           <div>
             <div>
               <video
@@ -163,4 +146,3 @@ class Carousel extends Component {
   }
 }
 export default inject(`store`)(observer(Carousel));
-// export default Carousel;

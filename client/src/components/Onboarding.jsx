@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import { inject, PropTypes, observer } from "mobx-react";
 import { socket } from "../App.js";
 
 import styles from "../styles/Onboarding.module.css";
@@ -47,9 +46,6 @@ class Onboarding extends Component {
   };
 
   handleStartClick = () => {
-    console.log("start verbinden man");
-    // this.props.store.startConnecting();
-    // this.props.store.startSocket();
     this.props.history.push("/startConnecting");
   };
 
@@ -78,12 +74,6 @@ class Onboarding extends Component {
                 <div className={styles.page_number}></div>
               </div>
             </div>
-            {/* <button className={styles.test} onClick={this.handlePrevClick}>
-              Previous step
-            </button>
-            <button className={styles.test2} onClick={this.handleNextClick}>
-              Next step
-            </button> */}
           </>
         );
       case 1:
@@ -119,12 +109,6 @@ class Onboarding extends Component {
                 <div className={styles.page_number}></div>
               </div>
             </div>
-            {/* <button className={styles.test} onClick={this.handlePrevClick}>
-              Previous step
-            </button>
-            <button className={styles.test2} onClick={this.handleNextClick}>
-              Next step
-            </button> */}
           </>
         );
       case 2:
@@ -172,12 +156,6 @@ class Onboarding extends Component {
                 <div className={styles.page_number_active}></div>
               </div>
             </div>
-            {/* <button className={styles.test} onClick={this.handlePrevClick}>
-              Previous step
-            </button>
-            <button className={styles.test2} onClick={this.handleStartClick}>
-              Start game
-            </button> */}
           </>
         );
       default:
@@ -186,5 +164,4 @@ class Onboarding extends Component {
   }
 }
 
-// export default inject(`store`)(observer(Onboarding));
 export default Onboarding;

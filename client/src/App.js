@@ -1,18 +1,9 @@
 import React, { Component } from "react";
 import "./App.css";
-// import Wrapper from "./containers/Wrapper";
 import TabletWrapper from "./containers/TabletWrapper";
 import { inject, observer } from "mobx-react";
 
-// import Debugnavigation from "./components/Debugnavigation";
-// import { Route, Switch, withRouter, Redirect } from "react-router-dom";
-
-import {
-  // BrowserRouter as Router,
-  withRouter,
-  Switch,
-  Route
-} from "react-router-dom";
+import { withRouter, Switch, Route } from "react-router-dom";
 import Carousel from "./components/Carousel";
 import Called from "./components/Called";
 import Socket from "./components/Socket";
@@ -45,22 +36,15 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // console.log("testbaas", this.props.location);
     this.getQueryVariable("loc");
   }
 
   getQueryVariable(variable) {
     let query = this.props.location.search.substring(1);
-    // console.log(query); //"app=article&act=news_content&aid=160990"
     let vars = query.split("&");
-    // console.log(vars); //[ 'app=article', 'act=news_content', 'aid=160990' ]
     for (let i = 0; i < vars.length; i++) {
       let pair = vars[i].split("=");
-      // console.log(pair); //[ 'app', 'article' ][ 'act', 'news_content' ][ 'aid', '160990' ]
       if (pair[0] === variable) {
-        //this.props.store.setLocation(pair[1]);
-        // console.log(pair[1]);
-        // return pair[1];
         socket.emit("joinLocationRoom", pair[1]);
         this.props.store.setLocation(pair[1]);
       }
@@ -71,9 +55,8 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        {/* <Debugnavigation />  */}
-        {/* <Wrapper /> */}
         <Switch>
+          {/* screen */}
           <Route exact path="/" component={Carousel} />
           <Route path="/startConnecting" component={Socket} />
           <Route path="/called" component={Called} />
@@ -83,16 +66,11 @@ class App extends Component {
           <Route path="/game" component={Game} />
           <Route path="/joinGame" component={SocketJoin} />
           <Route path="/test" component={SocketTest} />
-
           <Route path="/scoreboard" component={Scoreboard} />
           <Route path="/teamboard" component={TeamBoard} />
           <Route path="/nameoverlay" component={NameOverlay} />
           <Route path="/callonboarding" component={CallOnboarding} />
-
-          {/* <Route path="/gameInstructions" component={ NEW COMPONENT } />
-        <Route path="/endGame" component={ NEW COMPONENT } />
-        <Route path="/scorebord" component={ NEW COMPONENT } /> */}
-
+          {/* tablet */}
           <Route path="/tablet" component={TabletWrapper}></Route>
         </Switch>
       </div>
